@@ -19,4 +19,4 @@ try {
     echo "Database connection failed: " . $e->getMessage();
     exit;
 }
-?>
+

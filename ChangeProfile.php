@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES['avatar']['name'])) {
     $stmt = $pdo->prepare("UPDATE users SET avatar = :avatar WHERE id = :id");
     $stmt->execute(['avatar' => $avatar_name, 'id' => $user_id]);
 
-    header("Location: profile.php"); // Перезагружаем страницу
+    header("Location: profile.php");
     exit;
 }
 

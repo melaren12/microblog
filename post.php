@@ -20,6 +20,6 @@ if (isset($_POST['content']) && !empty(trim($_POST['content']))) {
 header("Location: profile.php");
 
 exit;
-?>
+
 
 
