@@ -30,13 +30,6 @@
     margin-bottom: var(--spacing-md);
 }
 
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 .post-form {
     margin-top: 50px;
     display: flex;

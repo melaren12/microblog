@@ -50,21 +50,27 @@
 }
 
 .post {
-    background-color: white;
-    border-radius: 8px;
-    padding: 10px;
+    background-color: var(--post-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
 }
 
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+.time {
+    position: absolute;
+    right: var(--spacing-sm);
+    top: var(--spacing-sm);
+    font-style: italic;
+    color: #666;
 }
 
+.intro {
+    margin-top: var(--spacing-sm);
+}
 
 .profile-info {
     text-align: center;
