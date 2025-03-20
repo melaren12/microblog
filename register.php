@@ -62,4 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-require 'templates/register.php';
+$page_title = "Register";
+$extra_css = "auth";
+$content_template = "src/templates/register.php";
+include "src/templates/layout.php";

@@ -20,7 +20,7 @@ if (!$stmt->execute(['id' => $user_id])) {
 }
 $user = $stmt->fetch();
 
-$stmt = $pdo->prepare("SELECT photo_path FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
+$stmt = $pdo->prepare("SELECT photo_path, id FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
 if (!$stmt->execute(['user_id' => $user_id])) {
     $errorInfo = $stmt->errorInfo();
     die("Error receiving photo: " . $errorInfo[2]);
@@ -95,4 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-require 'templates/changeProfile.php';
+$page_title = "Change Profile";
+$extra_css = "changeProfile";
+$content_template = "src/templates/changeProfile.php";
+include "src/templates/layout.php";

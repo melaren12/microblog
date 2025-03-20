@@ -3,7 +3,10 @@
 require_once 'init.php';
 global $pdo;
 
-session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -21,4 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require 'templates/login.php';
+$page_title = "Login";
+$extra_css = "auth";
+$content_template = "src/templates/login.php";
+include "src/templates/layout.php";

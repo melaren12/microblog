@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'init.php';
 global $pdo;
 
@@ -31,4 +35,7 @@ $stmt = $pdo->prepare("
 $stmt->execute(['user_id' => $profile_user_id]);
 $posts = $stmt->fetchAll();
 
-require 'templates/guestPage.php';
+$page_title = "Guest";
+$extra_css = "guest";
+$content_template = "src/templates/guestPage.php";
+include "src/templates/layout.php";

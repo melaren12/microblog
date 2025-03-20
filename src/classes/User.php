@@ -1,5 +1,10 @@
 <?php
-class User {
+
+namespace classes;
+use PDO;
+
+class User
+{
     private $pdo;
     private $id;
     private $name;
@@ -7,14 +12,16 @@ class User {
     private $username;
     private $avatar;
 
-    public function __construct(PDO $pdo, $id = null) {
+    public function __construct(PDO $pdo, $id = null)
+    {
         $this->pdo = $pdo;
         if ($id) {
             $this->loadUser($id);
         }
     }
 
-    private function loadUser($id) {
+    private function loadUser($id)
+    {
         $stmt = $this->pdo->prepare("SELECT id, name, lastname, username, avatar FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $user = $stmt->fetch();
@@ -27,7 +34,8 @@ class User {
         }
     }
 
-    public static function login(PDO $pdo, $username, $password) {
+    public static function login(PDO $pdo, $username, $password)
+    {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch();
@@ -37,7 +45,8 @@ class User {
         return null;
     }
 
-    public static function register(PDO $pdo, $username, $password, $firstname, $lastname, $avatar = 'default.png') {
+    public static function register(PDO $pdo, $username, $password, $firstname, $lastname, $avatar = 'default.png')
+    {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare('INSERT INTO users (username, password, name, lastname, avatar) VALUES (:username, :password, :name, :lastname, :avatar)');
         $stmt->execute([
@@ -50,15 +59,35 @@ class User {
         return new self($pdo, $pdo->lastInsertId());
     }
 
-    public function updateAvatar($avatar_name) {
+    public function updateAvatar($avatar_name)
+    {
         $stmt = $this->pdo->prepare("UPDATE users SET avatar = :avatar WHERE id = :id");
         $stmt->execute(['avatar' => $avatar_name, 'id' => $this->id]);
         $this->avatar = $avatar_name;
     }
 
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
-    public function getLastname() { return $this->lastname; }
-    public function getUsername() { return $this->username; }
-    public function getAvatar() { return $this->avatar; }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
 }
