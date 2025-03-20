@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +26,7 @@
                 <label>
                     <input type="file" name="avatar" accept="image/*"><br>
                 </label>
+                <p style="color: red;"><?=$output?></p>
                 <button type="submit" class="btn">Register</button>
             </form>
             <p>Already have an account?</p>

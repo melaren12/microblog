@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +17,9 @@
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
-            <p style="color: red;"><?= htmlspecialchars($output) ?></p>
+            <?php if (isset($output)): ?>
+                <p style="color: red;"><?= htmlspecialchars($output) ?></p>
+            <?php endif; ?>
             <p>Not registered yet?</p>
             <a href="register.php"><button class="link-btn btn">Register</button></a>
         </div>

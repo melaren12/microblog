@@ -3,6 +3,8 @@
 require_once 'init.php';
 global $pdo;
 
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
@@ -33,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     try {
-        $stmt = $pdo->prepare('INSERT INTO users (username, password, name, lastname, avatar) VALUES (:username, :password, :name, :lastname, :avatar)');
+        $stmt = $pdo->prepare('INSERT INTO users (username, password, name, lastname, avatar) 
+                                        VALUES (:username, :password, :name, :lastname, :avatar)');
         $stmt->execute([
             'username' => $username,
             'password' => $hashed_password,
@@ -44,7 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         header("Location: login.php");
     } catch (PDOException $e) {
-        die("Registration error: " . $e->getMessage());
+        $errorCode = $e->getCode();
+        $errorMessage = $e->getMessage();
+
+        if ($errorCode == 1062 || strpos($errorMessage, 'Duplicate entry') !== false) {
+            if (strpos($errorMessage, 'users.username') !== false) {
+                $output = "Username is already in use. Please choose another one.";
+            } else {
+                $output = "An error occurred: the entry already exists.";
+            }
+        } else {
+            $output = "Registration error: " . $errorMessage;
+        }
     }
 }
 

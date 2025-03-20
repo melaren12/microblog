@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         header('Location: profile.php');
     } else {
-        $output = 'Incorect username or password.';
+        $output = 'Incorrect username or password.';
     }
 }
 

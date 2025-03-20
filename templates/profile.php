@@ -27,7 +27,7 @@
             <a href="../logout.php"><button class="btn logout">Logout</button></a>
         </div>
         <div class="right-cont">
-            <?php if (isset($posts) && !empty($posts)): ?>
+            <?php if (isset($posts)): ?>
                 <?php foreach ($posts as $post): ?>
                     <div class="post">
                         <div class="text">
