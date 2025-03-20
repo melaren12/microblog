@@ -2,7 +2,7 @@
     <div class="left-side">
         <h2>Profile</h2>
         <?php if (isset($user)): ?>
-            <img src="uploads/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar"
+            <img src="../../public/uploads/avatars/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar"
                  style="width: 100px; height: 100px; border-radius: 50%;">
         <?php endif; ?>
         <p>Username: <?= htmlspecialchars($user['username']) ?></p>
@@ -15,19 +15,19 @@
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
-                <button type="submit">Refresh</button>
+                <button type="submit" class="btn">Refresh</button>
             </div>
         </form>
 
-        <a href="profile.php"><button class="btn logout">Profile</button> </a>
+        <a href="../../profile.php"><button class="btn logout">Profile</button> </a>
     </div>
     <div class="right-side">
         <form method="post" enctype="multipart/form-data">
-            <div class="photo-container" >
+            <div class="upload" >
                 <div>
                     <input type="file" name="photo_path" id="photo_path" accept="image/*">
                 </div>
-                <button type="submit">Upload</button>
+                <button type="submit" class="btn">Upload</button>
             </div>
         </form>
         <div class="photos" >
@@ -35,7 +35,7 @@
                 <?php foreach ($photos as $photo): ?>
                 <div class="photo">
                     <img src="<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
-                    <a href="../../delete.php?id=<?php echo htmlspecialchars($photo['id']); ?>" ><button class="delete-photo" >Delete</button></a>
+                    <button class="delete-photo btn" data-id="<?= htmlspecialchars($photo['id']) ?>">Delete</button>
                 </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -44,17 +44,6 @@
         </div>
     </div>
 </main>
-<script>
-    const fileInput = document.getElementById('avatar');
-    const fileName = document.querySelector('.file-name');
 
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files.length > 0) {
-            fileName.textContent = this.files[0].name;
-        } else {
-            fileName.textContent = 'No file chosen';
-        }
-    });
-</script>
 
 

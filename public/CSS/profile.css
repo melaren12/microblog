@@ -81,8 +81,3 @@
     margin-top: var(--spacing-sm);
 }
 
-.logout {
-    position: absolute;
-    bottom: var(--spacing-md);
-    right: var(--spacing-md);
-}

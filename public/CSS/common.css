@@ -43,6 +43,12 @@ body {
     transform: scale(0.95);
 }
 
+.logout {
+    position: absolute;
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+}
+
 input[type="text"],
 input[type="password"],
 textarea {

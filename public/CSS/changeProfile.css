@@ -46,3 +46,8 @@
     object-fit: cover;
     border-radius: 8px;
 }
+
+.upload {
+    display: flex;
+    align-items: center;
+}

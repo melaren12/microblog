@@ -2,7 +2,7 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info">
-            <img src="../../uploads/<?= htmlspecialchars($profile_user['avatar']) ?>" alt="Avatar" class="avatar" loading="lazy">
+            <img src="../../public/uploads/avatars/<?= htmlspecialchars($profile_user['avatar']) ?>" alt="Avatar" class="avatar" loading="lazy">
             <h3><?= htmlspecialchars($profile_user['name'] . ' ' . $profile_user['lastname']) ?></h3>
         </div>
         <a href="profile.php"><button class="btn">Back</button></a>

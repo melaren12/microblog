@@ -3,7 +3,7 @@
         <h1>Microblog</h1>
         <section class="profile-info">
             <?php if (isset($user)): ?>
-                <img src="../..//uploads/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+                <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
                 <h3><?= htmlspecialchars($user->getName()) ?></h3>
                 <a href="../../ChangeProfile.php" class="btn">Edit</a>
             <?php else: ?>
@@ -13,7 +13,7 @@
         <form action="../../post.php" method="post" class="post-form">
             <label for="content">What's new with you?</label>
             <textarea id="content" name="content" placeholder="What's new with you?" required></textarea>
-            <button type="submit">Publish</button>
+            <button type="submit" class="btn">Publish</button>
         </form>
         <a href="../../logout.php" class="btn logout">Logout</a>
     </aside>

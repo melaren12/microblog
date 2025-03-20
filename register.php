@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $avatar_name = "default.png";
 
     if (!empty($_FILES['avatar']['name'])) {
-        $target_dir = "uploads/";
+        $target_dir = "public/uploads/avatars";
         $avatar_name = time() . "_" . basename($_FILES["avatar"]["name"]);
         $target_file = $target_dir . $avatar_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

@@ -30,7 +30,7 @@ $photos = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_FILES['avatar']['name'])) {
-        $target_dir = "uploads/";
+        $target_dir = "public/uploads/avatars/";
         $avatar_name = time() . "_" . basename($_FILES["avatar"]["name"]);
         $target_file = $target_dir . $avatar_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Error: Only JPG, JPEG, PNG & GIF files are allowed.");
         }
 
-        if ($user['avatar'] != "default.png" && file_exists("uploads/" . $user['avatar'])) {
-            unlink("uploads/" . $user['avatar']);
+        if ($user['avatar'] != "default.png" && file_exists("uploads/avatars" . $user['avatar'])) {
+            unlink("public/uploads/avatars" . $user['avatar']);
         }
 
         if (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
@@ -54,12 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Error updating avatar: " . $errorInfo[2]);
         }
 
-        header("Location: profile.php");
+        header("Location: ChangeProfile.php");
         exit;
     }
 
     if (!empty($_FILES['photo_path']['name'])) {
-        $target_dir = "uploads/Photos/";
+        $target_dir = "public/uploads/Photos/";
 
         if (!file_exists($target_dir)) {
             if (!mkdir($target_dir, 0777, true)) {
@@ -97,5 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $page_title = "Change Profile";
 $extra_css = "changeProfile";
+$extra_js = "changeProfile";
 $content_template = "src/templates/changeProfile.php";
 include "src/templates/layout.php";
