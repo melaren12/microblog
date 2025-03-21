@@ -35,7 +35,14 @@ $stmt = $pdo->prepare("
 $stmt->execute(['user_id' => $profile_user_id]);
 $posts = $stmt->fetchAll();
 
-$page_title = "Guest";
+$stmt = $pdo->prepare("SELECT photo_path, id FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
+if (!$stmt->execute(['user_id' => $profile_user_id])) {
+    $errorInfo = $stmt->errorInfo();
+    die("Error receiving photo: " . $errorInfo[2]);
+}
+$photos = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+$page_title = "Microblog";
 $extra_css = "guest";
 $content_template = "src/templates/guestPage.php";
 include "src/templates/layout.php";

@@ -22,9 +22,9 @@
             <?php foreach ($posts as $post): ?>
                 <article class="post">
                     <div class="post-text">
-                        <p>
+                        <p class="user-name">
                             <strong>
-                                <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post['user_id']) ?>">
+                                <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post['user_id']) ?>" >
                                     <?= htmlspecialchars($post['name'] . ' ' . $post['lastname']) ?>
                                 </a>
                             </strong> Wrote:

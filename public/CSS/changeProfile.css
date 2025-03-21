@@ -33,14 +33,27 @@
     gap: 10px;
 }
 
-.photo img {
+.photo {
     width: 200px;
     height: 200px;
+    border-radius: 8px;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: top;
     border-radius: 8px;
 }
 
 .upload {
     display: flex;
     align-items: center;
+    gap: 20px;
+}
+
+.custom-file-upload input,
+.upload input{
+    display: none;
 }

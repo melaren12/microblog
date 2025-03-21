@@ -12,6 +12,7 @@
         <form method="post" enctype="multipart/form-data">
             <div class="avatar-container">
                 <div class="custom-file-upload">
+                    <label for="avatar" class="input-label btn">Choose Photo</label>
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
@@ -25,6 +26,7 @@
         <form method="post" enctype="multipart/form-data">
             <div class="upload" >
                 <div>
+                    <label for="photo_path" class="input-label btn">Choose Photo</label>
                     <input type="file" name="photo_path" id="photo_path" accept="image/*">
                 </div>
                 <button type="submit" class="btn">Upload</button>

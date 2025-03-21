@@ -13,6 +13,12 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+use App\User;
+use App\Photos;
+
+$userManager = new User($pdo, $user_id);
+$photosManager = new Photos($pdo, $user_id);
+
 $stmt = $pdo->prepare("SELECT username, avatar FROM users WHERE id = :id");
 if (!$stmt->execute(['id' => $user_id])) {
     $errorInfo = $stmt->errorInfo();
@@ -20,82 +26,34 @@ if (!$stmt->execute(['id' => $user_id])) {
 }
 $user = $stmt->fetch();
 
-$stmt = $pdo->prepare("SELECT photo_path, id FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
-if (!$stmt->execute(['user_id' => $user_id])) {
-    $errorInfo = $stmt->errorInfo();
-    die("Error receiving photo: " . $errorInfo[2]);
-}
-$photos = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+$photos = $photosManager->getUserPhotos();
+$output = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    try {
 
-    if (!empty($_FILES['avatar']['name'])) {
-        $target_dir = "public/uploads/avatars/";
-        $avatar_name = time() . "_" . basename($_FILES["avatar"]["name"]);
-        $target_file = $target_dir . $avatar_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        $allowed_types = ["jpg", "jpeg", "png", "gif"];
-        if (!in_array($imageFileType, $allowed_types)) {
-            die("Error: Only JPG, JPEG, PNG & GIF files are allowed.");
+        if (!empty($_FILES['avatar']['name'])) {
+            $target_dir = "public/uploads/avatars/";
+            $userManager->updateAvatar($_FILES['avatar'], $target_dir, $user['avatar']);
+            header("Location: ChangeProfile.php");
+            exit;
         }
 
-        if ($user['avatar'] != "default.png" && file_exists("uploads/avatars" . $user['avatar'])) {
-            unlink("public/uploads/avatars" . $user['avatar']);
+        if (!empty($_FILES['photo_path']['name'])) {
+            $target_dir = "public/uploads/Photos/";
+            $photosManager->uploadPhoto($_FILES['photo_path'], $target_dir);
+            header("Location: ChangeProfile.php");
+            exit;
         }
-
-        if (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
-            die("Error loading file.");
-        }
-
-        $stmt = $pdo->prepare("UPDATE users SET avatar = :avatar WHERE id = :id");
-        if (!$stmt->execute(['avatar' => $avatar_name, 'id' => $user_id])) {
-            $errorInfo = $stmt->errorInfo();
-            die("Error updating avatar: " . $errorInfo[2]);
-        }
-
-        header("Location: ChangeProfile.php");
-        exit;
-    }
-
-    if (!empty($_FILES['photo_path']['name'])) {
-        $target_dir = "public/uploads/Photos/";
-
-        if (!file_exists($target_dir)) {
-            if (!mkdir($target_dir, 0777, true)) {
-                die("Error: Could not create directory $target_dir. Check permissions.");
-            }
-        }
-
-        if (!is_writable($target_dir)) {
-            die("Error: Directory $target_dir is not writable. Check permissions.");
-        }
-
-        $photo_name = time() . "_" . basename($_FILES["photo_path"]["name"]);
-        $target_file = $target_dir . $photo_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        $allowed_types = ["jpg", "jpeg", "png", "gif"];
-        if (!in_array($imageFileType, $allowed_types)) {
-            die("Error: Only JPG, JPEG, PNG & GIF files are allowed.");
-        }
-
-        if (!move_uploaded_file($_FILES["photo_path"]["tmp_name"], $target_file)) {
-            die("Error loading file: " . error_get_last()['message']);
-        }
-
-        $stmt = $pdo->prepare("INSERT INTO user_photos (user_id, photo_path) VALUES (:user_id, :photo_path)");
-        if (!$stmt->execute(['user_id' => $user_id, 'photo_path' => $target_file])) {
-            $errorInfo = $stmt->errorInfo();
-            die("Error adding photo to database: " . $errorInfo[2]);
-        }
-
-        header("Location: ChangeProfile.php");
-        exit;
+    } catch (RuntimeException $e) {
+        $output = $e->getMessage();
+    } catch (Exception $e) {
+        $output = "An unexpected error occurred: " . $e->getMessage();
+        error_log("ChangeProfile error: " . $e->getMessage());
     }
 }
 
-$page_title = "Change Profile";
+$page_title = "Microblog - Change Profile";
 $extra_css = "changeProfile";
 $extra_js = "changeProfile";
 $content_template = "src/templates/changeProfile.php";

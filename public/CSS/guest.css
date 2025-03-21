@@ -18,13 +18,64 @@
 
 .right-cont {
     flex: 3;
+    background-color: white;
+    display: flex;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.right-cont .left-side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    flex: 1;
     background-color: rgba(91, 92, 92, 0.71);
+    overflow-y: auto;
     height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.right-cont .left-side::-webkit-scrollbar {
+    display: none;
+}
+
+.right-cont .right-side::-webkit-scrollbar {
+    display: none;
+}
+
+.right-cont .right-side {
+    flex: 1;
     padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: rgba(91, 92, 92, 0.71);
     overflow-y: auto;
+    height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.right-cont .right-side .photos {
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 8px;
 }
 
 .post-form {
