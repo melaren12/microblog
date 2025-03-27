@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 
 global $pdo;
-require 'init.php';
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'error' => 'User not authorized']);

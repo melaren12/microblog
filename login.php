@@ -3,7 +3,7 @@
 require_once 'init.php';
 global $pdo;
 
-use App\User;
+use App\managers\users\UsersManager;
 
 
 ini_set('display_errors', 1);
@@ -14,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    $user = User::login($pdo, $username, $password);
+    $usersManager = new UsersManager();
+    $user = $usersManager->login($username, $password);
 
     if ($user !== null) {
         $_SESSION['user_id'] = $user->getId();

@@ -25,15 +25,16 @@
                         <p class="user-name">
                             <strong>
                                 <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post['user_id']) ?>" >
-                                    <?= htmlspecialchars($post['name'] . ' ' . $post['lastname']) ?>
+                                    <?= htmlspecialchars($post->getUserName() . ' ' . $post->getUserLastname()) ?>
                                 </a>
                             </strong> Wrote:
                         </p>
-                        <p class="intro"><?= nl2br(htmlspecialchars($post['content'])) ?></p>
-                        <time class="time"><?= $post['created_at'] ?></time>
+                        <p class="intro"><?= nl2br(htmlspecialchars($post->getContent())) ?></p>
+                        <time class="time"><?= $post->getCreatedAt() ?></time>
                     </div>
                 </article>
             <?php endforeach; ?>
+
         <?php else: ?>
             <p>No posts available.</p>
         <?php endif; ?>
