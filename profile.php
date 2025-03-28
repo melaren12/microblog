@@ -9,20 +9,22 @@ require_once 'init.php';
 use App\managers\users\UsersManager;
 use App\managers\posts\PostManager;
 
+$userManager = UsersManager::getInstance();
+$user = $userManager->getUserById($_SESSION['user_id']);
+
+$postManager = PostManager::getInstance();
+$posts = $postManager->getAllPosts();
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-$userManager = UsersManager::getInstance();
-$user = $userManager->getUserById($_SESSION['user_id']);
+
 if (!$user || !$user->getId()) {
     header(header: "Location: login.php?error=user_not_found");
     exit;
 }
-
-$postManager = PostManager::getInstance();
-$posts = $postManager->getAllPosts();
 
 $page_title = "Microblog";
 $extra_css = "profile";

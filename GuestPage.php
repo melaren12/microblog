@@ -17,20 +17,18 @@ $postManager = PostManager::getInstance();
 $photosManager = PhotosManager::getInstance();
 
 $profile_user = $userManager->getUserById($profile_user_id);
+$posts = $postManager->getPostsByUser($profile_user_id);
+$photos = $photosManager->getUserPhotos($profile_user_id);
+
 if (!$profile_user) {
     header("Location: index.php?error=user_not_found");
     exit;
 }
 
-$posts = $postManager->getPostsByUser($profile_user_id);
-
-$photos = $photosManager->getUserPhotos($profile_user_id);
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
-
 
 if (!$profile_user_id) {
     header("Location: index.php");

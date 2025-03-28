@@ -21,9 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-
-
-if (!$id) {
+if (!$photo_id) {
     echo json_encode(['success' => false, 'error' => 'Invalid photo ID']);
     exit;
 }
