@@ -1,5 +1,9 @@
 <?php
 
+use App\managers\photos\PhotosManager;
+use App\managers\posts\PostManager;
+use App\managers\users\UsersManager;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -7,40 +11,35 @@ error_reporting(E_ALL);
 require_once 'init.php';
 global $pdo;
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
 $profile_user_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;
-if (!$profile_user_id) {
-    header("Location: index.php");
-    exit;
-}
+$userManager = UsersManager::getInstance();
+$postManager = PostManager::getInstance();
+$photosManager = PhotosManager::getInstance();
 
-$stmt = $pdo->prepare("SELECT name, lastname, avatar FROM users WHERE id = :id");
-$stmt->execute(['id' => $profile_user_id]);
-$profile_user = $stmt->fetch();
-
+$profile_user = $userManager->getUserById($profile_user_id);
 if (!$profile_user) {
     header("Location: index.php?error=user_not_found");
     exit;
 }
 
-$stmt = $pdo->prepare("
-    SELECT * FROM posts 
-    WHERE user_id = :user_id 
-    ORDER BY created_at DESC
-");
-$stmt->execute(['user_id' => $profile_user_id]);
-$posts = $stmt->fetchAll();
+$posts = $postManager->getPostsByUser($profile_user_id);
 
-$stmt = $pdo->prepare("SELECT photo_path, id FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
-if (!$stmt->execute(['user_id' => $profile_user_id])) {
-    $errorInfo = $stmt->errorInfo();
-    die("Error receiving photo: " . $errorInfo[2]);
+$photos = $photosManager->getUserPhotos($profile_user_id);
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
 }
-$photos = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+
+if (!$profile_user_id) {
+    header("Location: index.php");
+    exit;
+}
+if (!$profile_user) {
+    header("Location: index.php?error=user_not_found");
+    exit;
+}
 
 $page_title = "Microblog";
 $extra_css = "guest";

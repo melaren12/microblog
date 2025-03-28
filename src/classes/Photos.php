@@ -17,18 +17,17 @@ class Photos
         $this->user_id = $user_id;
     }
 
-    public function getUserPhotos(): array
+    public function getUserId(): ?int
     {
-        try {
-            $stmt = $this->pdo->prepare("SELECT photo_path, id FROM user_photos WHERE user_id = :user_id ORDER BY uploaded_at DESC");
-            $stmt->execute(['user_id' => $this->user_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-        } catch (PDOException $e) {
-            throw new RuntimeException("Error retrieving photos: " . $e->getMessage());
-        }
+        return $this->user_id;
     }
 
-    public function uploadPhoto(array $file, string $target_dir): void
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
+    }
+
+    public function uploadPhoto(array $file, string $target_dir): string
     {
         if (empty($file['name'])) {
             throw new RuntimeException("No photo file provided.");
@@ -57,41 +56,13 @@ class Photos
             throw new RuntimeException("Error uploading file: " . error_get_last()['message']);
         }
 
-        try {
-            $stmt = $this->pdo->prepare("INSERT INTO user_photos (user_id, photo_path) VALUES (:user_id, :photo_path)");
-            $stmt->execute([
-                'user_id' => $this->user_id,
-                'photo_path' => $target_file
-            ]);
-        } catch (PDOException $e) {
-
-            if (file_exists($target_file)) {
-                unlink($target_file);
-            }
-            throw new RuntimeException("Error adding photo to database: " . $e->getMessage());
-        }
+        return $target_file;
     }
 
-    public function deletePhoto(int $photo_id): void
+    public function deletePhoto(int $photo_id, string $photo_path): void
     {
-        try {
-
-            $stmt = $this->pdo->prepare("SELECT photo_path FROM user_photos WHERE id = :id AND user_id = :user_id");
-            $stmt->execute(['id' => $photo_id, 'user_id' => $this->user_id]);
-            $photo = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$photo) {
-                throw new RuntimeException("Photo not found or you do not have permission to delete it.");
-            }
-
-            $stmt = $this->pdo->prepare("DELETE FROM user_photos WHERE id = :id AND user_id = :user_id");
-            $stmt->execute(['id' => $photo_id, 'user_id' => $this->user_id]);
-
-            if (file_exists($photo['photo_path'])) {
-                unlink($photo['photo_path']);
-            }
-        } catch (PDOException $e) {
-            throw new RuntimeException("Error deleting photo: " . $e->getMessage());
+        if (file_exists($photo_path)) {
+            unlink($photo_path);
         }
     }
 }

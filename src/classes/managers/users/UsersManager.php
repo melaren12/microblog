@@ -4,7 +4,6 @@ namespace App\managers\users;
 
 use App\dal\mapper\users\UsersMapper;
 use App\managers\AbstractManager;
-use App\managers\posts\PostManager;
 use App\User;
 use InvalidArgumentException;
 use RuntimeException;
@@ -117,6 +116,7 @@ class  UsersManager extends AbstractManager
             throw new RuntimeException("Error updating avatar: " . $e->getMessage());
         }
     }
+
 }
 
 

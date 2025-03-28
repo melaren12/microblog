@@ -2,8 +2,8 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info">
-            <img src="../../public/uploads/avatars/<?= htmlspecialchars($profile_user['avatar']) ?>" alt="Avatar" class="avatar" loading="lazy">
-            <h3><?= htmlspecialchars($profile_user['name'] . ' ' . $profile_user['lastname']) ?></h3>
+            <img src="../../public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+            <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
         </div>
         <a href="profile.php"><button class="btn">Back</button></a>
     </div>
@@ -15,8 +15,8 @@
             <?php else: ?>
                 <?php foreach ($posts as $post): ?>
                     <article class="post">
-                        <p class="intro"><?= nl2br(htmlspecialchars($post['content'])) ?></p>
-                        <footer class="time"><em><?= $post['created_at'] ?></em></footer>
+                        <p class="intro"><?php echo nl2br(htmlspecialchars($post->getContent())); ?></p>
+                        <footer class="time"><?php echo htmlspecialchars($post->getCreatedAt()); ?></footer>
                     </article>
                 <?php endforeach; ?>
             <?php endif; ?>

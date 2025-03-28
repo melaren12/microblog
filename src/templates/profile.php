@@ -18,13 +18,13 @@
         <a href="../../logout.php" class="btn logout">Logout</a>
     </aside>
     <section class="content">
-        <?php if (isset($posts) && !empty($posts)): ?>
+        <?php if (!empty($posts)): ?>
             <?php foreach ($posts as $post): ?>
                 <article class="post">
                     <div class="post-text">
                         <p class="user-name">
                             <strong>
-                                <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post['user_id']) ?>" >
+                                <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post->getUserId()) ?>" >
                                     <?= htmlspecialchars($post->getUserName() . ' ' . $post->getUserLastname()) ?>
                                 </a>
                             </strong> Wrote:
@@ -33,7 +33,7 @@
                         <time class="time"><?= $post->getCreatedAt() ?></time>
                     </div>
                 </article>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
 
         <?php else: ?>
             <p>No posts available.</p>

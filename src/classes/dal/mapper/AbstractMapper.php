@@ -2,9 +2,14 @@
 
 namespace App\dal\mapper;
 
+use PDO;
+
 abstract class  AbstractMapper extends AbstractPDOConnector
 {
     protected string $tableName;
+
+    protected PDO $pdo;
+
 
     public function getList()
     {

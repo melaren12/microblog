@@ -2,7 +2,8 @@
 
 require_once 'init.php';
 global $pdo;
-use App\User;
+
+use App\managers\users\UsersManager;
 
 session_start();
 
@@ -12,10 +13,10 @@ $firstname = '';
 $lastname = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim(isset($_POST['username']) ? $_POST['username'] : '');
-    $password = trim(isset($_POST['password']) ? $_POST['password'] : '');
-    $firstname = trim(isset($_POST['firstname']) ? $_POST['firstname'] : '');
-    $lastname = trim(isset($_POST['lastname']) ? $_POST['lastname'] : '');
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $firstname = trim($_POST['firstname'] ?? '');
+    $lastname = trim($_POST['lastname'] ?? '');
     $avatar_name = 'default.png';
 
     try {
@@ -43,14 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $user = User::register($pdo, $username, $password, $firstname, $lastname, $avatar_name);
+        $userManager = UsersManager::getInstance();
+        $user = $userManager->register($username, $password, $firstname, $lastname, $avatar_name);
+
 
         $_SESSION['success_message'] = "Registration successful! Please log in.";
         header("Location: login.php");
         exit;
-    } catch (InvalidArgumentException $e) {
-        $output = $e->getMessage();
-    } catch (RuntimeException $e) {
+    } catch (InvalidArgumentException|RuntimeException $e) {
         $output = $e->getMessage();
     } catch (Exception $e) {
         $output = "An unexpected error occurred: " . $e->getMessage();

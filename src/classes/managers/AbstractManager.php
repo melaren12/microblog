@@ -3,7 +3,6 @@
 namespace App\managers;
 
 use App\dal\mapper\AbstractMapper;
-use App\dal\mapper\AbstractPDOConnector;
 
 abstract class  AbstractManager
 {

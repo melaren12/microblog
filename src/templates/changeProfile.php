@@ -2,10 +2,10 @@
     <div class="left-side">
         <h2>Profile</h2>
         <?php if (isset($user)): ?>
-            <img src="../../public/uploads/avatars/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar"
+            <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar"
                  style="width: 100px; height: 100px; border-radius: 50%;">
         <?php endif; ?>
-        <p>Username: <?= htmlspecialchars($user['username']) ?></p>
+        <p>Username: <?= htmlspecialchars($user->getUsername()) ?></p>
 
         <h3>Change avatar</h3>
 

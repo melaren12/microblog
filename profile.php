@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once 'init.php';
 
 use App\managers\users\UsersManager;
-use \App\managers\posts\PostManager;
+use App\managers\posts\PostManager;
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
