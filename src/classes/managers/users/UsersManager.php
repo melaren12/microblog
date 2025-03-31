@@ -2,6 +2,7 @@
 
 namespace App\managers\users;
 
+use App\dal\dto\users\UserDto;
 use App\dal\mapper\users\UsersMapper;
 use App\managers\AbstractManager;
 use App\User;
@@ -24,7 +25,7 @@ class  UsersManager extends AbstractManager
         return UsersMapper::getInstance();
     }
 
-    public function getUserById(int $id): ?User
+    public function getUserById(?int $id): ?UserDto
     {
         $mapper = $this->getMapper();
         $user = $mapper->findById($id);
@@ -52,7 +53,7 @@ class  UsersManager extends AbstractManager
             throw new RuntimeException("Failed to hash the password.");
         }
 
-        $user = new User($this->getMapper()->getPDO());
+        $user = new UserDto();
         $user->setUsername($username);
         $user->setPassword($hashedPassword);
         $user->setName($firstname);
@@ -64,7 +65,7 @@ class  UsersManager extends AbstractManager
         return $user;
     }
 
-    public function login(string $username, string $password): ?User
+    public function login(string $username, string $password): ?UserDto
     {
         $user = $this->getMapper()->findByUsername($username);
         if ($user && password_verify($password, $user->getPassword())) {
@@ -73,7 +74,7 @@ class  UsersManager extends AbstractManager
         return null;
     }
 
-    public function updateAvatar(User $user, array $file, string $target_dir, string $current_avatar): void
+    public function updateAvatar(UserDto $user, array $file, string $target_dir, string $current_avatar): void
     {
         if (empty($file['name'])) {
             throw new RuntimeException("No avatar file provided.");

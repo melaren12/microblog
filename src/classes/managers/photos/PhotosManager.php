@@ -4,7 +4,8 @@ namespace App\managers\photos;
 
 use App\dal\mapper\photos\PhotosMapper;
 use App\managers\AbstractManager;
-use App\Photos;
+use App\managers\media\MediaManager;
+use Exception;
 use RuntimeException;
 
 class PhotosManager extends AbstractManager
@@ -31,27 +32,27 @@ class PhotosManager extends AbstractManager
 
     public function uploadPhoto(int $user_id, array $file, string $target_dir): void
     {
-        $photo = new Photos($this->getMapper()->getPDO(), $user_id);
-        $target_file = $photo->uploadPhoto($file, $target_dir);
+        $mediaManager = MediaManager::getInstance();
+        $targetFile = $mediaManager->uploadPhoto($file, $target_dir);
 
         try {
-            $this->getMapper()->insert($photo, $target_file);
-        } catch (\Exception $e) {
-            if (file_exists($target_file)) {
-                unlink($target_file);
+            $this->getMapper()->insert($mediaManager, $targetFile, $user_id);
+        } catch (Exception $e) {
+            if (file_exists($targetFile)) {
+                unlink($targetFile);
             }
             throw new RuntimeException("Error adding photo to database: " . $e->getMessage());
         }
     }
     public function deletePhoto(int $user_id, int $photo_id): void
     {
+        $mediaManager = MediaManager::getInstance();
         $photoData = $this->getMapper()->findById($photo_id, $user_id);
         if (!$photoData) {
             throw new RuntimeException("Photo not found or you do not have permission to delete it.");
         }
 
-        $photo = new Photos($this->getMapper()->getPDO(), $user_id);
-        $photo->deletePhoto($photo_id, $photoData['photo_path']);
+        $mediaManager->deletePhoto($photo_id, $photoData['photo_path']);
         $this->getMapper()->delete($photo_id, $user_id);
     }
 

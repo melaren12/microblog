@@ -2,19 +2,14 @@
 
 namespace App\dal\mapper\users;
 
+ use App\dal\dto\users\UserDto;
  use App\dal\mapper\AbstractMapper;
- use App\User;
  use PDO;
 
  class  UsersMapper  extends AbstractMapper
 {
      private static ?UsersMapper $instance = null;
      protected string $tableName = 'users';
-
-     public function getPDO(): PDO
-     {
-         return $this->PDO;
-     }
 
      public static function getInstance(): UsersMapper
      {
@@ -24,7 +19,11 @@ namespace App\dal\mapper\users;
          return self::$instance;
      }
 
-     private function populateUser(User $user, array $data): void
+     function createDto(): UserDto
+     {
+         return new UserDto();
+     }
+     private function populateUser(UserDto $user, array $data): void
      {
          $user->setId($data['id']);
          $user->setName($data['name']);
@@ -36,7 +35,7 @@ namespace App\dal\mapper\users;
          }
      }
 
-     public function findById(int $id): ?User
+     public function findById(int $id): ?UserDto
      {
          $stmt = $this->PDO->prepare(query: "SELECT id, name, lastname, username, avatar FROM users WHERE id = :id");
          $stmt->execute(['id' => $id]);
@@ -47,13 +46,13 @@ namespace App\dal\mapper\users;
              return null;
          }
 
-         $user = new User($this->PDO);
+         $user = new UserDto();
          $this->populateUser($user, $userData);
 
          return $user;
      }
 
-     public function findByUsername(string $username): ?User
+     public function findByUsername(string $username): ?UserDto
      {
          $stmt = $this->PDO->prepare("SELECT * FROM users WHERE username = :username");
          $stmt->execute(['username' => $username]);
@@ -63,12 +62,12 @@ namespace App\dal\mapper\users;
              return null;
          }
 
-         $user = new User($this->PDO);
+         $user = new UserDto();
          $this->populateUser($user, $userData);
          return $user;
      }
 
-     public function insert(User $user): void
+     public function insert(UserDto $user): void
      {
          $stmt = $this->PDO->prepare(
              "INSERT INTO users (username, password, name, lastname, avatar) 
@@ -85,7 +84,7 @@ namespace App\dal\mapper\users;
          $user->setId((int)$this->PDO->lastInsertId());
      }
 
-     public function updateAvatar(User $user): void
+     public function updateAvatar(UserDto $user): void
      {
          $stmt = $this->PDO->prepare("UPDATE users SET avatar = :avatar WHERE id = :id");
          $stmt->execute([
@@ -93,7 +92,6 @@ namespace App\dal\mapper\users;
              'id' => $user->getId()
          ]);
      }
-
  }
 
 

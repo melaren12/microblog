@@ -1,31 +1,21 @@
 <?php
 
-namespace App;
+namespace App\managers\media;
 
-use PDO;
-use PDOException;
 use RuntimeException;
 
-class Photos
+class MediaManager extends \App\dal\dto\photos\PhotoDto
 {
-    private $pdo;
-    private $user_id;
+    private static ?self $instance = null;
 
-    public function __construct(PDO $pdo, $user_id)
+    public static function getInstance(): MediaManager
     {
-        $this->pdo = $pdo;
-        $this->user_id = $user_id;
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function getPdo(): PDO
-    {
-        return $this->pdo;
-    }
 
     public function uploadPhoto(array $file, string $target_dir): string
     {

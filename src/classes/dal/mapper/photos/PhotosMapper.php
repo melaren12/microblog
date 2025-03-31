@@ -2,14 +2,20 @@
 
 namespace App\dal\mapper\photos;
 
+use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\AbstractMapper;
-use App\Photos;
 use PDO;
+use PDOException;
 
 class PhotosMapper extends AbstractMapper
 {
     private static ?PhotosMapper $instance = null;
     protected string $tableName = 'user_photos';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public static function getInstance(): PhotosMapper
     {
@@ -19,15 +25,10 @@ class PhotosMapper extends AbstractMapper
         return self::$instance;
     }
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
-
-    public function getPDO(): PDO
+    function createDto(): PhotoDto
     {
-        return $this->PDO;
+        return new PhotoDto();
     }
 
     public function findAllByUserId(int $user_id): array
@@ -54,16 +55,21 @@ class PhotosMapper extends AbstractMapper
         return $photo ?: null;
     }
 
-    public function insert(Photos $photo, string $photo_path): void
+    public function insert(PhotoDto $photo, string $photo_path, int $user_id): void
     {
-        $stmt = $this->PDO->prepare("
+        try {
+            $stmt = $this->PDO->prepare("
             INSERT INTO user_photos (user_id, photo_path) 
             VALUES (:user_id, :photo_path)
         ");
-        $stmt->execute([
-            'user_id' => $photo->getUserId(),
-            'photo_path' => $photo_path
-        ]);
+            $stmt->execute([
+                'user_id' => $user_id,
+                'photo_path' => $photo_path
+            ]);
+        }catch (PDOException $e){
+            var_dump($e->getMessage());exit();
+        }
+
     }
 
     public function delete(int $photo_id, int $user_id): void

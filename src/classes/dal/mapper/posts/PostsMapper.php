@@ -2,10 +2,8 @@
 
 namespace App\dal\mapper\posts;
 
+use App\dal\dto\posts\PostDto;
 use App\dal\mapper\AbstractMapper;
-use App\Post;
-use PDO;
-
 class  PostsMapper extends AbstractMapper
 {
     private static ?self $instance = null;
@@ -20,7 +18,12 @@ class  PostsMapper extends AbstractMapper
         return self::$instance;
     }
 
-    public function insert(Post $post): void
+    public function createDto(): PostDto
+    {
+       return new PostDto();
+    }
+
+    public function insert(PostDto $post): void
     {
         $stmt = $this->PDO->prepare("INSERT INTO posts (user_id, content) VALUES (:user_id, :content)");
         $stmt->execute([
@@ -43,33 +46,14 @@ class  PostsMapper extends AbstractMapper
 
         $posts = [];
         foreach ($postsData as $data) {
-            $post = new Post($this->PDO);
+            $post = new PostDto();
             $this->populatePost($post, $data);
             $posts[] = $post;
         }
         return $posts;
     }
 
-    public function findByUserId(int $user_id): array
-    {
-        $stmt = $this->PDO->prepare("
-            SELECT * FROM posts 
-            WHERE user_id = :user_id 
-            ORDER BY created_at DESC
-        ");
-        $stmt->execute(['user_id' => $user_id]);
-        $postsData = $stmt->fetchAll();
-
-        $posts = [];
-        foreach ($postsData as $data) {
-            $post = new Post($this->PDO);
-            $this->populatePost($post, $data);
-            $posts[] = $post;
-        }
-        return $posts;
-    }
-
-    private function populatePost(Post $post, array $data): void
+    private function populatePost(PostDto $post, array $data): void
     {
         $post->setId($data['id']);
         $post->setUserId($data['user_id']);
@@ -83,10 +67,6 @@ class  PostsMapper extends AbstractMapper
         }
     }
 
-    public function getPDO(): PDO
-    {
-        return $this->PDO;
-    }
 }
 
 

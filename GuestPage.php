@@ -34,10 +34,6 @@ if (!$profile_user_id) {
     header("Location: index.php");
     exit;
 }
-if (!$profile_user) {
-    header("Location: index.php?error=user_not_found");
-    exit;
-}
 
 $page_title = "Microblog";
 $extra_css = "guest";

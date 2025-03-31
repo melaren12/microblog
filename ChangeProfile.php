@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 require_once 'init.php';
 global $pdo;
 
+use App\managers\media\MediaManager;
 use App\managers\photos\PhotosManager;
 use App\managers\users\UsersManager;
 

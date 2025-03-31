@@ -11,10 +11,25 @@ abstract class  AbstractMapper extends AbstractPDOConnector
     protected PDO $pdo;
 
 
-    public function getList()
+    public function getList(array $params = []): array
     {
-        $stmt = $this->PDO->prepare("SELECT * FROM " . $this->getTableName());
-        $stmt->execute();
+        $sql = "SELECT * FROM " . $this->getTableName();
+        $whereConditions = [];
+        $whereValues = [];
+
+        foreach ($params as $key => $value) {
+            $whereConditions[] = "$key = ?";
+            $whereValues[] = $value;
+        }
+
+        if (!empty($whereConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $whereConditions);
+        }
+
+        $stmt = $this->PDO->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->createDto()::class);
+        $stmt->execute($whereValues);
+
         return $stmt->fetchAll();
     }
 
@@ -22,6 +37,7 @@ abstract class  AbstractMapper extends AbstractPDOConnector
     {
         $stmt = $this->PDO->prepare("SELECT * FROM " . $this->getTableName() . " WHERE id = :id");
         $stmt->execute(['id' => $id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->createDto()::class);
         return $stmt->fetch();
     }
 
@@ -29,6 +45,8 @@ abstract class  AbstractMapper extends AbstractPDOConnector
     {
         return $this->tableName;
     }
+
+    abstract function createDto();
 }
 
 
