@@ -6,8 +6,7 @@ class
 PhotoDto
 {
     private ?int $id = null;
-    private ?string $path = null;
-    private $uploaded_at;
+    private ?string $uploaded_at;
 
 public function getId(): int
 {
@@ -17,15 +16,7 @@ public function setId(int $id): void
 {
     $this->id = $id;
 }
-public function getPhotoPath(): string
-{
-    return $this->photo_path;
-}
-public function setPhotoPath(string $photo_path): void
-{
-    $this->photo_path = $photo_path;
-}
-public function getUploadedAt()
+public function getUploadedAt(): ?string
 {
     return $this->uploaded_at;
 }

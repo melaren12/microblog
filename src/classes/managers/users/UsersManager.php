@@ -5,7 +5,7 @@ namespace App\managers\users;
 use App\dal\dto\users\UserDto;
 use App\dal\mapper\users\UsersMapper;
 use App\managers\AbstractManager;
-use App\User;
+use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -28,11 +28,10 @@ class  UsersManager extends AbstractManager
     public function getUserById(?int $id): ?UserDto
     {
         $mapper = $this->getMapper();
-        $user = $mapper->findById($id);
-        return $user;
+        return $mapper->findById($id);
     }
 
-    public function register(string $username, string $password, string $firstname, string $lastname, string $avatar = 'default.png'): User
+    public function register(string $username, string $password, string $firstname, string $lastname, string $avatar = 'default.png'): UserDto
     {
 
         if (empty($username) || empty($password) || empty($firstname) || empty($lastname)) {
@@ -110,7 +109,7 @@ class  UsersManager extends AbstractManager
         try {
             $user->setAvatar($avatar_name);
             $this->getMapper()->updateAvatar($user);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if (file_exists($target_file)) {
                 unlink($target_file);
             }

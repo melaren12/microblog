@@ -9,7 +9,7 @@ UserDto
     private string $name;
     private string $lastname;
     private string $username;
-    private $avatar;
+    private mixed $avatar;
     private string $password;
 
     public function getId(): int
@@ -55,7 +55,7 @@ UserDto
     /**
      * @return mixed
      */
-    public function getAvatar()
+    public function getAvatar(): mixed
     {
         return $this->avatar;
     }
@@ -63,7 +63,7 @@ UserDto
     /**
      * @param mixed $avatar
      */
-    public function setAvatar($avatar): void
+    public function setAvatar(mixed $avatar): void
     {
         $this->avatar = $avatar;
     }

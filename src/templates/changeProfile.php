@@ -36,7 +36,7 @@
             <?php if (!empty($photos)): ?>
                 <?php foreach ($photos as $photo): ?>
                 <div class="photo">
-                    <img src="<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
+                    <img src="../<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
                     <button class="delete-photo btn" data-id="<?= htmlspecialchars($photo['id']) ?>">Delete</button>
                 </div>
                 <?php endforeach; ?>

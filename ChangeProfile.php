@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 require_once 'init.php';
 global $pdo;
 
-use App\managers\media\MediaManager;
 use App\managers\photos\PhotosManager;
 use App\managers\users\UsersManager;
 
@@ -41,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (!empty($_FILES['photo_path']['name'])) {
             $target_dir = "public/uploads/Photos/";
-            $photosManager->uploadPhoto($user_id, $_FILES['photo_path'], $target_dir);
+            $photosManager->uploadPhoto($_FILES['photo_path'], $target_dir, $user_id);
             header("Location: ChangeProfile.php");
             exit;
         }

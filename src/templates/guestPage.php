@@ -2,10 +2,10 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info">
-            <img src="../../public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+            <img src="/public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
             <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
         </div>
-        <a href="profile.php"><button class="btn">Back</button></a>
+        <a href="../../profile.php"><button class="btn">Back</button></a>
     </div>
     <div class="right-cont">
         <div class="left-side">
@@ -27,7 +27,7 @@
                 <?php if (!empty($photos)): ?>
                     <?php foreach ($photos as $photo): ?>
                         <div class="photo">
-                            <img src="<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
+                            <img src="../<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

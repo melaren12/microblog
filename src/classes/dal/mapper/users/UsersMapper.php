@@ -4,7 +4,6 @@ namespace App\dal\mapper\users;
 
  use App\dal\dto\users\UserDto;
  use App\dal\mapper\AbstractMapper;
- use PDO;
 
  class  UsersMapper  extends AbstractMapper
 {
@@ -23,48 +22,26 @@ namespace App\dal\mapper\users;
      {
          return new UserDto();
      }
-     private function populateUser(UserDto $user, array $data): void
-     {
-         $user->setId($data['id']);
-         $user->setName($data['name']);
-         $user->setLastname($data['lastname']);
-         $user->setUsername($data['username']);
-         $user->setAvatar($data['avatar']);
-         if (isset($data['password'])) {
-             $user->setPassword($data['password']);
-         }
-     }
-
      public function findById(int $id): ?UserDto
      {
-         $stmt = $this->PDO->prepare(query: "SELECT id, name, lastname, username, avatar FROM users WHERE id = :id");
-         $stmt->execute(['id' => $id]);
+         $users = $this->getList(['id' => $id]);
 
-         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-         if (!$userData) {
+         if (empty($users)) {
              return null;
          }
 
-         $user = new UserDto();
-         $this->populateUser($user, $userData);
-
-         return $user;
+         return $users[0];
      }
 
      public function findByUsername(string $username): ?UserDto
      {
-         $stmt = $this->PDO->prepare("SELECT * FROM users WHERE username = :username");
-         $stmt->execute(['username' => $username]);
-         $userData = $stmt->fetch();
+         $users = $this->getList(['username' => $username]);
 
-         if (!$userData) {
+         if (empty($users)) {
              return null;
          }
 
-         $user = new UserDto();
-         $this->populateUser($user, $userData);
-         return $user;
+         return $users[0];
      }
 
      public function insert(UserDto $user): void

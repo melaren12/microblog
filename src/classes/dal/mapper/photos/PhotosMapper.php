@@ -33,29 +33,33 @@ class PhotosMapper extends AbstractMapper
 
     public function findAllByUserId(int $user_id): array
     {
-        $stmt = $this->PDO->prepare("
-            SELECT photo_path, id, user_id, uploaded_at 
-            FROM user_photos 
-            WHERE user_id = :user_id 
-            ORDER BY uploaded_at DESC
-        ");
-        $stmt->execute(['user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        $params = [
+            'user_id' => $user_id,
+            'fetchMode' => PDO::FETCH_ASSOC
+        ];
+        $selectFields = "photo_path, id, user_id, uploaded_at";
+        $orderBy = "uploaded_at DESC";
+
+        $photos = $this->getList($params, $selectFields, null, null, $orderBy);
+
+        return $photos ?: [];
     }
 
     public function findById(int $photo_id, int $user_id): ?array
     {
-        $stmt = $this->PDO->prepare("
-            SELECT photo_path, id, user_id, uploaded_at 
-            FROM user_photos 
-            WHERE id = :id AND user_id = :user_id
-        ");
-        $stmt->execute(['id' => $photo_id, 'user_id' => $user_id]);
-        $photo = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $photo ?: null;
+        $params = [
+            'id' => $photo_id,
+            'user_id' => $user_id,
+            'fetchMode' => PDO::FETCH_ASSOC
+        ];
+
+        $photos = $this->getList($params);
+
+        return !empty($photos) ? $photos[0] : null;
+
     }
 
-    public function insert(PhotoDto $photo, string $photo_path, int $user_id): void
+    public function insert(string $photo_path, int $user_id): void
     {
         try {
             $stmt = $this->PDO->prepare("

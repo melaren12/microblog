@@ -9,40 +9,43 @@ PostDto
     private ?int $user_id = null;
     private ?string $content = null;
     private ?string $created_at = null;
-    private $user_name;
+    private string $name;
+    private string $lastname;
 
-    /**
-     * @return mixed
-     */
-    public function getUserName()
+    public function getUserName():string
     {
-        return $this->user_name;
+        return $this->name;
     }
 
-    /**
-     * @param mixed $user_name
-     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): void
+    {
+        $this->lastname = $lastname;
+    }
+
     public function setUserName($user_name): void
     {
-        $this->user_name = $user_name;
+        $this->name = $user_name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUserLastname()
+    public function getUserLastname():string
     {
-        return $this->user_lastname;
+        return $this-> lastname;
     }
-
-    /**
-     * @param mixed $user_lastname
-     */
-    public function setUserLastname($user_lastname): void
-    {
-        $this->user_lastname = $user_lastname;
-    }
-    private $user_lastname;
 
     public function getId(): ?int
     {

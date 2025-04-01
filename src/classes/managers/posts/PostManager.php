@@ -7,7 +7,7 @@ use App\dal\mapper\posts\PostsMapper;
 use App\managers\AbstractManager;
 //use App\Post;
 use InvalidArgumentException;
-/** @var \App\dal\dto\posts\PostDto[] $posts */
+/** @var PostDto[] $posts */
 class  PostManager extends AbstractManager
 {
 
@@ -49,13 +49,13 @@ class  PostManager extends AbstractManager
     public function getAllPosts(): array
     {
         return $this->getMapper()->findAll();
+
     }
 
     public function getPostsByUser(int $user_id): array
     {
         $params = ['user_id' => $user_id];
-        $posts = (\App\managers\posts\PostManager::getInstance()->getList($params));
-        return $posts;
+        return (PostManager::getInstance()->getList($params));
     }
 }
 

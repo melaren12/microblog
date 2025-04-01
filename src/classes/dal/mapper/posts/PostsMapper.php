@@ -4,6 +4,8 @@ namespace App\dal\mapper\posts;
 
 use App\dal\dto\posts\PostDto;
 use App\dal\mapper\AbstractMapper;
+use PDO;
+
 class  PostsMapper extends AbstractMapper
 {
     private static ?self $instance = null;
@@ -32,39 +34,20 @@ class  PostsMapper extends AbstractMapper
         ]);
         $post->setId((int)$this->PDO->lastInsertId());
     }
-
+    /**
+     * @return PostDto[]
+     */
     public function findAll(): array
     {
-        $stmt = $this->PDO->prepare("
-            SELECT posts.*, users.name, users.lastname 
-            FROM posts 
-            JOIN users ON posts.user_id = users.id 
-            ORDER BY posts.created_at DESC
-        ");
-        $stmt->execute();
-        $postsData = $stmt->fetchAll();
 
-        $posts = [];
-        foreach ($postsData as $data) {
-            $post = new PostDto();
-            $this->populatePost($post, $data);
-            $posts[] = $post;
-        }
-        return $posts;
-    }
+        $params = [
+            'fetchMode' => PDO::FETCH_CLASS
+        ];
+        $selectFields = "posts.*, users.name, users.lastname";
+        $join = "JOIN users ON posts.user_id = users.id";
+        $orderBy = "posts.created_at DESC";
 
-    private function populatePost(PostDto $post, array $data): void
-    {
-        $post->setId($data['id']);
-        $post->setUserId($data['user_id']);
-        $post->setContent($data['content']);
-        $post->setCreatedAt($data['created_at']);
-        if (isset($data['name'])) {
-            $post->setUserName($data['name']);
-        }
-        if (isset($data['lastname'])) {
-            $post->setUserLastname($data['lastname']);
-        }
+        return $this->getList($params, $selectFields, null, $join, $orderBy);
     }
 
 }

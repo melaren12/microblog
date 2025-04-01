@@ -2,9 +2,10 @@
 
 namespace App\managers\media;
 
+use App\dal\dto\photos\PhotoDto;
 use RuntimeException;
 
-class MediaManager extends \App\dal\dto\photos\PhotoDto
+class MediaManager extends PhotoDto
 {
     private static ?self $instance = null;
 
@@ -49,7 +50,7 @@ class MediaManager extends \App\dal\dto\photos\PhotoDto
         return $target_file;
     }
 
-    public function deletePhoto(int $photo_id, string $photo_path): void
+    public function deletePhoto(string $photo_path): void
     {
         if (file_exists($photo_path)) {
             unlink($photo_path);

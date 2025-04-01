@@ -10,12 +10,32 @@ abstract class  AbstractMapper extends AbstractPDOConnector
 
     protected PDO $pdo;
 
-
-    public function getList(array $params = []): array
+    public function getList(
+        array $params = [],
+        ?string $selectFields = null,
+        ?int $limit = null,
+        ?string $join = null,
+        ?string $orderBy = null
+    ): array
     {
-        $sql = "SELECT * FROM " . $this->getTableName();
+        $fields = $selectFields ?: '*';
+        $sql = "SELECT $fields FROM " . $this->getTableName();
+
+        if ($join) {
+            $sql .= " " . $join;
+        }
+
         $whereConditions = [];
         $whereValues = [];
+
+        $fetchMode = $params['fetchMode'] ?? PDO::FETCH_CLASS;
+        $fetchModeArg = null;
+
+        if ($fetchMode === PDO::FETCH_CLASS) {
+            $fetchModeArg = $this->createDto()::class;
+        }
+
+        unset($params['fetchMode']);
 
         foreach ($params as $key => $value) {
             $whereConditions[] = "$key = ?";
@@ -26,19 +46,25 @@ abstract class  AbstractMapper extends AbstractPDOConnector
             $sql .= " WHERE " . implode(" AND ", $whereConditions);
         }
 
+        if ($orderBy) {
+            $sql .= " ORDER BY " . $orderBy;
+        }
+
+        if ($limit !== null) {
+            $sql .= " LIMIT " . $limit;
+        }
+
         $stmt = $this->PDO->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->createDto()::class);
+
+        if ($fetchMode === PDO::FETCH_CLASS) {
+            $stmt->setFetchMode($fetchMode, $fetchModeArg);
+        } else {
+            $stmt->setFetchMode($fetchMode);
+        }
+
         $stmt->execute($whereValues);
 
         return $stmt->fetchAll();
-    }
-
-    public function getItemById(int $id)
-    {
-        $stmt = $this->PDO->prepare("SELECT * FROM " . $this->getTableName() . " WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->createDto()::class);
-        return $stmt->fetch();
     }
 
     public function getTableName(): string
