@@ -9,11 +9,13 @@ global $pdo;
 
 use App\managers\photos\PhotosManager;
 use App\managers\users\UsersManager;
+use App\util\LogHelper;
 
 $userManager = UsersManager::getInstance();
 $photosManager = PhotosManager::getInstance();
 
 if (!isset($_SESSION['user_id'])) {
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' .'Cant find User ID.');
     die("Error: User is not authorized.");
 }
 
@@ -21,7 +23,8 @@ $user_id = $_SESSION['user_id'];
 
 if (!$user = $userManager->getUserById($user_id)) {
     $errorInfo = $stmt->errorInfo();
-    die("Error retrieving user data: " . $errorInfo[2]);
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $errorInfo[2]);
+    die("User is not found");
 }
 
 $photos = $photosManager->getUserPhotos($user_id);
@@ -47,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } catch (RuntimeException $e) {
         $output = $e->getMessage();
     } catch (Exception $e) {
-        $output = "An unexpected error occurred: " . $e->getMessage();
-        error_log("ChangeProfile error: " . $e->getMessage());
+        LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant create user: ' . $e->getMessage());
+        $output = "An unexpected error occurred: ";
     }
 }
 

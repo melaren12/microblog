@@ -2,10 +2,10 @@
 
 namespace App\managers\photos;
 
-use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\photos\PhotosMapper;
 use App\managers\AbstractManager;
 use App\managers\media\MediaManager;
+use App\util\LogHelper;
 use Exception;
 use RuntimeException;
 class PhotosManager extends AbstractManager
@@ -37,11 +37,13 @@ class PhotosManager extends AbstractManager
 
         try {
             $this->getMapper()->insert( $targetFile, $user_id);
+            LogHelper::getInstance()->createInfoLog('Photo uploaded successfully!');
         } catch (Exception $e) {
             if (file_exists($targetFile)) {
                 unlink($targetFile);
             }
-            throw new RuntimeException("Error adding photo to database: " . $e->getMessage());
+            LogHelper::getInstance()->createErrorLog('Error adding photo to database: ' . $e->getMessage());
+            throw new RuntimeException("Error adding photo to database.");
         }
     }
 
@@ -51,6 +53,7 @@ class PhotosManager extends AbstractManager
         $photoData = $this->getMapper()->findById($photo_id, $user_id);
 
         if (!$photoData) {
+            LogHelper::getInstance()->createErrorLog('Error deleting photo id: ' . $photo_id);
             throw new RuntimeException("Photo not found or you do not have permission to delete it.");
         }
 

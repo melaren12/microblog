@@ -16,7 +16,7 @@
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
-                <button type="submit" class="btn">Refresh</button>
+                <button type="submit" class="btn">Upload</button>
             </div>
         </form>
 

@@ -8,7 +8,8 @@ abstract class  AbstractManager
 {
     public function getList(array $params = []): array
     {
-        return $this->getMapper()->getList($params);
+        $orderBy = 'created_at DESC';
+        return $this->getMapper()->getList($params, null, null, null, $orderBy);
     }
 
     abstract public function getMapper(): AbstractMapper;

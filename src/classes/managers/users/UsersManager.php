@@ -5,6 +5,7 @@ namespace App\managers\users;
 use App\dal\dto\users\UserDto;
 use App\dal\mapper\users\UsersMapper;
 use App\managers\AbstractManager;
+use App\util\LogHelper;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -35,21 +36,25 @@ class  UsersManager extends AbstractManager
     {
 
         if (empty($username) || empty($password) || empty($firstname) || empty($lastname)) {
+            LogHelper::getInstance()->createErrorLog('Registration failed! All fields (username, password, firstname, lastname) are required.');
             throw new InvalidArgumentException("All fields (username, password, firstname, lastname) are required.");
         }
 
         if (strlen($password) < 2) {
+            LogHelper::getInstance()->createErrorLog($username . ' Registration failed! Password must be at least 8 characters long.');
             throw new InvalidArgumentException("Password must be at least 8 characters long.");
         }
 
         $existingUser = $this->getMapper()->findByUsername($username);
         if ($existingUser) {
+            LogHelper::getInstance()->createErrorLog($username . ' Registration failed! Username is already in use.');
             throw new RuntimeException("Username is already in use.");
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         if ($hashedPassword === false) {
-            throw new RuntimeException("Failed to hash the password.");
+            LogHelper::getInstance()->createErrorLog($username . ' Registration failed! Failed to hash the password.');
+            throw new RuntimeException("Registration failed! Try again.");
         }
 
         $user = new UserDto();
@@ -76,17 +81,18 @@ class  UsersManager extends AbstractManager
     public function updateAvatar(UserDto $user, array $file, string $target_dir, string $current_avatar): void
     {
         if (empty($file['name'])) {
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Update user avatar failed!');
             throw new RuntimeException("No avatar file provided.");
         }
 
         if (!file_exists($target_dir)) {
             if (!mkdir($target_dir, 0777, true)) {
-                throw new RuntimeException("Could not create directory $target_dir. Check permissions.");
+                LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not create directory' .  $target_dir . '. Check permissions.');
             }
         }
 
         if (!is_writable($target_dir)) {
-            throw new RuntimeException("Directory $target_dir is not writable. Check permissions.");
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Directory' .  $target_dir . 'is not writable. Check permissions.');
         }
 
         $avatar_name = time() . "_" . basename($file["name"]);
@@ -95,6 +101,7 @@ class  UsersManager extends AbstractManager
 
         $allowed_types = ["jpg", "jpeg", "png", "gif"];
         if (!in_array($imageFileType, $allowed_types)) {
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Invalid file type: ' . $imageFileType);
             throw new RuntimeException("Only JPG, JPEG, PNG & GIF files are allowed.");
         }
 
@@ -103,24 +110,20 @@ class  UsersManager extends AbstractManager
         }
 
         if (!move_uploaded_file($file["tmp_name"], $target_file)) {
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not upload avatar: ' . $target_file);
             throw new RuntimeException("Error uploading avatar.");
         }
 
         try {
             $user->setAvatar($avatar_name);
             $this->getMapper()->updateAvatar($user);
+            LogHelper::getInstance()->createInfoLog('updateAvatar success!');
         } catch (Exception $e) {
             if (file_exists($target_file)) {
                 unlink($target_file);
             }
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Error updating avatar:' . $e->getMessage());
             throw new RuntimeException("Error updating avatar: " . $e->getMessage());
         }
     }
-
 }
-
-
-
-
-
-

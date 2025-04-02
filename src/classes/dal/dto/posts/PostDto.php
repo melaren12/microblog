@@ -86,6 +86,4 @@ PostDto
     {
         $this->created_at = $created_at;
     }
-
-
 }

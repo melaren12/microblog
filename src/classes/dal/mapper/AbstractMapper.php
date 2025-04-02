@@ -2,6 +2,8 @@
 
 namespace App\dal\mapper;
 
+use App\util\LogHelper;
+use Exception;
 use PDO;
 
 abstract class  AbstractMapper extends AbstractPDOConnector
@@ -10,10 +12,58 @@ abstract class  AbstractMapper extends AbstractPDOConnector
 
     protected PDO $pdo;
 
+    /**
+     * @throws Exception
+     */
+    public function insertList(array $params = []): int
+    {
+        if (empty($params)) {
+            return -1;
+        }
+        foreach ($params as $record) {
+            if (!is_array($record)) {
+                LogHelper::getInstance()->createErrorLog('insertList error: ' . 'Each element in \$params must be an array in the format [column => value].');
+                throw new Exception("Format Error");
+            }
+        }
+
+        $tableName = $this->getTableName();
+
+        $firstRecord = reset($params);
+        $fieldNames = array_keys($firstRecord);
+        if (empty($fieldNames)) {
+            LogHelper::getInstance()->createInfoLog('insertList error: ' . 'No fields to insert.');
+            throw new Exception("Error");
+        }
+
+        foreach ($params as $record) {
+            if (array_keys($record) !== $fieldNames) {
+                LogHelper::getInstance()->createInfoLog('insertList error: ' . 'All records must have the same set of fields.');
+                throw new Exception("Error");
+            }
+        }
+
+        $placeholders = array_fill(0, count($fieldNames), '?');
+        $singleValuePlaceholder = '(' . implode(', ', $placeholders) . ')';
+
+        $valuePlaceholders = array_fill(0, count($params), $singleValuePlaceholder);
+        $sql = "INSERT INTO $tableName (" . implode(', ', $fieldNames) . ") VALUES " . implode(', ', $valuePlaceholders);
+
+        $values = [];
+        foreach ($params as $record) {
+            $values = array_merge($values, array_values($record));
+        }
+
+        $stmt = $this->PDO->prepare($sql);
+        $stmt->execute($values);
+
+        return (int)$this->PDO->lastInsertId();
+    }
+
     public function getList(
-        array $params = [],
+        array   $params = [],
         ?string $selectFields = null,
-        ?int $limit = null,
+        ?int    $limit = null,
         ?string $join = null,
         ?string $orderBy = null
     ): array
@@ -74,9 +124,3 @@ abstract class  AbstractMapper extends AbstractPDOConnector
 
     abstract function createDto();
 }
-
-
-
-
-
-

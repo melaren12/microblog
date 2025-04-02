@@ -77,5 +77,4 @@ UserDto
     {
         $this->password = $password;
     }
-
 }

@@ -8,6 +8,7 @@ require_once 'init.php';
 global $pdo;
 
 use App\managers\users\UsersManager;
+use App\util\LogHelper;
 
 $output = '';
 
@@ -24,13 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $userManager->register($username, $password, $firstname, $lastname, $avatar_name);
 
         $_SESSION['success_message'] = "Registration successful! Please log in.";
+
+        LogHelper::getInstance()->createInfoLog('register.php error: ' . $username . ' Registration successful! Please log in.');
         header("Location: login.php");
         exit;
     } catch (InvalidArgumentException|RuntimeException $e) {
         $output = $e->getMessage();
     } catch (Exception $e) {
         $output = "An unexpected error occurred: " . $e->getMessage();
-        error_log("Registration error: " . $e->getMessage());
+        LogHelper::getInstance()->createErrorLog('register.php error: ' . $username . ' Registration failed! ' . $e->getMessage());
     }
 }
 

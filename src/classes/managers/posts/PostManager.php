@@ -6,6 +6,7 @@ use App\dal\dto\posts\PostDto;
 use App\dal\mapper\posts\PostsMapper;
 use App\managers\AbstractManager;
 //use App\Post;
+use App\util\LogHelper;
 use InvalidArgumentException;
 /** @var PostDto[] $posts */
 class  PostManager extends AbstractManager
@@ -21,7 +22,6 @@ class  PostManager extends AbstractManager
         return self::$instance;
     }
 
-
     public function getMapper(): PostsMapper
     {
         return PostsMapper::getInstance();
@@ -29,19 +29,17 @@ class  PostManager extends AbstractManager
 
     public function create(int $user_id, string $content): PostDto
     {
-
-        if (empty($content)) {
-            throw new InvalidArgumentException("Post content cannot be empty.");
-        }
-
         if (strlen($content) > 1000) {
+            LogHelper::getInstance()->createErrorLog('Error creating post: Post content cannot exceed 1000 characters.');
             throw new InvalidArgumentException("Post content cannot exceed 1000 characters.");
         }
         $post = new PostDto();
         $post->setUserId($user_id);
         $post->setContent($content);
 
-        $this->getMapper()->insert($post);
+        $id = $this->getMapper()->insert($post);
+
+        $post->setId($id);
 
         return $post;
     }
@@ -58,9 +56,3 @@ class  PostManager extends AbstractManager
         return (PostManager::getInstance()->getList($params));
     }
 }
-
-
-
-
-
-

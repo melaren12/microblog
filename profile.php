@@ -31,4 +31,3 @@ $page_title = "Microblog";
 $extra_css = "profile";
 $content_template = "src/templates/profile.php";
 include "src/templates/layout.php";
-

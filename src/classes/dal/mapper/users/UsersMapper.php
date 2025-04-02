@@ -4,6 +4,7 @@ namespace App\dal\mapper\users;
 
  use App\dal\dto\users\UserDto;
  use App\dal\mapper\AbstractMapper;
+ use http\Client\Curl\User;
 
  class  UsersMapper  extends AbstractMapper
 {
@@ -44,21 +45,25 @@ namespace App\dal\mapper\users;
          return $users[0];
      }
 
-     public function insert(UserDto $user): void
+     /**
+      * @throws \Exception
+      */
+     public function insert(UserDto $user): UserDto
      {
-         $stmt = $this->PDO->prepare(
-             "INSERT INTO users (username, password, name, lastname, avatar) 
-             VALUES (:username, :password, :name, :lastname, :avatar)"
-         );
-         $stmt->execute([
-             'username' => $user->getUsername(),
-             'password' => $user->getPassword(),
-             'name' => $user->getName(),
-             'lastname' => $user->getLastname(),
-             'avatar' => $user->getAvatar() ?? 'default.png'
-         ]);
+         $params = [
+             [
+                 'username' => $user->getUsername(),
+                 'password' => $user->getPassword(),
+                 'name' => $user->getName(),
+                 'lastname' => $user->getLastname(),
+                 'avatar' => $user->getAvatar() ?? 'default.png'
+             ]
+         ];
 
-         $user->setId((int)$this->PDO->lastInsertId());
+         $insertedId = $this->insertList($params);
+         $user->setId($insertedId);
+
+         return $user;
      }
 
      public function updateAvatar(UserDto $user): void
@@ -70,9 +75,3 @@ namespace App\dal\mapper\users;
          ]);
      }
  }
-
-
-
-
-
-

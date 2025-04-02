@@ -62,18 +62,18 @@ class PhotosMapper extends AbstractMapper
     public function insert(string $photo_path, int $user_id): void
     {
         try {
-            $stmt = $this->PDO->prepare("
-            INSERT INTO user_photos (user_id, photo_path) 
-            VALUES (:user_id, :photo_path)
-        ");
-            $stmt->execute([
-                'user_id' => $user_id,
-                'photo_path' => $photo_path
-            ]);
+            $params = [
+                [
+                    'user_id' => $user_id,
+                    'photo_path' => $photo_path,
+                ]
+            ];
+
+            $this->insertList($params);
+
         }catch (PDOException $e){
             var_dump($e->getMessage());exit();
         }
-
     }
 
     public function delete(int $photo_id, int $user_id): void

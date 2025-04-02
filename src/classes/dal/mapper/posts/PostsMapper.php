@@ -4,6 +4,7 @@ namespace App\dal\mapper\posts;
 
 use App\dal\dto\posts\PostDto;
 use App\dal\mapper\AbstractMapper;
+use Exception;
 use PDO;
 
 class  PostsMapper extends AbstractMapper
@@ -25,21 +26,27 @@ class  PostsMapper extends AbstractMapper
        return new PostDto();
     }
 
-    public function insert(PostDto $post): void
+    /**
+     * @throws Exception
+     */
+    public function insert(PostDto $post): int
     {
-        $stmt = $this->PDO->prepare("INSERT INTO posts (user_id, content) VALUES (:user_id, :content)");
-        $stmt->execute([
-            'user_id' => $post->getUserId(),
-            'content' => $post->getContent()
-        ]);
-        $post->setId((int)$this->PDO->lastInsertId());
+        $params = [
+            [
+                'user_id' => $post->getUserId(),
+                'content' => $post->getContent()
+            ]
+        ];
+
+        return $this->insertList($params);
     }
     /**
+     *
+     *
      * @return PostDto[]
      */
     public function findAll(): array
     {
-
         $params = [
             'fetchMode' => PDO::FETCH_CLASS
         ];
@@ -51,9 +58,3 @@ class  PostsMapper extends AbstractMapper
     }
 
 }
-
-
-
-
-
-

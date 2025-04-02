@@ -12,10 +12,9 @@ namespace App\dal\mapper;
     {
         $host = 'localhost';
         $db = 'microblog';
-        $user = 'user';
-        $pass = 'User1212#';
+        $user = 'root';
+        $pass = 'Ar0126#00';
         $charset = 'utf8mb4';
-
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
         $options = [
@@ -23,7 +22,6 @@ namespace App\dal\mapper;
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
-
 
         try {
             $this->PDO = new PDO($dsn, $user, $pass, $options);
