@@ -1,42 +1,62 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'init.php';
 global $pdo;
 
+use App\managers\photos\PhotosManager;
+use App\managers\users\UsersManager;
+use App\util\LogHelper;
+
+$userManager = UsersManager::getInstance();
+$photosManager = PhotosManager::getInstance();
+
 if (!isset($_SESSION['user_id'])) {
-    die("Ошибка: пользователь не авторизован.");
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' .'Cant find User ID.');
+    die("Error: User is not authorized.");
 }
 
 $user_id = $_SESSION['user_id'];
 
-$stmt = $pdo->prepare("SELECT username, avatar FROM users WHERE id = :id");
-$stmt->execute(['id' => $user_id]);
-$user = $stmt->fetch();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_FILES['avatar']['name'])) {
-    $target_dir = "uploads/";
-    $avatar_name = time() . "_" . basename($_FILES["avatar"]["name"]);
-    $target_file = $target_dir . $avatar_name;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    $allowed_types = ["jpg", "jpeg", "png", "gif"];
-    if (!in_array($imageFileType, $allowed_types)) {
-        die("Ошибка: Только JPG, JPEG, PNG & GIF файлы разрешены.");
-    }
-
-    if ($user['avatar'] != "default.png" && file_exists("uploads/" . $user['avatar'])) {
-        unlink("uploads/" . $user['avatar']);
-    }
-
-    if (!move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
-        die("Ошибка загрузки файла.");
-    }
-
-    $stmt = $pdo->prepare("UPDATE users SET avatar = :avatar WHERE id = :id");
-    $stmt->execute(['avatar' => $avatar_name, 'id' => $user_id]);
-
-    header("Location: profile.php");
-    exit;
+if (!$user = $userManager->getUserById($user_id)) {
+    $errorInfo = $stmt->errorInfo();
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $errorInfo[2]);
+    die("User is not found");
 }
 
-require 'templates/changeProfile.php';
+$photos = $photosManager->getUserPhotos($user_id);
+$output = '';
+$user = $userManager->getUserById($user_id);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    try {
+
+        if (!empty($_FILES['avatar']['name'])) {
+            $target_dir = "public/uploads/avatars/";
+            $userManager->updateAvatar($user, $_FILES['avatar'], $target_dir, $user->getAvatar());
+            header("Location: ChangeProfile.php");
+            exit;
+        }
+
+        if (!empty($_FILES['photo_path']['name'])) {
+            $target_dir = "public/uploads/Photos/";
+            $photosManager->uploadPhoto($_FILES['photo_path'], $target_dir, $user_id);
+            header("Location: ChangeProfile.php");
+            exit;
+        }
+    } catch (RuntimeException $e) {
+        $output = $e->getMessage();
+    } catch (Exception $e) {
+        LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant create user: ' . $e->getMessage());
+        $output = "An unexpected error occurred: ";
+    }
+}
+
+$page_title = "Microblog - Change Profile";
+$extra_css = "changeProfile";
+$extra_js = "changeProfile";
+$content_template = "src/templates/changeProfile.php";
+include "src/templates/layout.php";

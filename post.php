@@ -1,25 +1,32 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+use App\managers\posts\PostManager;
+use App\util\LogHelper;
 
 require_once 'init.php';
 global $pdo;
 
-if (!isset($_SESSION['user_id'])) {
+$content = trim($_POST['content']);
+$postManager = PostManager::getInstance();
+
+$user_id = $_SESSION['user_id'];
+
+if (!isset($_SESSION['user_id'], $content)) {
     header("Location: login.php");
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
-
 if (isset($_POST['content']) && !empty(trim($_POST['content']))) {
-    $content = trim($_POST['content']);
-    $stmt = $pdo->prepare("INSERT INTO posts (user_id, content) VALUES (?, ?)");
-    $stmt->execute([$user_id, $content]);
+    try {
+        $post = $postManager->create($user_id, $content);
+        LogHelper::getInstance()->createInfoLog('Create Post Info: ' . 'Post created successfully!');
+    }catch (Throwable $e) {
+        $log->error('Это ошибка');
+    }
 }
-
 
 header("Location: profile.php");
 
 exit;
-
-
-
