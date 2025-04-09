@@ -10,19 +10,27 @@ require_once 'init.php';
 
 use App\managers\users\UsersManager;
 use App\managers\posts\PostManager;
+use App\util\LogHelper;
 
 $userManager = UsersManager::getInstance();
+
+if (!$_SESSION['user_id']) {
+    LogHelper::getInstance()->createErrorLog('User ID not found!');
+    header('location: login.php');
+}
+
 $user = $userManager->getUserById($_SESSION['user_id']);
 
 $postManager = PostManager::getInstance();
 $posts = $postManager->getAllPosts();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+//if (!isset($_SESSION['user_id'])) {
+//    header("Location: login.php");
+//    exit;
+//}
 
 if (!$user || !$user->getId()) {
+    LogHelper::getInstance()->createErrorLog('User not found!');
     header(header: "Location: login.php?error=user_not_found");
     exit;
 }

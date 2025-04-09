@@ -1,6 +1,7 @@
 <?php
 
 namespace App\dal\mapper;
+ use App\util\LogHelper;
  use PDO;
  use PDOException;
 
@@ -26,7 +27,8 @@ namespace App\dal\mapper;
         try {
             $this->PDO = new PDO($dsn, $user, $pass, $options);
         } catch (PDOException $e) {
-            echo "Database connection failed: " . $e->getMessage();
+            LogHelper::getInstance()->createErrorLog('Database connection failed: ' . $e->getMessage());
+            echo "Database connection failed.";
             exit;
         }
     }

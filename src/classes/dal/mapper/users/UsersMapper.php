@@ -4,7 +4,7 @@ namespace App\dal\mapper\users;
 
  use App\dal\dto\users\UserDto;
  use App\dal\mapper\AbstractMapper;
- use http\Client\Curl\User;
+ use Exception;
 
  class  UsersMapper  extends AbstractMapper
 {
@@ -46,7 +46,7 @@ namespace App\dal\mapper\users;
      }
 
      /**
-      * @throws \Exception
+      * @throws Exception
       */
      public function insert(UserDto $user): UserDto
      {

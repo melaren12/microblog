@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $avatar_name = 'default.png';
 
     try {
-
         $userManager = UsersManager::getInstance();
         $user = $userManager->register($username, $password, $firstname, $lastname, $avatar_name);
 

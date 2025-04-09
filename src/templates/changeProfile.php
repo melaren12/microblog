@@ -2,8 +2,9 @@
     <div class="left-side">
         <h2>Profile</h2>
         <?php if (isset($user)): ?>
-            <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar"
-                 style="width: 100px; height: 100px; border-radius: 50%;">
+            <div class="avatar">
+                <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar">
+            </div>
         <?php endif; ?>
         <p>Username: <?= htmlspecialchars($user->getUsername()) ?></p>
 

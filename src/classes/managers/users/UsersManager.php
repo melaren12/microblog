@@ -32,6 +32,9 @@ class  UsersManager extends AbstractManager
         return $mapper->findById($id);
     }
 
+    /**
+     * @throws Exception
+     */
     public function register(string $username, string $password, string $firstname, string $lastname, string $avatar = 'default.png'): UserDto
     {
 

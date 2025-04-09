@@ -22,7 +22,8 @@ abstract class  AbstractMapper extends AbstractPDOConnector
         }
         foreach ($params as $record) {
             if (!is_array($record)) {
-                LogHelper::getInstance()->createErrorLog('insertList error: ' . 'Each element in \$params must be an array in the format [column => value].');
+                LogHelper::getInstance()->createErrorLog('insertList error: ' .
+                    'Each element in \$params must be an array in the format [column => value].');
                 throw new Exception("Format Error");
             }
         }

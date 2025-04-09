@@ -3,7 +3,9 @@
         <h1>Microblog</h1>
         <section class="profile-info">
             <?php if (isset($user)): ?>
-                <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+            <div class="avatar">
+                <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" loading="lazy">
+            </div>
                 <h3><?= htmlspecialchars($user->getName()) ?></h3>
                 <a href="../../ChangeProfile.php" class="btn">Edit</a>
             <?php else: ?>
