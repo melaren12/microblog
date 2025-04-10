@@ -6,8 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/classes/",
-            "App\\controllers\\": "controllers/"
+            "App\\": "src/classes/"
         }
     }
 }

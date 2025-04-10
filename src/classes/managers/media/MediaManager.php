@@ -17,7 +17,6 @@ class MediaManager extends PhotoDto
         }
         return self::$instance;
     }
-
     public function uploadPhoto(array $file, string $target_dir): string
     {
         if (empty($file['name'])) {
@@ -54,7 +53,6 @@ class MediaManager extends PhotoDto
 
         return $target_file;
     }
-
     public function deletePhoto(string $photo_path): void
     {
         if (file_exists($photo_path)) {

@@ -8,10 +8,11 @@ use App\managers\AbstractManager;
 //use App\Post;
 use App\util\LogHelper;
 use InvalidArgumentException;
+use RuntimeException;
+
 /** @var PostDto[] $posts */
 class  PostManager extends AbstractManager
 {
-
     private static ?self $instance = null;
 
     public static function getInstance(): PostManager
@@ -21,12 +22,10 @@ class  PostManager extends AbstractManager
         }
         return self::$instance;
     }
-
     public function getMapper(): PostsMapper
     {
         return PostsMapper::getInstance();
     }
-
     public function create(int $user_id, string $content): PostDto
     {
         if (strlen($content) > 1000) {
@@ -43,16 +42,19 @@ class  PostManager extends AbstractManager
 
         return $post;
     }
-
     public function getAllPosts(): array
     {
         return $this->getMapper()->findAll();
 
     }
-
     public function getPostsByUser(int $user_id): array
     {
         $params = ['user_id' => $user_id];
         return (PostManager::getInstance()->getList($params));
+    }
+
+    public function deletePost($user_id, $id): void
+    {
+        $this->getMapper()->delete($id, $user_id);
     }
 }

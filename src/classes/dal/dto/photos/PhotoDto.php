@@ -1,13 +1,11 @@
 <?php
 
 namespace App\dal\dto\photos;
-
 class
 PhotoDto
 {
     private ?int $id = null;
     private ?string $uploaded_at;
-
 public function getId(): int
 {
     return $this->id;

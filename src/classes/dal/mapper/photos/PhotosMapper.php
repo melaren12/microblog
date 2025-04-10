@@ -6,17 +6,14 @@ use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\AbstractMapper;
 use PDO;
 use PDOException;
-
 class PhotosMapper extends AbstractMapper
 {
     private static ?PhotosMapper $instance = null;
     protected string $tableName = 'user_photos';
-
     public function __construct()
     {
         parent::__construct();
     }
-
     public static function getInstance(): PhotosMapper
     {
         if (self::$instance === null) {
@@ -24,13 +21,10 @@ class PhotosMapper extends AbstractMapper
         }
         return self::$instance;
     }
-
-
     function createDto(): PhotoDto
     {
         return new PhotoDto();
     }
-
     public function findAllByUserId(int $user_id): array
     {
         $params = [
@@ -44,7 +38,6 @@ class PhotosMapper extends AbstractMapper
 
         return $photos ?: [];
     }
-
     public function findById(int $photo_id, int $user_id): ?array
     {
         $params = [
@@ -58,7 +51,6 @@ class PhotosMapper extends AbstractMapper
         return !empty($photos) ? $photos[0] : null;
 
     }
-
     public function insert(string $photo_path, int $user_id): void
     {
         try {

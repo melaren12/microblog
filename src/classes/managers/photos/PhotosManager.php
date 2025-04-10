@@ -11,7 +11,6 @@ use RuntimeException;
 class PhotosManager extends AbstractManager
 {
     private static ?self $instance = null;
-
     public static function getInstance(): PhotosManager
     {
         if (self::$instance === null) {
@@ -19,17 +18,14 @@ class PhotosManager extends AbstractManager
         }
         return self::$instance;
     }
-
     public function getMapper(): PhotosMapper
     {
         return PhotosMapper::getInstance();
     }
-
     public function getUserPhotos(int $user_id): array
     {
         return $this->getMapper()->findAllByUserId($user_id);
     }
-
     public function uploadPhoto(array $file, string $target_dir, int $user_id): void
     {
         $mediaManager = MediaManager::getInstance();
@@ -46,7 +42,6 @@ class PhotosManager extends AbstractManager
             throw new RuntimeException("Error adding photo to database.");
         }
     }
-
     public function deletePhoto(int $user_id, int $photo_id): void
     {
         $mediaManager = MediaManager::getInstance();
@@ -61,7 +56,6 @@ class PhotosManager extends AbstractManager
         $this->getMapper()->delete($photo_id, $user_id);
 
     }
-
     public function getPhotosById( int $id, int $user_id): array
     {
         return $this->getMapper()->findById($id, $user_id);

@@ -4,7 +4,8 @@ require_once 'init.php';
 
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: controllers/login.php');
     exit;
 }
-header('Location: profile.php');
+
+header('Location: controllers/profile.php');

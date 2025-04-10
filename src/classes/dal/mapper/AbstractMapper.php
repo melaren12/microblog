@@ -5,7 +5,6 @@ namespace App\dal\mapper;
 use App\util\LogHelper;
 use Exception;
 use PDO;
-
 abstract class  AbstractMapper extends AbstractPDOConnector
 {
     protected string $tableName;
@@ -60,7 +59,6 @@ abstract class  AbstractMapper extends AbstractPDOConnector
 
         return (int)$this->PDO->lastInsertId();
     }
-
     public function getList(
         array   $params = [],
         ?string $selectFields = null,
@@ -117,11 +115,9 @@ abstract class  AbstractMapper extends AbstractPDOConnector
 
         return $stmt->fetchAll();
     }
-
     public function getTableName(): string
     {
         return $this->tableName;
     }
-
     abstract function createDto();
 }

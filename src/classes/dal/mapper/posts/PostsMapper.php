@@ -6,12 +6,12 @@ use App\dal\dto\posts\PostDto;
 use App\dal\mapper\AbstractMapper;
 use Exception;
 use PDO;
+use RuntimeException;
 
 class  PostsMapper extends AbstractMapper
 {
     private static ?self $instance = null;
     protected string $tableName = 'posts';
-
     public static function getInstance(): PostsMapper
     {
         if (self::$instance === null) {
@@ -20,7 +20,6 @@ class  PostsMapper extends AbstractMapper
 
         return self::$instance;
     }
-
     public function createDto(): PostDto
     {
        return new PostDto();
@@ -55,6 +54,18 @@ class  PostsMapper extends AbstractMapper
         $orderBy = "posts.created_at DESC";
 
         return $this->getList($params, $selectFields, null, $join, $orderBy);
+    }
+
+    public function delete(int $id, int $user_id): void
+    {
+        $stmt = $this->PDO->prepare("
+            DELETE FROM posts
+            WHERE id = :id AND user_id = :user_id   
+        ");
+        $stmt->execute(['id' => $id, 'user_id' => $user_id]);
+//        if ($stmt->rowCount() === 0) {
+//            throw new RuntimeException('Post not found or not authorized');
+//        }
     }
 
 }

@@ -9,11 +9,9 @@ use App\util\LogHelper;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-
 class  UsersManager extends AbstractManager
 {
     private static ?self $instance = null;
-
     public static function getInstance(): UsersManager
     {
         if (self::$instance === null) {
@@ -25,7 +23,6 @@ class  UsersManager extends AbstractManager
     {
         return UsersMapper::getInstance();
     }
-
     public function getUserById(?int $id): ?UserDto
     {
         $mapper = $this->getMapper();
@@ -71,7 +68,6 @@ class  UsersManager extends AbstractManager
 
         return $user;
     }
-
     public function login(string $username, string $password): ?UserDto
     {
         $user = $this->getMapper()->findByUsername($username);
@@ -80,7 +76,6 @@ class  UsersManager extends AbstractManager
         }
         return null;
     }
-
     public function updateAvatar(UserDto $user, array $file, string $target_dir, string $current_avatar): void
     {
         if (empty($file['name'])) {

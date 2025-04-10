@@ -4,20 +4,20 @@
         <section class="profile-info">
             <?php if (isset($user)): ?>
             <div class="avatar">
-                <img src="../../public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" loading="lazy">
+                <img src="/public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar" loading="lazy">
             </div>
                 <h3><?= htmlspecialchars($user->getName()) ?></h3>
-                <a href="../../ChangeProfile.php" class="btn">Edit</a>
+                <a href="/controllers/ChangeProfile.php" class="btn">Edit</a>
             <?php else: ?>
                 <p>Error: User not found</p>
             <?php endif; ?>
         </section>
-        <form action="../../post.php" method="post" class="post-form">
+        <form action="/controllers/post.php" method="post" class="post-form">
             <label for="content">What's new with you?</label>
             <textarea id="content" name="content" placeholder="What's new with you?" required></textarea>
             <button type="submit" class="btn">Publish</button>
         </form>
-        <a href="../../logout.php" class="btn logout">Logout</a>
+        <a href="/controllers/logout.php" class="btn logout">Logout</a>
     </aside>
     <section class="content">
         <?php if (!empty($posts)): ?>
@@ -26,7 +26,7 @@
                     <div class="post-text">
                         <p class="user-name">
                             <strong>
-                                <a href="../../GuestPage.php?user_id=<?= htmlspecialchars($post->getUserId()) ?>" >
+                                <a href="/controllers/GuestPage.php?user_id=<?= htmlspecialchars($post->getUserId()) ?>" >
                                     <?= htmlspecialchars($post->getUserName() . ' ' . $post->getUserLastname()) ?>
                                 </a>
                             </strong> Wrote:

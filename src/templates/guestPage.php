@@ -5,7 +5,7 @@
             <img src="/public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
             <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
         </div>
-        <a href="../../profile.php"><button class="btn">Back</button></a>
+        <a href="/controllers/profile.php"><button class="btn">Back</button></a>
     </div>
     <div class="right-cont">
         <div class="left-side">
