@@ -33,7 +33,7 @@
                     <article class="post">
                         <p class="intro"><?php echo nl2br(htmlspecialchars($post->getContent())); ?></p>
                         <footer class="time"><?php echo htmlspecialchars($post->getCreatedAt()); ?></footer>
-                        <button class="delete-post btn" data-id="<?= htmlspecialchars($post->getId()) ?>">Delete</button>
+                        <button class="delete-post post-delete-btn" data-id="<?= htmlspecialchars($post->getId()) ?>"><img src="/public/icons/delete.png"></button>
                     </article>
                 <?php endforeach; ?>
             <?php endif; ?>

@@ -20,7 +20,15 @@
     margin-bottom: 20px;
 }
 
+.intro {
+    margin-top: var(--spacing-sm);
+    word-break: break-all;
+    overflow-wrap: break-word;
+    max-width: 90%;
+}
+
 .right-cont {
+    margin-left: 5px;
     flex: 3;
     background-color: white;
     display: flex;
@@ -39,6 +47,26 @@
     height: 100vh;
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.post-delete-btn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+}
+
+.post-delete-btn img {
+    width: 100%;
+    height: 100%;
+}
+
+.time {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    font-style: italic;
+    color: #666;
 }
 
 .right-cont .left-side::-webkit-scrollbar {
@@ -94,6 +122,7 @@
     background-color: var(--post-bg);
     border-radius: var(--border-radius);
     padding: var(--spacing-sm);
+    padding-bottom: 30px;
     margin-bottom: var(--spacing-sm);
     position: relative;
     display: flex;
@@ -113,6 +142,7 @@
     width: 200px;
     height: 200px;
     border-radius: 8px;
+    padding-bottom: 40px;
 }
 
 .photo img {

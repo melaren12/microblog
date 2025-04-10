@@ -72,5 +72,8 @@
 
 .intro {
     margin-top: var(--spacing-sm);
+    word-break: break-all;
+    overflow-wrap: break-word;
+    max-width: 90%;
 }
 

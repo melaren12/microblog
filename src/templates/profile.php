@@ -26,7 +26,8 @@
                     <div class="post-text">
                         <p class="user-name">
                             <strong>
-                                <a href="/controllers/GuestPage.php?user_id=<?= htmlspecialchars($post->getUserId()) ?>" >
+                                <a href="<?php echo ($user->getId() === $post->getUserId()) ? '/controllers/ChangeProfile.php' :
+                                    '/controllers/GuestPage.php?user_id=' . htmlspecialchars($post->getUserId()); ?>">
                                     <?= htmlspecialchars($post->getUserName() . ' ' . $post->getUserLastname()) ?>
                                 </a>
                             </strong> Wrote:
