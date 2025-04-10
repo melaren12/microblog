@@ -53,10 +53,4 @@ class MediaManager extends PhotoDto
 
         return $target_file;
     }
-    public function deletePhoto(string $photo_path): void
-    {
-        if (file_exists($photo_path)) {
-            unlink($photo_path);
-        }
-    }
 }

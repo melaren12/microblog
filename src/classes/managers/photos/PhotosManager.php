@@ -44,7 +44,7 @@ class PhotosManager extends AbstractManager
     }
     public function deletePhoto(int $user_id, int $photo_id): void
     {
-        $mediaManager = MediaManager::getInstance();
+
         $photoData = $this->getMapper()->findById($photo_id, $user_id);
 
         if (!$photoData) {
@@ -52,9 +52,18 @@ class PhotosManager extends AbstractManager
             throw new RuntimeException("Photo not found or you do not have permission to delete it.");
         }
 
-        $mediaManager->deletePhoto($photo_id);
-        $this->getMapper()->delete($photo_id, $user_id);
+        $filePath = $photoData['photo_path'];
 
+        if (file_exists($filePath)) {
+            if (!unlink($filePath)) {
+                LogHelper::getInstance()->createErrorLog('Could not delete file: ' . $filePath);
+                throw new RuntimeException("Could not delete file.");
+            }
+        } else {
+            LogHelper::getInstance()->createErrorLog('File not found: ' . $filePath);
+        }
+
+        $this->getMapper()->delete($photo_id, $user_id);
     }
     public function getPhotosById( int $id, int $user_id): array
     {

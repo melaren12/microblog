@@ -33,19 +33,6 @@ if (!$id || !$type) {
 }
 
 if ($type === 'photo') {
-    $photo = $photoManager->getPhotosById($id, $user_id);
-    if (!$photo) {
-        echo json_encode(['success' => false, 'error' => 'Photo not found or not authorized']);
-        exit;
-    }
-
-    if (file_exists($photo['photo_path'])) {
-        if (!unlink($photo['photo_path'])) {
-            echo json_encode(['success' => false, 'error' => 'Could not delete file']);
-            exit;
-        }
-    }
-
     try {
         $photoManager->deletePhoto($user_id, $id);
         echo json_encode(['success' => true]);
