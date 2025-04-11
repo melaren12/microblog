@@ -162,4 +162,49 @@
 .custom-file-upload input,
 .upload input{
     display: none;
+    text-align: center;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-preview{
+    position: relative;
+}
+
+.avatar-preview, .photo-preview {
+    text-align: center;
+}
+
+.avatar-preview img, .photo-preview img {
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.avatar-preview-img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.avatar-btn {
+    position: absolute;
+    bottom: -35px;
+    right: 0;
+}
+
+.close-preview {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.close-preview img {
+    height: 100%;
+    width: 100%;
 }

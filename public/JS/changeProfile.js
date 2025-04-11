@@ -78,4 +78,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     });
+
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.querySelector('.avatar-preview');
+    const avatarPreviewImg = document.getElementById('avatar-preview-img');
+    const avatarCloseButton = avatarPreview.querySelector('.close-preview');
+
+    avatarInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file (JPG, PNG, etc.)');
+                avatarInput.value = '';
+                avatarPreview.style.display = 'none';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                avatarPreviewImg.src = e.target.result;
+                avatarPreview.style.display = 'block';
+            };
+            reader.onerror = function () {
+                alert('Error reading the file. Please try again.');
+                avatarPreview.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            avatarPreview.style.display = 'none';
+        }
+    });
+    avatarCloseButton.addEventListener('click', function () {
+        avatarPreview.style.display = 'none';
+        avatarInput.value = '';
+    });
 });

@@ -17,7 +17,11 @@
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
-                <button type="submit" class="btn">Upload</button>
+                <div class="avatar-preview" style="margin-bottom: 10px; display: none;">
+                    <img class="avatar-preview-img" id="avatar-preview-img" src="#" alt="Avatar Preview"">
+                    <button type="submit" class="btn avatar-btn">Upload</button>
+                    <button type="button" class="close-preview""><img src="/public/icons/close.png" alt="#"></button>
+                </div>
             </div>
         </form>
 
