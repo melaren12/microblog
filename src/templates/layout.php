@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+global$content_template; <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,10 @@
     <?php endif; ?>
 </head>
 <body>
-<?php include $content_template; ?>
+<?php
+if (isset($content_template)) {
+    include $content_template;
+}
+?>
 </body>
 </html>

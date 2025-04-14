@@ -2,8 +2,10 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info">
-            <img src="/public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
-            <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
+            <?php if (isset($profile_user)): ?>
+                <img src="/public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+                <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
+            <?php endif; ?>
         </div>
         <a href="/controllers/profile.php"><button class="btn">Back</button></a>
     </div>

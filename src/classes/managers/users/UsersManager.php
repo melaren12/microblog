@@ -42,7 +42,7 @@ class  UsersManager extends AbstractManager
 
         if (strlen($password) < 2) {
             LogHelper::getInstance()->createErrorLog($username . ' Registration failed! Password must be at least 8 characters long.');
-            throw new InvalidArgumentException("Password must be at least 8 characters long.");
+            throw new InvalidArgumentException("Password must be at least 2 characters long.");
         }
 
         $existingUser = $this->getMapper()->findByUsername($username);

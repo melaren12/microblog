@@ -20,7 +20,7 @@
                 <div class="avatar-preview" style="margin-bottom: 10px; display: none;">
                     <img class="avatar-preview-img" id="avatar-preview-img" src="#" alt="Avatar Preview"">
                     <button type="submit" class="btn avatar-btn">Upload</button>
-                    <button type="button" class="close-preview""><img src="/public/icons/close.png" alt="#"></button>
+                    <button type="button" class="close-preview""><img src="/public/icons/close.png" alt="#">
                 </div>
             </div>
         </form>

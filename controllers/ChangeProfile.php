@@ -24,8 +24,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 if (!$user = $userManager->getUserById($user_id)) {
-    $errorInfo = $stmt->errorInfo();
-    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $errorInfo[2]);
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $user_id);
     die("User is not found");
 }
 

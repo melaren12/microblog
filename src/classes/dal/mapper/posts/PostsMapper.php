@@ -63,9 +63,9 @@ class  PostsMapper extends AbstractMapper
             WHERE id = :id AND user_id = :user_id   
         ");
         $stmt->execute(['id' => $id, 'user_id' => $user_id]);
-//        if ($stmt->rowCount() === 0) {
-//            throw new RuntimeException('Post not found or not authorized');
-//        }
+        if ($stmt->rowCount() === 0) {
+            throw new RuntimeException('Post not found or not authorized');
+        }
     }
 
 }

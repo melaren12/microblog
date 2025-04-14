@@ -6,6 +6,8 @@ use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\AbstractMapper;
 use PDO;
 use PDOException;
+use RuntimeException;
+
 class PhotosMapper extends AbstractMapper
 {
     private static ?PhotosMapper $instance = null;
@@ -64,16 +66,16 @@ class PhotosMapper extends AbstractMapper
             $this->insertList($params);
 
         }catch (PDOException $e){
-            var_dump($e->getMessage());exit();
+            throw new RuntimeException($e->getMessage());
         }
     }
 
     public function delete(int $photo_id, int $user_id): void
     {
-        $stmt = $this->PDO->prepare("
+        $stmt = $this->PDO->prepare('
             DELETE FROM user_photos 
             WHERE id = :id AND user_id = :user_id
-        ");
+        ');
         $stmt->execute(['id' => $photo_id, 'user_id' => $user_id]);
     }
 }

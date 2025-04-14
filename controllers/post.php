@@ -23,7 +23,7 @@ if (isset($_POST['content']) && !empty(trim($_POST['content']))) {
         $post = $postManager->create($user_id, $content);
         LogHelper::getInstance()->createInfoLog('Create Post Info: ' . 'Post created successfully!');
     }catch (Throwable $e) {
-        $log->error('Это ошибка');
+        LogHelper::getInstance()->createErrorLog('Create Post Info: ' . 'Error:' . $e->getMessage());
     }
 }
 
