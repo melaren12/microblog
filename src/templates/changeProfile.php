@@ -1,4 +1,7 @@
 <main class="profile-container">
+    <div class="large-avatar-zoom" >
+        <img id="zoomed-avatar" src="" alt="Zoomed Avatar">
+    </div>
     <div class="left-cont">
         <h2>Profile</h2>
         <?php if (isset($user)): ?>
@@ -13,11 +16,11 @@
         <form method="post" enctype="multipart/form-data">
             <div class="avatar-container">
                 <div class="custom-file-upload">
-                    <label for="avatar" class="input-label btn">Choose Photo</label>
+                    <label for="avatar" class="input-label btn">Update avatar</label>
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
-                <div class="avatar-preview" style="margin-bottom: 10px; display: none;">
+                <div class="avatar-preview" >
                     <img class="avatar-preview-img" id="avatar-preview-img" src="#" alt="Avatar Preview"">
                     <button type="submit" class="btn avatar-btn">Upload</button>
                     <button type="button" class="close-preview""><img src="/public/icons/close.png" alt="#">
@@ -46,7 +49,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="upload" >
                     <div>
-                        <label for="photo_path" class="input-label btn">Choose Photo</label>
+                        <label for="photo_path" class="input-label btn">Add Photo</label>
                         <input type="file" name="photo_path" id="photo_path" accept="image/*">
                     </div>
                     <button type="submit" class="btn">Upload</button>

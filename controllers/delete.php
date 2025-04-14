@@ -42,6 +42,7 @@ if ($type === 'photo') {
         exit;
     }
 } elseif ($type === 'post') {
+    
     $post = $postManager->getPostsByUser($userId);
     if (!$post) {
         echo json_encode(['success' => false, 'error' => 'Post not found or not authorized']);
