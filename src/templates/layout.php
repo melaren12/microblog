@@ -1,21 +1,21 @@
-global$content_template; <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($page_title) ? $page_title : 'Microblog' ?></title>
-    <link rel="stylesheet" href="/public/CSS/common.css?v=1.0">
-    <?php if (isset($extra_css)): ?>
-        <link rel="stylesheet" href="/public/CSS/<?= $extra_css ?>.css?v=1.0">
+    <title><?= isset($pageTitle) ? $pageTitle : 'Microblog' ?></title>
+    <link rel="stylesheet" href="/public/css/common.css?v=1.0">
+    <?php if (isset($extraCss)): ?>
+        <link rel="stylesheet" href="/public/css/<?= $extraCss ?>.css?v=1.0">
     <?php endif; ?>
-    <?php if (isset($extra_js)): ?>
-        <script src="/public/JS/<?= $extra_js ?>.js?v=1.0" defer></script>
+    <?php if (isset($extraJs) && isset($type)): ?>
+        <script src="/public/js/<?= $extraJs ?>.js?v=1.0" type=<?= $type ?> defer></script>
     <?php endif; ?>
 </head>
 <body>
 <?php
-if (isset($content_template)) {
-    include $content_template;
+if (isset($contentTemplate)) {
+    include $contentTemplate;
 }
 ?>
 </body>

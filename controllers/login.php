@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$page_title = "Microblog";
-$extra_css = "auth";
-$content_template = "../src/templates/login.php";
+$pageTitle = "Microblog";
+$extraCss = "auth";
+$contentTemplate = "../src/templates/login.php";
 include "../src/templates/layout.php";

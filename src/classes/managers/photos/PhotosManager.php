@@ -22,17 +22,17 @@ class PhotosManager extends AbstractManager
     {
         return PhotosMapper::getInstance();
     }
-    public function getUserPhotos(int $user_id): array
+    public function getUserPhotos(int $userId): array
     {
-        return $this->getMapper()->findAllByUserId($user_id);
+        return $this->getMapper()->findAllByUserId($userId);
     }
-    public function uploadPhoto(array $file, string $target_dir, int $user_id): void
+    public function uploadPhoto(array $file, string $targetDir, int $userId): void
     {
         $mediaManager = MediaManager::getInstance();
-        $targetFile = $mediaManager->uploadPhoto($file, $target_dir);
+        $targetFile = $mediaManager->uploadPhoto($file, $targetDir);
 
         try {
-            $this->getMapper()->insert( $targetFile, $user_id);
+            $this->getMapper()->insert( $targetFile, $userId);
             LogHelper::getInstance()->createInfoLog('Photo uploaded successfully!');
         } catch (Exception $e) {
             if (file_exists($targetFile)) {
@@ -42,13 +42,13 @@ class PhotosManager extends AbstractManager
             throw new RuntimeException("Error adding photo to database.");
         }
     }
-    public function deletePhoto(int $user_id, int $photo_id): void
+    public function deletePhoto(int $userId, int $photoId): void
     {
 
-        $photoData = $this->getMapper()->findById($photo_id, $user_id);
+        $photoData = $this->getMapper()->findById($photoId, $userId);
 
         if (!$photoData) {
-            LogHelper::getInstance()->createErrorLog('Error deleting photo id: ' . $photo_id);
+            LogHelper::getInstance()->createErrorLog('Error deleting photo id: ' . $photoId);
             throw new RuntimeException("Photo not found or you do not have permission to delete it.");
         }
 
@@ -63,10 +63,10 @@ class PhotosManager extends AbstractManager
             LogHelper::getInstance()->createErrorLog('File not found: ' . $filePath);
         }
 
-        $this->getMapper()->delete($photo_id, $user_id);
+        $this->getMapper()->delete($photoId, $userId);
     }
-    public function getPhotosById( int $id, int $user_id): array
+    public function getPhotosById( int $id, int $userId): array
     {
-        return $this->getMapper()->findById($id, $user_id);
+        return $this->getMapper()->findById($id, $userId);
     }
 }

@@ -17,28 +17,28 @@ class MediaManager extends PhotoDto
         }
         return self::$instance;
     }
-    public function uploadPhoto(array $file, string $target_dir): string
+    public function uploadPhoto(array $file, string $targetDir): string
     {
         if (empty($file['name'])) {
             LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'No photo file provided.');
             throw new RuntimeException("No photo file provided.");
         }
 
-        if (!file_exists($target_dir)) {
-            if (!mkdir($target_dir, 0777, true)) {
-                LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Could not create directory' . $target_dir);
+        if (!file_exists($targetDir)) {
+            if (!mkdir($targetDir, 0777, true)) {
+                LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Could not create directory' . $targetDir);
                 throw new RuntimeException("Error uploading photo.");
             }
         }
 
-        if (!is_writable($target_dir)) {
-            LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Directory' . $target_dir . ' is not writable.');
+        if (!is_writable($targetDir)) {
+            LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Directory' . $targetDir . ' is not writable.');
             throw new RuntimeException("Error uploading photo.");
         }
 
-        $photo_name = time() . "_" . basename($file["name"]);
-        $target_file = $target_dir . $photo_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $photoName = time() . "_" . basename($file["name"]);
+        $targetFile = $targetDir . $photoName;
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
         $allowed_types = ["jpg", "jpeg", "png", "gif"];
         if (!in_array($imageFileType, $allowed_types)) {
@@ -46,11 +46,11 @@ class MediaManager extends PhotoDto
             throw new RuntimeException("Only JPG, JPEG, PNG & GIF files are allowed.");
         }
 
-        if (!move_uploaded_file($file["tmp_name"], $target_file)) {
+        if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
             LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Failed to move uploaded file.'  . error_get_last()['message']);
             throw new RuntimeException("Error uploading file: ");
         }
 
-        return $target_file;
+        return $targetFile;
     }
 }

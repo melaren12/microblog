@@ -56,13 +56,13 @@ class  PostsMapper extends AbstractMapper
         return $this->getList($params, $selectFields, null, $join, $orderBy);
     }
 
-    public function delete(int $id, int $user_id): void
+    public function delete(int $id, int $userId): void
     {
         $stmt = $this->PDO->prepare("
             DELETE FROM posts
             WHERE id = :id AND user_id = :user_id   
         ");
-        $stmt->execute(['id' => $id, 'user_id' => $user_id]);
+        $stmt->execute(['id' => $id, 'user_id' => $userId]);
         if ($stmt->rowCount() === 0) {
             throw new RuntimeException('Post not found or not authorized');
         }

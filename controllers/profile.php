@@ -24,18 +24,13 @@ $user = $userManager->getUserById($_SESSION['user_id']);
 $postManager = PostManager::getInstance();
 $posts = $postManager->getAllPosts();
 
-//if (!isset($_SESSION['user_id'])) {
-//    header("Location: login.php");
-//    exit;
-//}
-
 if (!$user || !$user->getId()) {
     LogHelper::getInstance()->createErrorLog('User not found!');
     header(header: "Location: login.php?error=user_not_found");
     exit;
 }
 
-$page_title = "Microblog";
-$extra_css = "profile";
-$content_template = "../src/templates/profile.php";
+$pageTitle = "Microblog";
+$extraCss = "profile";
+$contentTemplate = "../src/templates/profile.php";
 include "../src/templates/layout.php";

@@ -2,9 +2,9 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info">
-            <?php if (isset($profile_user)): ?>
-                <img src="/public/uploads/avatars/<?= htmlspecialchars($profile_user->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
-                <h3><?= htmlspecialchars($profile_user->getName() . ' ' . $profile_user->getLastname()) ?></h3>
+            <?php if (isset($profileUser)): ?>
+                <img src="/public/uploads/avatars/<?= htmlspecialchars($profileUser->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+                <h3><?= htmlspecialchars($profileUser->getName() . ' ' . $profileUser->getLastname()) ?></h3>
             <?php endif; ?>
         </div>
         <a href="/controllers/profile.php"><button class="btn">Back</button></a>

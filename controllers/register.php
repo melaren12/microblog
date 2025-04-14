@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password'] ?? '');
     $firstname = trim($_POST['firstname'] ?? '');
     $lastname = trim($_POST['lastname'] ?? '');
-    $avatar_name = 'default.png';
+    $avatarName = 'default.png';
 
     try {
         $userManager = UsersManager::getInstance();
-        $user = $userManager->register($username, $password, $firstname, $lastname, $avatar_name);
+        $user = $userManager->register($username, $password, $firstname, $lastname, $avatarName);
 
         $_SESSION['success_message'] = "Registration successful! Please log in.";
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$page_title = "Microblog - Register";
-$extra_css = "auth";
-$content_template = "../src/templates/register.php";
+$pageTitle = "Microblog - Register";
+$extraCss = "auth";
+$contentTemplate = "../src/templates/register.php";
 include "../src/templates/layout.php";

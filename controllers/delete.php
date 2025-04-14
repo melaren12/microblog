@@ -10,14 +10,14 @@ error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 
-$user_id = $_SESSION["user_id"] ?? null;
+$userId = $_SESSION["user_id"] ?? null;
 $id = isset($_POST['id']) ? (int)$_POST['id'] : null;
 $type = $_POST['type'] ?? null;
 
 $photoManager = PhotosManager::getInstance();
 $postManager = PostManager::getInstance();
 
-if (!isset($user_id)) {
+if (!isset($userId)) {
     echo json_encode(['success' => false, 'error' => 'User not authorized']);
     exit;
 }
@@ -34,7 +34,7 @@ if (!$id || !$type) {
 
 if ($type === 'photo') {
     try {
-        $photoManager->deletePhoto($user_id, $id);
+        $photoManager->deletePhoto($userId, $id);
         echo json_encode(['success' => true]);
         exit;
     } catch (RuntimeException $e) {
@@ -42,14 +42,14 @@ if ($type === 'photo') {
         exit;
     }
 } elseif ($type === 'post') {
-    $post = $postManager->getPostsByUser($user_id);
+    $post = $postManager->getPostsByUser($userId);
     if (!$post) {
         echo json_encode(['success' => false, 'error' => 'Post not found or not authorized']);
         exit;
     }
 
     try {
-        $postManager->deletePost($user_id, $id);
+        $postManager->deletePost($userId, $id);
         echo json_encode(['success' => true]);
         exit;
     } catch (RuntimeException $e) {

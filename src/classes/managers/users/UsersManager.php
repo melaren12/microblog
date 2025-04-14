@@ -76,26 +76,26 @@ class  UsersManager extends AbstractManager
         }
         return null;
     }
-    public function updateAvatar(UserDto $user, array $file, string $target_dir, string $current_avatar): void
+    public function updateAvatar(UserDto $user, array $file, string $targetDir, string $current_avatar): void
     {
         if (empty($file['name'])) {
             LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Update user avatar failed!');
             throw new RuntimeException("No avatar file provided.");
         }
 
-        if (!file_exists($target_dir)) {
-            if (!mkdir($target_dir, 0777, true)) {
-                LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not create directory' .  $target_dir . '. Check permissions.');
+        if (!file_exists($targetDir)) {
+            if (!mkdir($targetDir, 0777, true)) {
+                LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not create directory' .  $targetDir . '. Check permissions.');
             }
         }
 
-        if (!is_writable($target_dir)) {
-            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Directory' .  $target_dir . 'is not writable. Check permissions.');
+        if (!is_writable($targetDir)) {
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Directory' .  $targetDir . 'is not writable. Check permissions.');
         }
 
-        $avatar_name = time() . "_" . basename($file["name"]);
-        $target_file = $target_dir . $avatar_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $avatarName = time() . "_" . basename($file["name"]);
+        $targetFile = $targetDir . $avatarName;
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
         $allowed_types = ["jpg", "jpeg", "png", "gif"];
         if (!in_array($imageFileType, $allowed_types)) {
@@ -103,22 +103,22 @@ class  UsersManager extends AbstractManager
             throw new RuntimeException("Only JPG, JPEG, PNG & GIF files are allowed.");
         }
 
-        if ($current_avatar !== "default.png" && file_exists($target_dir . $current_avatar)) {
-            unlink($target_dir . $current_avatar);
+        if ($current_avatar !== "default.png" && file_exists($targetDir . $current_avatar)) {
+            unlink($targetDir . $current_avatar);
         }
 
-        if (!move_uploaded_file($file["tmp_name"], $target_file)) {
-            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not upload avatar: ' . $target_file);
+        if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not upload avatar: ' . $targetFile);
             throw new RuntimeException("Error uploading avatar.");
         }
 
         try {
-            $user->setAvatar($avatar_name);
+            $user->setAvatar($avatarName);
             $this->getMapper()->updateAvatar($user);
             LogHelper::getInstance()->createInfoLog('updateAvatar success!');
         } catch (Exception $e) {
-            if (file_exists($target_file)) {
-                unlink($target_file);
+            if (file_exists($targetFile)) {
+                unlink($targetFile);
             }
             LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Error updating avatar:' . $e->getMessage());
             throw new RuntimeException("Error updating avatar: " . $e->getMessage());

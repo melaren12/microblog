@@ -21,31 +21,31 @@ if (!isset($_SESSION['user_id'])) {
     die("Error: User is not authorized.");
 }
 
-$user_id = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 
-if (!$user = $userManager->getUserById($user_id)) {
-    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $user_id);
+if (!$user = $userManager->getUserById($userId)) {
+    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $userId);
     die("User is not found");
 }
 
-$photos = $photosManager->getUserPhotos($user_id);
+$photos = $photosManager->getUserPhotos($userId);
 $output = '';
-$user = $userManager->getUserById($user_id);
-$posts = $postsManager->getPostsByUser($user_id);
+$user = $userManager->getUserById($userId);
+$posts = $postsManager->getPostsByUser($userId);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
 
         if (!empty($_FILES['avatar']['name'])) {
-            $target_dir = "../public/uploads/avatars/";
-            $userManager->updateAvatar($user, $_FILES['avatar'], $target_dir, $user->getAvatar());
+            $targetDir = "../public/uploads/avatars/";
+            $userManager->updateAvatar($user, $_FILES['avatar'], $targetDir, $user->getAvatar());
             header("Location: ChangeProfile.php");
             exit;
         }
 
         if (!empty($_FILES['photo_path']['name'])) {
-            $target_dir = "../public/uploads/Photos/";
-            $photosManager->uploadPhoto($_FILES['photo_path'], $target_dir, $user_id);
+            $targetDir = "../public/uploads/Photos/";
+            $photosManager->uploadPhoto($_FILES['photo_path'], $targetDir, $userId);
             header("Location: ChangeProfile.php");
             exit;
         }
@@ -57,8 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-$page_title = "Microblog - Change Profile";
-$extra_css = "changeProfile";
-$extra_js = "changeProfile";
-$content_template = "../src/templates/changeProfile.php";
+$pageTitle = "Microblog - Change Profile";
+$extraCss = "changeProfile";
+$extraJs = "changeProfile";
+$type = 'module';
+$contentTemplate = "../src/templates/changeProfile.php";
 include "../src/templates/layout.php";

@@ -26,14 +26,14 @@ class  PostManager extends AbstractManager
     {
         return PostsMapper::getInstance();
     }
-    public function create(int $user_id, string $content): PostDto
+    public function create(int $userId, string $content): PostDto
     {
         if (strlen($content) > 1000) {
             LogHelper::getInstance()->createErrorLog('Error creating post: Post content cannot exceed 1000 characters.');
             throw new InvalidArgumentException("Post content cannot exceed 1000 characters.");
         }
         $post = new PostDto();
-        $post->setUserId($user_id);
+        $post->setUserId($userId);
         $post->setContent($content);
 
         $id = $this->getMapper()->insert($post);
@@ -47,14 +47,14 @@ class  PostManager extends AbstractManager
         return $this->getMapper()->findAll();
 
     }
-    public function getPostsByUser(int $user_id): array
+    public function getPostsByUser(int $userId): array
     {
-        $params = ['user_id' => $user_id];
+        $params = ['user_id' => $userId];
         return (PostManager::getInstance()->getList($params));
     }
 
-    public function deletePost($user_id, $id): void
+    public function deletePost($userId, $id): void
     {
-        $this->getMapper()->delete($id, $user_id);
+        $this->getMapper()->delete($id, $userId);
     }
 }

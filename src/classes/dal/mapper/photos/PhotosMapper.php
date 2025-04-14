@@ -27,10 +27,10 @@ class PhotosMapper extends AbstractMapper
     {
         return new PhotoDto();
     }
-    public function findAllByUserId(int $user_id): array
+    public function findAllByUserId(int $userId): array
     {
         $params = [
-            'user_id' => $user_id,
+            'user_id' => $userId,
             'fetchMode' => PDO::FETCH_ASSOC
         ];
         $selectFields = "photo_path, id, user_id, uploaded_at";
@@ -40,11 +40,11 @@ class PhotosMapper extends AbstractMapper
 
         return $photos ?: [];
     }
-    public function findById(int $photo_id, int $user_id): ?array
+    public function findById(int $photoId, int $userId): ?array
     {
         $params = [
-            'id' => $photo_id,
-            'user_id' => $user_id,
+            'id' => $photoId,
+            'user_id' => $userId,
             'fetchMode' => PDO::FETCH_ASSOC
         ];
 
@@ -53,12 +53,12 @@ class PhotosMapper extends AbstractMapper
         return !empty($photos) ? $photos[0] : null;
 
     }
-    public function insert(string $photo_path, int $user_id): void
+    public function insert(string $photo_path, int $userId): void
     {
         try {
             $params = [
                 [
-                    'user_id' => $user_id,
+                    'user_id' => $userId,
                     'photo_path' => $photo_path,
                 ]
             ];
@@ -70,12 +70,12 @@ class PhotosMapper extends AbstractMapper
         }
     }
 
-    public function delete(int $photo_id, int $user_id): void
+    public function delete(int $photoId, int $userId): void
     {
         $stmt = $this->PDO->prepare('
             DELETE FROM user_photos 
             WHERE id = :id AND user_id = :user_id
         ');
-        $stmt->execute(['id' => $photo_id, 'user_id' => $user_id]);
+        $stmt->execute(['id' => $photoId, 'user_id' => $userId]);
     }
 }

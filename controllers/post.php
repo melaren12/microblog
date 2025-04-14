@@ -11,7 +11,7 @@ global $pdo;
 $content = trim($_POST['content']);
 $postManager = PostManager::getInstance();
 
-$user_id = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 
 if (!isset($_SESSION['user_id'], $content)) {
     header("Location: login.php");
@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'], $content)) {
 
 if (isset($_POST['content']) && !empty(trim($_POST['content']))) {
     try {
-        $post = $postManager->create($user_id, $content);
+        $post = $postManager->create($userId, $content);
         LogHelper::getInstance()->createInfoLog('Create Post Info: ' . 'Post created successfully!');
     }catch (Throwable $e) {
         LogHelper::getInstance()->createErrorLog('Create Post Info: ' . 'Error:' . $e->getMessage());

@@ -17,7 +17,14 @@
             <label>
                 <input type="file" name="avatar" accept="image/*"><br>
             </label>
-            <p class="error"><?=$output?></p>
+
+            <p class="error">
+                <?php
+                if (isset($output)) {
+                    echo $output;
+                }
+                ?>
+            </p>
             <button type="submit" class="btn">Register</button>
         </form>
         <p>Already have an account?</p>
