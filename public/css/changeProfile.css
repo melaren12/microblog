@@ -177,7 +177,8 @@ input {
     height: 200px;
     object-fit: cover;
     object-position: top;
-    border-radius: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .upload {
