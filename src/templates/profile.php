@@ -30,7 +30,7 @@
                                     '/controllers/GuestPage.php?user_id=' . htmlspecialchars($post->getUserId()); ?>">
                                     <?= htmlspecialchars($post->getUserName() . ' ' . $post->getUserLastname()) ?>
                                 </a>
-                            </strong> Wrote:
+                            </strong>
                         </p>
                         <p class="intro"><?= nl2br(htmlspecialchars($post->getContent())) ?></p>
                         <time class="time"><?= $post->getCreatedAt() ?></time>

@@ -4,6 +4,7 @@ namespace App\dal\mapper\photos;
 
 use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\AbstractMapper;
+use App\util\LogHelper;
 use PDO;
 use PDOException;
 use RuntimeException;
@@ -53,13 +54,13 @@ class PhotosMapper extends AbstractMapper
         return !empty($photos) ? $photos[0] : null;
 
     }
-    public function insert(string $photo_path, int $userId): void
+    public function insert(string $photoPath, int $userId): void
     {
         try {
             $params = [
                 [
                     'user_id' => $userId,
-                    'photo_path' => $photo_path,
+                    'photo_path' => $photoPath,
                 ]
             ];
 
@@ -69,6 +70,7 @@ class PhotosMapper extends AbstractMapper
             throw new RuntimeException($e->getMessage());
         }
     }
+    
 
     public function delete(int $photoId, int $userId): void
     {

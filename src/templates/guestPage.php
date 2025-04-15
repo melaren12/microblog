@@ -3,7 +3,9 @@
         <h1>Profile</h1>
         <div class="profile-info">
             <?php if (isset($profileUser)): ?>
-                <img src="/public/uploads/avatars/<?= htmlspecialchars($profileUser->getAvatar()) ?>" alt="Avatar" class="avatar" loading="lazy">
+                <div class="avatar">
+                    <img src="/public/uploads/avatars/<?= htmlspecialchars($profileUser->getAvatar()) ?>" alt="Avatar">
+                </div>
                 <h3><?= htmlspecialchars($profileUser->getName() . ' ' . $profileUser->getLastname()) ?></h3>
             <?php endif; ?>
         </div>

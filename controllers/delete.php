@@ -38,6 +38,7 @@ if ($type === 'photo') {
         echo json_encode(['success' => true]);
         exit;
     } catch (RuntimeException $e) {
+        var_dump($e->getMessage());
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         exit;
     }

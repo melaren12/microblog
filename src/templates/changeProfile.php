@@ -11,12 +11,10 @@
         <?php endif; ?>
         <p>Username: <?= htmlspecialchars($user->getUsername()) ?></p>
 
-        <h3>Change avatar</h3>
-
         <form method="post" enctype="multipart/form-data">
             <div class="avatar-container">
                 <div class="custom-file-upload">
-                    <label for="avatar" class="input-label btn">Update avatar</label>
+                    <label for="avatar" class="input-label btn">Change avatar</label>
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>

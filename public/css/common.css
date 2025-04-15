@@ -1,14 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --primary-color: #0063d1;
-    --primary-hover: rgba(0, 99, 209, 0.87);
-    --background-light: rgba(190, 178, 178, 0.2);
-    --post-bg: white;
-    --spacing-sm: 10px;
-    --spacing-md: 20px;
+    --primary-color: #1E3A8A; /* Глубокий синий - тренд 2024 */
+    --primary-hover: #1E40AF;
+    --secondary-color: #F97316; /* Яркий коралловый для акцентов */
+    --background-light: #F1F5F9;
+    --post-bg: #FFFFFF;
+    --text-color: #1E293B;
+    --text-light: #64748B;
+    --border-color: #E2E8F0;
+    --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
     --border-radius: 8px;
     --font-size-base: 1rem;
-    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --border-color: #ddd;
 }
 
 * {
@@ -18,8 +24,11 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-color);
+    line-height: 1.5;
+    font-size: var(--font-size-base);
 }
 
 .btn {
@@ -31,22 +40,23 @@ body {
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn:hover {
     background-color: var(--primary-hover);
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 .btn:active {
-    transform: scale(0.95);
+    transform: translateY(0);
 }
 
 .logout {
     position: absolute;
     bottom: var(--spacing-md);
-    right: var(--spacing-md);
+    left: var(--spacing-md);
 }
 
 input[type="text"],
@@ -58,31 +68,37 @@ textarea {
     border-radius: 4px;
     font-size: var(--font-size-base);
     box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 textarea {
-    min-height: 60px;
-    max-height: 150px;
+    min-height: 80px;
+    max-height: 200px;
     resize: vertical;
-    background-color: #f9f9f9;
+    background-color: #fff;
 }
 
 textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(0, 99, 209, 0.3);
-    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
 
 textarea::placeholder {
-    color: #888;
+    color: var(--text-light);
     font-style: italic;
 }
 
 .avatar {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
 }
 
 .avatar img {
