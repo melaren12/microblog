@@ -23,6 +23,10 @@ input {
     margin-bottom: 30px;
 }
 
+.avatar {
+    cursor: pointer;
+}
+
 .intro {
     margin-top: var(--spacing-sm);
     word-break: break-all;
@@ -105,10 +109,14 @@ input {
     flex: 1;
     background-color: #fff;
     border-radius: var(--border-radius);
-    padding: 20px;
+    padding: 0;
     box-shadow: var(--shadow-light);
     overflow-y: auto;
     height: calc(100vh - 40px);
+}
+
+.right-cont .left-side {
+    padding: 20px;
 }
 
 .post-delete-btn {
@@ -155,8 +163,17 @@ input {
 
 .photos {
     display: grid;
+    padding: 20px;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 15px;
+}
+
+.action-cont {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
 }
 
 .photo {
@@ -182,7 +199,9 @@ input {
 }
 
 .upload {
+    top: 20px;
     display: flex;
+    padding: 20px;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
@@ -202,15 +221,16 @@ input {
 }
 
 .archive {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+    position: absolute;
+    right: 10px;
     background-color: var(--primary-color);
     color: white;
     padding: 10px 20px;
     border-radius: 20px;
     box-shadow: var(--shadow-light);
     transition: background-color 0.3s ease, transform 0.3s ease;
+    top: calc(50% - 18px);
+    z-index: 1000;
 }
 
 .archive:hover {

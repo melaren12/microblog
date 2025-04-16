@@ -32,7 +32,23 @@ class PhotosMapper extends AbstractMapper
     {
         $params = [
             'user_id' => $userId,
-            'fetchMode' => PDO::FETCH_ASSOC
+            'fetchMode' => PDO::FETCH_ASSOC,
+            'archived' => false,
+        ];
+        $selectFields = "photo_path, id, user_id, uploaded_at";
+        $orderBy = "uploaded_at DESC";
+
+        $photos = $this->getList($params, $selectFields, null, null, $orderBy);
+
+        return $photos ?: [];
+    }
+
+    public function findAllArchivedByUserId(int $userId): array
+    {
+        $params = [
+            'user_id' => $userId,
+            'fetchMode' => PDO::FETCH_ASSOC,
+            'archived' => true,
         ];
         $selectFields = "photo_path, id, user_id, uploaded_at";
         $orderBy = "uploaded_at DESC";
@@ -70,7 +86,31 @@ class PhotosMapper extends AbstractMapper
             throw new RuntimeException($e->getMessage());
         }
     }
-    
+
+    public function moveToArchived(int $photoId): bool {
+        try {
+            $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
+            $stmt->execute([1, $photoId]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error archiving photo: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    public function moveFromArchived(int $photoId): bool {
+        try {
+            $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
+            $stmt->execute([0, $photoId]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error archiving photo: " . $e->getMessage());
+            return false;
+        }
+    }
 
     public function delete(int $photoId, int $userId): void
     {

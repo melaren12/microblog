@@ -64,7 +64,7 @@ abstract class  AbstractMapper extends AbstractPDOConnector
         ?string $selectFields = null,
         ?int    $limit = null,
         ?string $join = null,
-        ?string $orderBy = null
+        ?string $orderBy = null,
     ): array
     {
         $fields = $selectFields ?: '*';

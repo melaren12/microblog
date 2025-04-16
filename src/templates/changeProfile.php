@@ -44,15 +44,20 @@
             <?php endif; ?>
         </div>
         <div class="right-side">
-            <form method="post" enctype="multipart/form-data">
-                <div class="upload" >
-                    <div>
-                        <label for="photo_path" class="input-label btn">Add Photo</label>
-                        <input type="file" name="photo_path" id="photo_path" accept="image/*">
+            <div class="action-cont">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="upload" >
+                        <div>
+                            <label for="photo_path" class="input-label btn">Add Photo</label>
+                            <input type="file" name="photo_path" id="photo_path" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn">Upload</button>
                     </div>
-                    <button type="submit" class="btn">Upload</button>
-                </div>
-            </form>
+                </form>
+                <a href="/controllers/archive.php"><button class="btn archive">Archive</button> </a>
+            </div>
+
+
             <div class="photos" >
                 <?php if (!empty($photos)): ?>
                     <?php foreach ($photos as $photo): ?>

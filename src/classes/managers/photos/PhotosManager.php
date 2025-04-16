@@ -26,6 +26,11 @@ class PhotosManager extends AbstractManager
     {
         return $this->getMapper()->findAllByUserId($userId);
     }
+
+    public function getUserArchivedPhotos(int $userId): array
+    {
+        return $this->getMapper()->findAllArchivedByUserId($userId);
+    }
     public function uploadPhoto(array $file, string $targetDir, int $userId): void
     {
         $mediaManager = MediaManager::getInstance();
@@ -65,6 +70,34 @@ class PhotosManager extends AbstractManager
 
         $this->getMapper()->delete($photoId, $userId);
     }
+
+    public function moveToArchive(int $userId, int $photoId): void
+    {
+
+        $photoData = $this->getMapper()->findById($photoId, $userId);
+
+        if (!$photoData) {
+            LogHelper::getInstance()->createErrorLog('Error deleting photo id: ' . $photoId);
+            throw new RuntimeException("Photo not found or you do not have permission to delete it.");
+        }
+
+        $this->getMapper()->moveToArchived($photoId);
+    }
+
+    public function moveFromArchive(int $userId, int $photoId): void
+    {
+
+        $photoData = $this->getMapper()->findById($photoId, $userId);
+
+        if (!$photoData) {
+            LogHelper::getInstance()->createErrorLog('Error deleting photo id: ' . $photoId);
+            throw new RuntimeException("Photo not found or you do not have permission to delete it.");
+        }
+
+        $this->getMapper()->moveFromArchived($photoId);
+    }
+
+
     public function getPhotosById( int $id, int $userId): array
     {
         return $this->getMapper()->findById($id, $userId);
