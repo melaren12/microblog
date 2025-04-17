@@ -23,6 +23,12 @@ input {
     margin-bottom: 30px;
 }
 
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .avatar {
     cursor: pointer;
 }
@@ -172,7 +178,7 @@ input {
     width: 100%;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 10;
     background-color: #fff;
 }
 

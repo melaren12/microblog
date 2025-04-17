@@ -1,32 +1,38 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once '../vendor/autoload.php';
+require_once '../init.php';
+
 use App\managers\posts\PostManager;
 use App\util\LogHelper;
 
-require_once '../init.php';
-global $pdo;
+header('Content-Type: application/json');
 
-$content = trim($_POST['content']);
-$postManager = PostManager::getInstance();
+$userId = $_POST['user_id'] ?? $_SESSION['user_id'] ?? null;
 
-$userId = $_SESSION['user_id'];
-
-if (!isset($_SESSION['user_id'], $content)) {
-    header("Location: login.php");
+if (!$userId) {
+    echo json_encode([
+        'success' => false,
+        'error' => 'User is not authorized'
+    ]);
     exit;
 }
 
-if (isset($_POST['content']) && !empty(trim($_POST['content']))) {
-    try {
-        $post = $postManager->create($userId, $content);
-        LogHelper::getInstance()->createInfoLog('Create Post Info: ' . 'Post created successfully!');
-    }catch (Throwable $e) {
-        LogHelper::getInstance()->createErrorLog('Create Post Info: ' . 'Error:' . $e->getMessage());
-    }
+try {
+    $content = trim($_POST['content']);
+    $postManager = PostManager::getInstance();
+
+    $postManager->create($userId, $content);
+
+    LogHelper::getInstance()->createInfoLog('Create Post Info: Post created successfully');
+
+    echo json_encode([
+        'success' => true
+    ]);
+} catch (Throwable $e) {
+    LogHelper::getInstance()->createErrorLog('Create Post Info: Error: ' . $e->getMessage());
+
+    echo json_encode([
+        'success' => false,
+        'error' => 'Error creating post: ' . $e->getMessage()
+    ]);
 }
-
-header("Location: profile.php");
-
-exit;

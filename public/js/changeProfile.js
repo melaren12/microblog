@@ -4,16 +4,6 @@ import {AvatarPreview} from "../../src/classes/js/AvatarPreview.js";
 import {PhotosManager} from "../../src/classes/js/PhotosManager.js";
 import {PostsManager} from "../../src/classes/js/PostsManager.js";
 
-const fileInput = document.getElementById('avatar');
-const fileName = document.querySelector('.file-name');
-fileInput.addEventListener('change', function () {
-    if (this.files && this.files.length > 0) {
-        fileName.textContent = this.files[0].name;
-    } else {
-        fileName.textContent = 'No file chosen';
-    }
-});
-
 const fetcher = new Fetcher('/controllers/');
 
 document.addEventListener('DOMContentLoaded', function () {
