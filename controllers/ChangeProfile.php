@@ -8,30 +8,17 @@ require_once '../init.php';
 global $pdo;
 
 use App\managers\photos\PhotosManager;
-use App\managers\posts\PostManager;
 use App\managers\users\UsersManager;
 use App\util\LogHelper;
 
 $userManager = UsersManager::getInstance();
 $photosManager = PhotosManager::getInstance();
-$postsManager = PostManager::getInstance();
-
-if (!isset($_SESSION['user_id'])) {
-    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' .'Cant find User ID.');
-    die("Error: User is not authorized.");
-}
 
 $userId = $_SESSION['user_id'];
 
-if (!$user = $userManager->getUserById($userId)) {
-    LogHelper::getInstance()->createErrorLog('ChangeProfile error:' . 'Cant find user by Id ' . $userId);
-    die("User is not found");
-}
-
 $photos = $photosManager->getUserPhotos($userId);
-$output = '';
+
 $user = $userManager->getUserById($userId);
-$posts = $postsManager->getPostsByUser($userId);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {

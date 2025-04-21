@@ -12,38 +12,41 @@ document.addEventListener('DOMContentLoaded', async function () {
     const posts = new PostsManager(fetcher, 'post');
     const user = new UserManager(fetcher);
 
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    const userId = getQueryParam('user_id');
+
+    if (userId) {
+        const decodedUserId = decodeURIComponent(userId);
+        console.log('Decoded User ID:', decodedUserId);
+    } else {
+        console.log('User ID not found in URL');
+    }
+
     try {
-        const userData = await user.init();
+        const userData = await user.init(userId);
         if (userData) {
             renderUserProfile(userData);
         } else {
             console.error("User Data not found");
         }
+
         const postsData = await posts.initPostsData();
-
         if (postsData && userData.id  && Array.isArray(postsData.posts)) {
-            const userPosts = postsData.posts.filter(post => post.user_id === userData.id);
-            if (userPosts.length > 0) {
-                renderPosts(userPosts, userData.id);
-            }
+            const userPosts = postsData.posts.filter(post => post.user_id == userId);
+
+            renderPosts(userPosts);
         }
-
-        const photosData = await photos.initPhotos(userData.id);
-
-        if (photosData) {
-             renderPhotos(photosData.photos);
+        const photosData = await photos.initPhotos(userId);
+        if (photosData && Array.isArray(photosData.photos)) {
+            renderPhotos(photosData.photos);
         }
-
-    } catch(error) {
-        alert(error)
+    } catch (error) {
+        alert(error);
     }
-
-    new AvatarZoom('.avatar img', '.large-avatar-zoom', '#zoomed-avatar');
-    new AvatarPreview('avatar', '.avatar-preview', '#avatar-preview-img', '.close-preview');
-
-
-    posts.initDeletePosts('.delete-post', '.post');
-    photos.initDeletePhotos('toArchive.php', '.delete-photo', '.photo', );
 });
 
 function renderUserProfile(user) {
@@ -53,7 +56,7 @@ function renderUserProfile(user) {
              <img src="/public/uploads/avatars/${encodeURIComponent(user.avatar)}" alt="Avatar" loading="lazy">
         </div>
         <h3>${encodeURIComponent(user.name)}</h3>
-    `;
+`;
 }
 
 function renderPosts(posts) {
@@ -62,9 +65,8 @@ function renderPosts(posts) {
          <article class="post" data-id="${post.id}">
               <p class="intro">${decodeURIComponent(post.content).replace(/\n/g, '<br>')}</p>
               <footer class="time">${post.created_at}</footer> 
-              <button class="delete-post post-delete-btn" data-id="${post.id}"><img src="/public/icons/delete.png"></button> 
            </article>
-    `).join('');
+`).join('');
 }
 
 function renderPhotos(photos) {
@@ -82,13 +84,11 @@ function renderPhotos(photos) {
         photosContainer.innerHTML = '<p class="info">There are no photos.</p>';
         return;
     }
+
     photosContainer.innerHTML = photos.map(photo => `
         <div class="photo" data-id="${photo.id}">
             <img src="${encodeURIComponent(photo.photo_path)}" alt="${encodeURIComponent(photo.caption || 'Photo')}" width="200">
             <p>${encodeURIComponent(photo.caption || '')}</p>
-            <button class="delete-photo photo-delete-btn btn" data-id="${photo.id}">
-               Delete
-            </button>
         </div>
     `).join('');
 }

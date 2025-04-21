@@ -22,6 +22,11 @@ class PhotosManager extends AbstractManager
     {
         return PhotosMapper::getInstance();
     }
+
+    public function getId()
+    {
+
+    }
     public function getUserPhotos(int $userId): array
     {
         return $this->getMapper()->findAllByUserId($userId);

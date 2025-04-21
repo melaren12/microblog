@@ -1,5 +1,5 @@
 <main class="archive-container">
-    <div class="photos" >
+    <div class="photos" id="photos-container">
         <?php if (!empty($photos)): ?>
             <?php foreach ($photos as $photo): ?>
                 <div class="photo">

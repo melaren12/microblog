@@ -11,13 +11,13 @@ export class Fetcher {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     ...headers,
                 },
+
                 body: new URLSearchParams(data).toString(),
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
             return await response.json();
         } catch (error) {
             console.error('Fetch error:', error);
@@ -25,13 +25,13 @@ export class Fetcher {
         }
     }
 
-    async get(url, headers = {}) {
+    async get(url,headers = {}) {
         try {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     ...headers,
-                },
+                }
             });
 
             if (!response.ok) {

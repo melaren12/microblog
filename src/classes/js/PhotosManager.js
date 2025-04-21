@@ -4,6 +4,22 @@ export class PhotosManager {
         this.type = type;
     }
 
+    async initPhotos(userId, archived = false) {
+        try {
+            const photosData = await this.fetcher.post('../../api/api_photos.php', {
+                user_id: userId,
+                archived: archived
+            });
+            if (photosData.success) {
+                return photosData;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Initialization error:', error);
+        }
+    }
+
     initDeletePhotos(fileName, selector, itemClass) {
         const buttons = document.querySelectorAll(selector);
         buttons.forEach(button => {

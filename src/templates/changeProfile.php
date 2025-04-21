@@ -2,16 +2,13 @@
     <div class="large-avatar-zoom" >
         <img id="zoomed-avatar" src="" alt="Zoomed Avatar">
     </div>
-    <div class="left-cont">
+    <div class="left-cont" >
         <h2>Profile</h2>
-        <?php if (isset($user)): ?>
-            <div class="avatar">
-                <img src="/public/uploads/avatars/<?= htmlspecialchars($user->getAvatar()) ?>" alt="Avatar">
-            </div>
-        <?php endif; ?>
-        <p>Username: <?= htmlspecialchars($user->getUsername()) ?></p>
+        <div class="profile-info" id="profile-info">
 
-        <form method="post" enctype="multipart/form-data">
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="photo-form">
             <div class="avatar-container">
                 <div class="custom-file-upload">
                     <label for="avatar" class="input-label btn">Change avatar</label>
@@ -29,19 +26,8 @@
         <a href="/controllers/profile.php"><button class="btn logout">Profile</button> </a>
     </div>
     <div class="right-cont">
-        <div class="left-side">
+        <div class="left-side" id="posts-container">
             <h2>Posts</h2>
-            <?php if (empty($posts)): ?>
-                <p>No posts yet.</p>
-            <?php else: ?>
-                <?php foreach ($posts as $post): ?>
-                    <article class="post">
-                        <p class="intro"><?php echo nl2br(htmlspecialchars($post->getContent())); ?></p>
-                        <footer class="time"><?php echo htmlspecialchars($post->getCreatedAt()); ?></footer>
-                        <button class="delete-post post-delete-btn" data-id="<?= htmlspecialchars($post->getId()) ?>"><img src="/public/icons/delete.png"></button>
-                    </article>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </div>
         <div class="right-side">
             <div class="action-cont">
@@ -58,17 +44,8 @@
             </div>
 
 
-            <div class="photos" >
-                <?php if (!empty($photos)): ?>
-                    <?php foreach ($photos as $photo): ?>
-                        <div class="photo">
-                            <img src="../<?= htmlspecialchars($photo['photo_path']) ?>" alt="Photo" >
-                            <button class="delete-photo btn" data-id="<?= htmlspecialchars($photo['id']) ?>">Delete</button>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No photos uploaded.</p>
-                <?php endif; ?>
+            <div class="photos" id="photos-container">
+
             </div>
         </div>
     </div>
