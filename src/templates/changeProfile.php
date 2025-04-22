@@ -1,8 +1,8 @@
 <main class="profile-container">
-    <div class="large-avatar-zoom" >
+    <div class="large-avatar-zoom">
         <img id="zoomed-avatar" src="" alt="Zoomed Avatar">
     </div>
-    <div class="left-cont" >
+    <div class="left-cont">
         <h2>Profile</h2>
         <div class="profile-info" id="profile-info">
 
@@ -15,15 +15,18 @@
                     <input type="file" name="avatar" id="avatar" accept="image/*">
                 </div>
                 <br>
-                <div class="avatar-preview" >
+                <div class="avatar-preview">
                     <img class="avatar-preview-img" id="avatar-preview-img" src="#" alt="Avatar Preview"">
                     <button type="submit" class="btn avatar-btn">Upload</button>
-                    <button type="button" class="close-preview""><img src="/public/icons/close.png" alt="#">
+                    <button type="button" class="close-preview"
+                    "><img src="/public/icons/close.png" alt="#">
                 </div>
             </div>
         </form>
 
-        <a href="/controllers/profile.php"><button class="btn logout">Profile</button> </a>
+        <a href="/controllers/profile.php">
+            <button class="btn logout">Profile</button>
+        </a>
     </div>
     <div class="right-cont">
         <div class="left-side" id="posts-container">
@@ -32,7 +35,7 @@
         <div class="right-side">
             <div class="action-cont">
                 <form method="post" enctype="multipart/form-data">
-                    <div class="upload" >
+                    <div class="upload">
                         <div>
                             <label for="photo_path" class="input-label btn">Add Photo</label>
                             <input type="file" name="photo_path" id="photo_path" accept="image/*">
@@ -40,7 +43,9 @@
                         <button type="submit" class="btn">Upload</button>
                     </div>
                 </form>
-                <a href="/controllers/archive.php"><button class="btn archive">Archive</button> </a>
+                <a href="/controllers/archive.php">
+                    <button class="btn archive">Archive</button>
+                </a>
             </div>
 
 

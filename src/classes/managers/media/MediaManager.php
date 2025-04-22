@@ -17,6 +17,7 @@ class MediaManager extends PhotoDto
         }
         return self::$instance;
     }
+
     public function uploadPhoto(array $file, string $targetDir): string
     {
         if (empty($file['name'])) {
@@ -47,7 +48,7 @@ class MediaManager extends PhotoDto
         }
 
         if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
-            LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Failed to move uploaded file.'  . error_get_last()['message']);
+            LogHelper::getInstance()->createErrorLog('uploadPhoto error: ' . 'Failed to move uploaded file.' . error_get_last()['message']);
             throw new RuntimeException("Error uploading file: ");
         }
 

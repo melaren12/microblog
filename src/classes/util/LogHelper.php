@@ -14,6 +14,7 @@ class  LogHelper
     {
         $this->logger = new Logger('app');
     }
+
     public static function getInstance(): LogHelper
     {
         if (self::$instance === null) {
@@ -21,6 +22,7 @@ class  LogHelper
         }
         return self::$instance;
     }
+
     public function createErrorLog(string $message): void
     {
         $this->logger->pushHandler(new StreamHandler(dirname(__DIR__, 3) . '/data/log/error_' . date('Y-m-d') . '.log', Logger::ERROR));

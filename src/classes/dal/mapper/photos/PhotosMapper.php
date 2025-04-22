@@ -13,10 +13,12 @@ class PhotosMapper extends AbstractMapper
 {
     private static ?PhotosMapper $instance = null;
     protected string $tableName = 'user_photos';
+
     public function __construct()
     {
         parent::__construct();
     }
+
     public static function getInstance(): PhotosMapper
     {
         if (self::$instance === null) {
@@ -24,10 +26,12 @@ class PhotosMapper extends AbstractMapper
         }
         return self::$instance;
     }
+
     function createDto(): PhotoDto
     {
         return new PhotoDto();
     }
+
     public function findAllByUserId(int $userId): array
     {
         $params = [
@@ -57,6 +61,7 @@ class PhotosMapper extends AbstractMapper
 
         return $photos ?: [];
     }
+
     public function findById(int $photoId, int $userId): ?array
     {
         $params = [
@@ -70,6 +75,7 @@ class PhotosMapper extends AbstractMapper
         return !empty($photos) ? $photos[0] : null;
 
     }
+
     public function insert(string $photoPath, int $userId): void
     {
         try {
@@ -82,12 +88,13 @@ class PhotosMapper extends AbstractMapper
 
             $this->insertList($params);
 
-        }catch (PDOException $e){
+        } catch (PDOException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }
 
-    public function moveToArchived(int $photoId): bool {
+    public function moveToArchived(int $photoId): bool
+    {
         try {
             $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
             $stmt->execute([1, $photoId]);
@@ -100,7 +107,8 @@ class PhotosMapper extends AbstractMapper
     }
 
 
-    public function moveFromArchived(int $photoId): bool {
+    public function moveFromArchived(int $photoId): bool
+    {
         try {
             $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
             $stmt->execute([0, $photoId]);

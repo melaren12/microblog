@@ -78,7 +78,7 @@
 }
 
 .delete-photo:active,
-.restore-photo:active{
+.restore-photo:active {
     transform: scale(0.95);
 }
 

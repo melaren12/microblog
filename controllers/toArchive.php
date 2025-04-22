@@ -1,4 +1,5 @@
 <?php
+
 use App\managers\photos\PhotosManager;
 
 require '../init.php';
@@ -36,8 +37,7 @@ if ($type === 'photo') {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         exit;
     }
-}
-else {
+} else {
     echo json_encode(['success' => false, 'error' => 'Invalid type specified']);
     exit;
 }

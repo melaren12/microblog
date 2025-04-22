@@ -9,9 +9,11 @@ use App\util\LogHelper;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+
 class  UsersManager extends AbstractManager
 {
     private static ?self $instance = null;
+
     public static function getInstance(): UsersManager
     {
         if (self::$instance === null) {
@@ -19,10 +21,12 @@ class  UsersManager extends AbstractManager
         }
         return self::$instance;
     }
+
     public function getMapper(): UsersMapper
     {
         return UsersMapper::getInstance();
     }
+
     public function getUserById(?int $id): ?UserDto
     {
         $mapper = $this->getMapper();
@@ -68,6 +72,7 @@ class  UsersManager extends AbstractManager
 
         return $user;
     }
+
     public function login(string $username, string $password): ?UserDto
     {
         $user = $this->getMapper()->findByUsername($username);
@@ -76,6 +81,7 @@ class  UsersManager extends AbstractManager
         }
         return null;
     }
+
     public function updateAvatar(UserDto $user, array $file, string $targetDir, string $current_avatar): void
     {
         if (empty($file['name'])) {
@@ -85,12 +91,12 @@ class  UsersManager extends AbstractManager
 
         if (!file_exists($targetDir)) {
             if (!mkdir($targetDir, 0777, true)) {
-                LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not create directory' .  $targetDir . '. Check permissions.');
+                LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Could not create directory' . $targetDir . '. Check permissions.');
             }
         }
 
         if (!is_writable($targetDir)) {
-            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Directory' .  $targetDir . 'is not writable. Check permissions.');
+            LogHelper::getInstance()->createErrorLog('updateAvatar error: ' . 'Directory' . $targetDir . 'is not writable. Check permissions.');
         }
 
         $avatarName = time() . "_" . basename($file["name"]);

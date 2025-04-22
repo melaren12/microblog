@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         const postsData = await posts.initPostsData();
 
-        if (postsData && userData.id  && Array.isArray(postsData.posts)) {
+        if (postsData && userData.id && Array.isArray(postsData.posts)) {
             const userPosts = postsData.posts.filter(post => post.user_id === userData.id);
             if (userPosts.length > 0) {
                 renderPosts(userPosts, userData.id);
@@ -31,26 +31,25 @@ document.addEventListener('DOMContentLoaded', async function () {
         const photosData = await photos.initPhotos(userData.id);
 
         if (photosData) {
-             renderPhotos(photosData.photos);
+            renderPhotos(photosData.photos);
         }
 
-    } catch(error) {
+    } catch (error) {
         alert(error)
     }
 
     new AvatarZoom('.avatar img', '.large-avatar-zoom', '#zoomed-avatar');
     new AvatarPreview('avatar', '.avatar-preview', '#avatar-preview-img', '.close-preview');
 
-
     posts.initDeletePosts('.delete-post', '.post');
-    photos.initDeletePhotos('toArchive.php', '.delete-photo', '.photo', );
+    photos.initDeletePhotos('toArchive.php', '.delete-photo', '.photo',);
 });
 
 function renderUserProfile(user) {
     const profileInfo = document.getElementById('profile-info');
     profileInfo.innerHTML = `
         <div class="avatar">
-             <img src="/public/uploads/avatars/${encodeURIComponent(user.avatar)}" alt="Avatar" loading="lazy">
+            <img src="/public/uploads/avatars/${encodeURIComponent(user.avatar)}" alt="Avatar" loading="lazy">
         </div>
         <h3>${encodeURIComponent(user.name)}</h3>
     `;
@@ -59,16 +58,17 @@ function renderUserProfile(user) {
 function renderPosts(posts) {
     const postsContainer = document.getElementById('posts-container');
     postsContainer.innerHTML = posts.map(post => `
-         <article class="post" data-id="${post.id}">
-              <p class="intro">${decodeURIComponent(post.content).replace(/\n/g, '<br>')}</p>
-              <footer class="time">${post.created_at}</footer> 
-              <button class="delete-post post-delete-btn" data-id="${post.id}"><img src="/public/icons/delete.png"></button> 
-           </article>
+        <article class="post" data-id="${post.id}">
+            <p class="intro">${decodeURIComponent(post.content).replace(/\n/g, '<br>')}</p>
+            <footer class="time">${post.created_at}</footer> 
+            <button class="delete-post post-delete-btn" data-id="${post.id}"><img src="/public/icons/delete.png"></button> 
+        </article>
     `).join('');
 }
 
 function renderPhotos(photos) {
     const photosContainer = document.getElementById('photos-container');
+
     if (!photosContainer) {
         console.error('Photos container not found');
         return;

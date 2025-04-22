@@ -27,14 +27,14 @@ export class PhotosManager {
                 e.preventDefault();
                 const id = button.getAttribute('data-id');
                 const element = button.closest(itemClass);
-                await this.deletePhoto(fileName, id,  this.type, element);
+                await this.deletePhoto(fileName, id, this.type, element);
             });
         });
     }
 
     async deletePhoto(fileName, id, type, element) {
         try {
-            const data = await this.fetcher.post(fileName, { id, type });
+            const data = await this.fetcher.post(fileName, {id, type});
             if (data.success) {
                 element.remove();
             } else {
@@ -52,14 +52,14 @@ export class PhotosManager {
                 e.preventDefault();
                 const id = button.getAttribute('data-id');
                 const element = button.closest(itemClass);
-                await this.restorePhoto(fileName, id,  this.type, element);
+                await this.restorePhoto(fileName, id, this.type, element);
             });
         });
     }
 
     async restorePhoto(fileName, id, type, element) {
         try {
-            const data = await this.fetcher.post(fileName, { id, type });
+            const data = await this.fetcher.post(fileName, {id, type});
             if (data.success) {
                 element.remove();
             } else {

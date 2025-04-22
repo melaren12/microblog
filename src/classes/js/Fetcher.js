@@ -12,7 +12,7 @@ export class Fetcher {
                     ...headers,
                 },
 
-                body: new URLSearchParams(data).toString(),
+                body: new URLSearchParams(data).toString()
             });
 
             if (!response.ok) {
@@ -25,7 +25,7 @@ export class Fetcher {
         }
     }
 
-    async get(url,headers = {}) {
+    async get(url, headers = {}) {
         try {
             const response = await fetch(url, {
                 method: 'GET',

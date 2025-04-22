@@ -28,6 +28,8 @@
             <button type="submit" class="btn">Register</button>
         </form>
         <p>Already have an account?</p>
-        <a href='login.php'><button class="btn">Login</button></a>
+        <a href='login.php'>
+            <button class="btn">Login</button>
+        </a>
     </section>
 </main>

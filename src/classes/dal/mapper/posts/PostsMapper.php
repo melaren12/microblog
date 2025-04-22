@@ -12,6 +12,7 @@ class  PostsMapper extends AbstractMapper
 {
     private static ?self $instance = null;
     protected string $tableName = 'posts';
+
     public static function getInstance(): PostsMapper
     {
         if (self::$instance === null) {
@@ -20,9 +21,10 @@ class  PostsMapper extends AbstractMapper
 
         return self::$instance;
     }
+
     public function createDto(): PostDto
     {
-       return new PostDto();
+        return new PostDto();
     }
 
     /**
@@ -39,6 +41,7 @@ class  PostsMapper extends AbstractMapper
 
         return $this->insertList($params);
     }
+
     /**
      *
      *

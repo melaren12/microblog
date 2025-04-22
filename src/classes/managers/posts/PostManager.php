@@ -5,6 +5,7 @@ namespace App\managers\posts;
 use App\dal\dto\posts\PostDto;
 use App\dal\mapper\posts\PostsMapper;
 use App\managers\AbstractManager;
+
 //use App\Post;
 use App\util\LogHelper;
 use InvalidArgumentException;
@@ -22,10 +23,12 @@ class  PostManager extends AbstractManager
         }
         return self::$instance;
     }
+
     public function getMapper(): PostsMapper
     {
         return PostsMapper::getInstance();
     }
+
     public function create(int $userId, string $content): PostDto
     {
         if (strlen($content) > 1000) {
@@ -42,11 +45,13 @@ class  PostManager extends AbstractManager
 
         return $post;
     }
+
     public function getAllPosts(): array
     {
         return $this->getMapper()->findAll();
 
     }
+
     public function getPostsByUser(int $userId): array
     {
         $params = ['user_id' => $userId];

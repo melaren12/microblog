@@ -8,9 +8,11 @@ use App\managers\media\MediaManager;
 use App\util\LogHelper;
 use Exception;
 use RuntimeException;
+
 class PhotosManager extends AbstractManager
 {
     private static ?self $instance = null;
+
     public static function getInstance(): PhotosManager
     {
         if (self::$instance === null) {
@@ -18,6 +20,7 @@ class PhotosManager extends AbstractManager
         }
         return self::$instance;
     }
+
     public function getMapper(): PhotosMapper
     {
         return PhotosMapper::getInstance();
@@ -27,6 +30,7 @@ class PhotosManager extends AbstractManager
     {
 
     }
+
     public function getUserPhotos(int $userId): array
     {
         return $this->getMapper()->findAllByUserId($userId);
@@ -36,13 +40,14 @@ class PhotosManager extends AbstractManager
     {
         return $this->getMapper()->findAllArchivedByUserId($userId);
     }
+
     public function uploadPhoto(array $file, string $targetDir, int $userId): void
     {
         $mediaManager = MediaManager::getInstance();
         $targetFile = $mediaManager->uploadPhoto($file, $targetDir);
 
         try {
-            $this->getMapper()->insert( $targetFile, $userId);
+            $this->getMapper()->insert($targetFile, $userId);
             LogHelper::getInstance()->createInfoLog('Photo uploaded successfully!');
         } catch (Exception $e) {
             if (file_exists($targetFile)) {
@@ -52,6 +57,7 @@ class PhotosManager extends AbstractManager
             throw new RuntimeException("Error adding photo to database.");
         }
     }
+
     public function deletePhoto(int $userId, int $photoId): void
     {
 
@@ -103,7 +109,7 @@ class PhotosManager extends AbstractManager
     }
 
 
-    public function getPhotosById( int $id, int $userId): array
+    public function getPhotosById(int $id, int $userId): array
     {
         return $this->getMapper()->findById($id, $userId);
     }

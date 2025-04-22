@@ -1,12 +1,15 @@
 <?php
 
 namespace App\dal\mapper;
- use App\util\LogHelper;
- use PDO;
- use PDOException;
- abstract class  AbstractPDOConnector
+
+use App\util\LogHelper;
+use PDO;
+use PDOException;
+
+abstract class  AbstractPDOConnector
 {
     protected PDO $PDO;
+
     public function __construct()
     {
         $host = 'localhost';
@@ -30,6 +33,7 @@ namespace App\dal\mapper;
             exit;
         }
     }
+
     abstract function getTableName();
 }
 

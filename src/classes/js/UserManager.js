@@ -6,8 +6,8 @@ export class UserManager {
     async init(userId) {
         try {
             const userData = await this.fetcher.post(
-                 '../../api/api_user.php',
-                 userId ? { user_id: userId } : {});
+                '../../api/api_user.php',
+                userId ? {user_id: userId} : {});
             if (userData.success && userData.user) {
                 return userData.user;
             } else {

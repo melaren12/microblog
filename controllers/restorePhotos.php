@@ -1,4 +1,5 @@
 <?php
+
 use App\managers\photos\PhotosManager;
 use App\managers\posts\PostManager;
 
