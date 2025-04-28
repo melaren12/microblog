@@ -40,6 +40,7 @@ echo json_encode([
     'user' => [
         'id' => $user->getId(),
         'name' => $user->getName(),
-        'avatar' => $user->getAvatar()
+        'avatar' => $user->getAvatar(),
+        'lastName' => $user->getLastName(),
     ]
 ]);

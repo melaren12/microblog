@@ -25,18 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['success_message'] = "Registration successful! Please log in.";
 
-        LogHelper::getInstance()->createInfoLog('register.php error: ' . $username . ' Registration successful! Please log in.');
-        header("Location: login.php");
+        LogHelper::getInstance()->createInfoLog('registerPage.php error: ' . $username . ' Registration successful! Please log in.');
+        header("Location: loginPage.php");
         exit;
     } catch (InvalidArgumentException|RuntimeException $e) {
         $output = $e->getMessage();
     } catch (Exception $e) {
         $output = "An unexpected error occurred: " . $e->getMessage();
-        LogHelper::getInstance()->createErrorLog('register.php error: ' . $username . ' Registration failed! ' . $e->getMessage());
+        LogHelper::getInstance()->createErrorLog('registerPage.php error: ' . $username . ' Registration failed! ' . $e->getMessage());
     }
 }
 
 $pageTitle = "Microblog - Register";
-$extraCss = "auth";
-$contentTemplate = "../src/templates/register.php";
+$extraCss = "authPage";
+$contentTemplate = "../src/templates/registerPage.php";
 include "../src/templates/layout.php";

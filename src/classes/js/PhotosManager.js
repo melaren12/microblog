@@ -41,7 +41,7 @@ export class PhotosManager {
                 alert(`Error deleting ${type}: ${data.error || 'Unknown error'}`);
             }
         } catch (error) {
-            alert(`Error deleting ${type}. Please try again.`);
+            alert(`Error deleting ${type}. Please try again. ${error}`);
         }
     }
 

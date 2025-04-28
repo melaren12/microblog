@@ -26,14 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!empty($_FILES['avatar']['name'])) {
             $targetDir = "../public/uploads/avatars/";
             $userManager->updateAvatar($user, $_FILES['avatar'], $targetDir, $user->getAvatar());
-            header("Location: ChangeProfile.php");
+            header("Location: changeProfile.php");
             exit;
         }
 
         if (!empty($_FILES['photo_path']['name'])) {
             $targetDir = "../public/uploads/Photos/";
             $photosManager->uploadPhoto($_FILES['photo_path'], $targetDir, $userId);
-            header("Location: ChangeProfile.php");
+            header("Location: changeProfile.php");
             exit;
         }
     } catch (RuntimeException $e) {

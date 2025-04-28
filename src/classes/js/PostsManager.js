@@ -19,7 +19,7 @@ export class PostsManager {
 
     async deletePost(id, type, element) {
         try {
-            const data = await this.fetcher.post('delete.php', {id, type});
+            const data = await this.fetcher.post('deleteAction.php', {id, type});
             if (data.success) {
                 element.remove();
             } else {
@@ -41,33 +41,5 @@ export class PostsManager {
         } catch (error) {
             console.error('Initialization error:', error);
         }
-    }
-
-    initPostForm(userId) {
-        const form = document.getElementById('post-form');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const content = form.querySelector('#content').value;
-            try {
-                const data = await fetcher.post('post.php', {
-                    content,
-                    user_id: userId
-                });
-                if (data.success) {
-                    form.reset();
-                    const postsData = await fetcher.post('../../api/api_posts.php', {});
-                    const userData = await fetcher.post('../../api/api_user.php', {});
-                    if (postsData.success && userData.success) {
-
-                        renderPosts(postsData.posts, userData.user.id);
-                    }
-                } else {
-                    alert(`Error while publishing: ${data.error || 'Unknown error'}`);
-                }
-            } catch (error) {
-                alert('Error sending post. Try again.');
-                console.error(error);
-            }
-        });
     }
 }

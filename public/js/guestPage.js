@@ -2,9 +2,10 @@ import {Fetcher} from "../../src/classes/js/Fetcher.js";
 import {PhotosManager} from "../../src/classes/js/PhotosManager.js";
 import {PostsManager} from "../../src/classes/js/PostsManager.js";
 import {UserManager} from "../../src/classes/js/UserManager.js";
+import {RenderTemplate} from "../../src/classes/js/RenderTemplate.js";
 
 const fetcher = new Fetcher('/controllers/');
-
+const render = new RenderTemplate();
 
 function getQueryParam(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const photos = new PhotosManager(fetcher, 'photo');
     const posts = new PostsManager(fetcher, 'post');
     const user = new UserManager(fetcher);
+
 
     try {
         const userData = await user.init(userId);
@@ -47,63 +49,88 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 function renderUserProfile(user) {
-    const profileInfo = document.getElementById('profile-info');
-    profileInfo.innerHTML = `
-        <div class="avatar">
-            <img src="/public/uploads/avatars/${encodeURIComponent(user.avatar)}" alt="Avatar" loading="lazy">
-        </div>
-        <h3>${encodeURIComponent(user.name)}</h3>
-    `;
+    const container = document.getElementById('profile-info');
+    const renderTemplate = document.getElementById('user_template')?.innerHTML;
+
+    if (!(container instanceof HTMLElement)) {
+        console.error('Profile container not found');
+        return;
+    }
+
+    if (renderTemplate && container) {
+
+        container.innerHTML = '';
+
+        const data = {
+            userName: decodeURIComponent(user.name ),
+            src: `/public/uploads/avatars/${encodeURIComponent(user.avatar)}`,
+        }
+        const userEl = render.renderTemplate(renderTemplate, data);
+
+        container.appendChild(userEl);
+    }
 }
 
 function renderPosts(posts) {
-    const postsContainer = document.getElementById('posts-container');
-    postsContainer.innerHTML = posts.map(post => `
-        <article class="post" data-id="${post.id}">
-            <p class="intro">${decodeURIComponent(post.content).replace(/\n/g, '<br>')}</p>
-            <footer class="time">${post.created_at}</footer> 
-        </article>
-    `).join('');
+    const renderTemplate = document.getElementById('post_template')?.innerHTML;
+    const container = document.getElementById('posts-container');
+
+    if (!container) {
+        console.error('Posts container not found');
+        return;
+    }
+    if (!Array.isArray(posts)) {
+        console.error('photos is not an array:', photos);
+        container.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
+        return;
+    }
+    if (posts.length === 0) {
+        container.innerHTML = '<p class="info">There are no photos.</p>';
+        return;
+    }
+
+    if (renderTemplate && container) {
+        posts.forEach(post => {
+            const data = {
+                id:post.id,
+                content: post.content,
+                created_at: post.created_at
+            }
+            const postEl = render.renderTemplate(renderTemplate, data);
+
+            container.appendChild(postEl);
+        })
+    }
 }
 
 function renderPhotos(photos) {
-    const photosContainer = document.getElementById('photos-container');
-    if (!photosContainer) {
+
+    const renderTemplate = document.getElementById('photo_template')?.innerHTML;
+    const container = document.getElementById('photos-container');
+
+    if (!container) {
         console.error('Photos container not found');
         return;
     }
     if (!Array.isArray(photos)) {
         console.error('photos is not an array:', photos);
-        photosContainer.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
+        container.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
         return;
     }
     if (photos.length === 0) {
-        photosContainer.innerHTML = '<p class="info">There are no photos.</p>';
+        container.innerHTML = '<p class="info">There are no photos.</p>';
         return;
     }
 
-    // const renderTemplate = document.getElementById('photo_template');
-    // photos.forEach(photo => {
-    //     const data = {
-    //         path: encodeURIComponent(photo.photo_path),
-    //         alt: encodeURIComponent(photo.caption || 'Photo'),
-    //         name: encodeURIComponent(photo.caption || ''),
-    //     }
-    //     const photoEl = _render(renderTemplate, data);
-    //     photosContainer.appendChild(photoEl)
-    // })
+    if (renderTemplate && container) {
+        photos.forEach(photo => {
+            const data = {
+                id:photo.id,
+                src: encodeURIComponent(photo.photo_path)
+            }
+            const photoEl = render.renderTemplate(renderTemplate, data);
 
-    photosContainer.innerHTML = photos.map(photo => `
-        <div class="photo" data-id="${photo.id}">
-            <img src="${encodeURIComponent(photo.photo_path)}" alt="${encodeURIComponent(photo.caption || 'Photo')}" width="200">
-            <p>${encodeURIComponent(photo.caption || '')}</p>
-        </div>
-    `).join('');
+            container.appendChild(photoEl);
+        })
+    }
 }
-
-//
-// function _render(renderTemplate, data) {
-//     return document.createElement('div');
-// }
-
-

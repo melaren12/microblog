@@ -1,0 +1,158 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--background-light);
+}
+
+.sidebar {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #FFFFFF, #F1F5F9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post-form {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    margin-top: 20px;
+}
+
+.post-form label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.post-form textarea {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.content {
+    width: 100%;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.post {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.post:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.post-text {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.time {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 8px;
+}
+
+.intro {
+    line-height: 1.6;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.user-name a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.user-name a:hover {
+    text-decoration: underline;
+}
+
+.link, .link:link, .link:visited, .link:hover, .link:active {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+        position: fixed;
+        height: 100vh;
+        padding: 30px 15px;
+    }
+
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+    }
+
+    .sidebar h1 {
+        font-size: 1.75rem;
+    }
+
+    .post-form {
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .post {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 300px;
+        padding: 40px 20px;
+    }
+
+    .content {
+        margin-left: 300px;
+    }
+
+    .sidebar h1 {
+        font-size: 1.875rem;
+    }
+}

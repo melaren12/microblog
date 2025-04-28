@@ -24,7 +24,7 @@
             </div>
         </form>
 
-        <a href="/controllers/profile.php">
+        <a href="/controllers/profilePage.php">
             <button class="btn logout">Profile</button>
         </a>
     </div>
@@ -43,11 +43,10 @@
                         <button type="submit" class="btn">Upload</button>
                     </div>
                 </form>
-                <a href="/controllers/archive.php">
+                <a href="/controllers/archivePage.php">
                     <button class="btn archive">Archive</button>
                 </a>
             </div>
-
 
             <div class="photos" id="photos-container">
 
@@ -55,6 +54,32 @@
         </div>
     </div>
 </main>
+
+<template id="post_template">
+    <article class="post" data-id="${id}">
+        <p class="intro">${content}</p>
+        <footer class="time">${created_at}</footer>
+        <button class="delete-post post-delete-btn" data-id="${id}"><img src="${src}"></button>
+    </article>
+</template>
+
+<template id="photo_template">
+    <div class="photo" data-id="${id}">
+        <img src="${src}" alt="Photo">
+        <button class="delete-photo photo-delete-btn btn" data-id="${id}">Delete</button>
+    </div>
+</template>
+
+<template id="user_template">
+    <div class="profile">
+        <div class="avatar">
+            <img src="${src}" alt="${alt}" loading="lazy">
+        </div>
+        <div class="user-name">
+            <h3>${userName}</h3>
+        </div>
+    </div>
+</template>
 
 
 

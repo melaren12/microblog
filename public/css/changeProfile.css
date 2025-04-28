@@ -1,5 +1,6 @@
 .profile-container {
     display: flex;
+    flex-direction: column;
     background-color: var(--background-light);
 }
 
@@ -8,19 +9,19 @@ input {
 }
 
 .left-cont {
-    min-width: 300px;
-    height: 100vh;
-    padding: 40px 20px;
+    width: 100%;
+    min-width: unset;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background: linear-gradient(135deg, #FFFFFF, #F1F5F9);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .profile-info {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .avatar-container {
@@ -31,6 +32,8 @@ input {
 
 .avatar {
     cursor: pointer;
+    width: 80px;
+    height: 80px;
 }
 
 .intro {
@@ -39,6 +42,7 @@ input {
     overflow-wrap: break-word;
     max-width: 90%;
     color: var(--text-light);
+    font-size: 0.9rem;
 }
 
 .large-avatar-zoom {
@@ -60,15 +64,16 @@ input {
 
 .large-avatar-zoom img {
     max-width: 90%;
-    max-height: 90%;
+    max-height: 80%;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .avatar-preview {
     display: none;
+    width: 200px;
     position: relative;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .avatar-preview.active {
@@ -77,7 +82,8 @@ input {
 
 .close-preview {
     position: absolute;
-    right: 0;
+    right: 5px;
+    top: 5px;
     width: 15px;
     height: 15px;
     cursor: pointer;
@@ -89,46 +95,42 @@ input {
 }
 
 .avatar-preview img {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: var(--shadow-light);
 }
 
 .avatar-btn {
-    position: absolute;
-    bottom: -30px;
-    right: 0;
+    position: relative;
+    margin-top: 10px;
 }
 
 .right-cont {
-    flex: 3;
+    width: 100%;
     display: flex;
-    gap: 20px;
-    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
     overflow-y: auto;
 }
 
 .right-cont .left-side,
 .right-cont .right-side {
-    flex: 1;
+    width: 100%;
     background-color: #fff;
     border-radius: var(--border-radius);
-    padding: 0;
+    padding: 15px;
     box-shadow: var(--shadow-light);
     overflow-y: auto;
-    height: calc(100vh - 40px);
-}
-
-.right-cont .left-side {
-    padding: 20px;
+    height: auto;
 }
 
 .post-delete-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     background: none;
     border: none;
     cursor: pointer;
@@ -140,22 +142,21 @@ input {
 }
 
 .post-delete-btn img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .time {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 0.875rem;
+    position: static;
+    font-size: 0.8rem;
     color: var(--text-light);
+    margin-top: 10px;
 }
 
 .post {
     position: relative;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 15px;
     background-color: #fff;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
@@ -164,27 +165,37 @@ input {
 
 .post:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
 .photos {
     display: grid;
-    padding: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    padding: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
 }
 
 .action-cont {
     width: 100%;
-    position: sticky;
+    position: relative;
+    align-items: center;
+    display: flex;
     top: 0;
     z-index: 10;
     background-color: #fff;
+    padding: 10px 0;
+    justify-content: space-between;
+}
+
+.action-cont form {
+    display: flex;
+    align-items: center;
 }
 
 .photo {
     position: relative;
     overflow: hidden;
+    max-width: 300px;
     border-radius: 8px;
     box-shadow: var(--shadow-light);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -197,7 +208,7 @@ input {
 
 .photo img {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     object-position: top;
     border-top-left-radius: 8px;
@@ -205,21 +216,20 @@ input {
 }
 
 .upload {
-    top: 20px;
     display: flex;
-    padding: 20px;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    height: 100%;
+    gap: 10px;
 }
 
 .custom-file-upload label {
     background-color: var(--secondary-color);
     color: white;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .custom-file-upload label:hover {
@@ -227,19 +237,79 @@ input {
 }
 
 .archive {
-    position: absolute;
-    right: 10px;
+    position: relative;
     background-color: var(--primary-color);
     color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 8px 15px;
+    border-radius: 15px;
     box-shadow: var(--shadow-light);
     transition: background-color 0.3s ease, transform 0.3s ease;
-    top: calc(50% - 18px);
-    z-index: 1000;
+    margin: 10px auto;
 }
 
 .archive:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        flex-direction: row;
+    }
+
+    .left-cont {
+        width: 250px;
+        padding: 30px 15px;
+    }
+
+    .right-cont {
+        flex-direction: row;
+        padding: 20px;
+    }
+
+    .right-cont .left-side,
+    .right-cont .right-side {
+        width: 50%;
+        padding: 20px;
+        height: calc(100vh - 40px);
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .avatar-preview img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .photos {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .photo img {
+        height: 180px;
+    }
+
+    .archive {
+        margin: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .left-cont {
+        width: 300px;
+        padding: 40px 20px;
+    }
+
+    .photos {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .photo img {
+        height: 200px;
+    }
 }

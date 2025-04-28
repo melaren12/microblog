@@ -4,8 +4,10 @@ import {AvatarPreview} from "../../src/classes/js/AvatarPreview.js";
 import {PhotosManager} from "../../src/classes/js/PhotosManager.js";
 import {PostsManager} from "../../src/classes/js/PostsManager.js";
 import {UserManager} from "../../src/classes/js/UserManager.js";
+import {RenderTemplate} from "../../src/classes/js/RenderTemplate.js";
 
 const fetcher = new Fetcher('/controllers/');
+const render = new RenderTemplate();
 
 document.addEventListener('DOMContentLoaded', async function () {
     const photos = new PhotosManager(fetcher, 'photo');
@@ -46,49 +48,91 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 function renderUserProfile(user) {
-    const profileInfo = document.getElementById('profile-info');
-    profileInfo.innerHTML = `
-        <div class="avatar">
-            <img src="/public/uploads/avatars/${encodeURIComponent(user.avatar)}" alt="Avatar" loading="lazy">
-        </div>
-        <h3>${encodeURIComponent(user.name)}</h3>
-    `;
+    const container = document.getElementById('profile-info');
+    const renderTemplate = document.getElementById('user_template')?.innerHTML;
+
+    if (!(container instanceof HTMLElement)) {
+        console.error('Profile container not found');
+        return;
+    }
+
+    if (renderTemplate && container) {
+
+        container.innerHTML = '';
+
+        const data = {
+            userName: decodeURIComponent(user.name ),
+            src: `/public/uploads/avatars/${encodeURIComponent(user.avatar)}`,
+        }
+        const userEl = render.renderTemplate(renderTemplate, data);
+
+        container.appendChild(userEl);
+
+    }
 }
 
 function renderPosts(posts) {
-    const postsContainer = document.getElementById('posts-container');
-    postsContainer.innerHTML = posts.map(post => `
-        <article class="post" data-id="${post.id}">
-            <p class="intro">${decodeURIComponent(post.content).replace(/\n/g, '<br>')}</p>
-            <footer class="time">${post.created_at}</footer> 
-            <button class="delete-post post-delete-btn" data-id="${post.id}"><img src="/public/icons/delete.png"></button> 
-        </article>
-    `).join('');
+    const container = document.getElementById('posts-container');
+    const renderTemplate = document.getElementById('post_template')?.innerHTML;
+
+    if (!(container instanceof HTMLElement)) {
+        console.error('Photos container not found');
+        return;
+    }
+
+    if (!Array.isArray(posts)) {
+        console.error('photos is not an array:', posts);
+        container.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
+        return;
+    }
+
+    if (posts.length === 0) {
+        container.innerHTML = '<p class="info">There are no photos.</p>';
+        return;
+    }
+
+    if (renderTemplate && container) {
+        posts.forEach(post => {
+            const data = {
+                id:post.id,
+                content: post.content,
+                src:'/public/icons/delete.png',
+                created_at: post.created_at
+            }
+            const postEl = render.renderTemplate(renderTemplate, data);
+
+            container.appendChild(postEl);
+        })
+    }
 }
 
 function renderPhotos(photos) {
-    const photosContainer = document.getElementById('photos-container');
+    const container = document.getElementById('photos-container');
+    const renderTemplate = document.getElementById('photo_template')?.innerHTML;
 
-    if (!photosContainer) {
+    if (!container) {
         console.error('Photos container not found');
         return;
     }
     if (!Array.isArray(photos)) {
         console.error('photos is not an array:', photos);
-        photosContainer.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
+        container.innerHTML = '<p class="error">Error: Photos not uploaded.</p>';
         return;
     }
     if (photos.length === 0) {
-        photosContainer.innerHTML = '<p class="info">There are no photos.</p>';
+        container.innerHTML = '<p class="info">There are no photos.</p>';
         return;
     }
-    photosContainer.innerHTML = photos.map(photo => `
-        <div class="photo" data-id="${photo.id}">
-            <img src="${encodeURIComponent(photo.photo_path)}" alt="${encodeURIComponent(photo.caption || 'Photo')}" width="200">
-            <p>${encodeURIComponent(photo.caption || '')}</p>
-            <button class="delete-photo photo-delete-btn btn" data-id="${photo.id}">
-               Delete
-            </button>
-        </div>
-    `).join('');
+
+    if (renderTemplate && container) {
+        photos.forEach(photo => {
+            const data = {
+                id:photo.id,
+                src: encodeURIComponent(photo.photo_path)
+            }
+            const photoEl = render.renderTemplate(renderTemplate, data);
+
+            container.appendChild(photoEl);
+        })
+    }
 }

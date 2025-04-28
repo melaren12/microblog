@@ -3,7 +3,7 @@ require_once '../init.php';
 
 
 $pageTitle = "Microblog";
-$extraCss = "guest";
+$extraCss = "guestPage";
 $extraJs = "guestPage";
 $type = "module";
 $contentTemplate = "../src/templates/guestPage.php";

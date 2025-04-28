@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($pageTitle) ? $pageTitle : 'Microblog' ?></title>
     <link rel="icon" href="/public/icons/img_1.png">
-    <link rel="stylesheet" href="/public/css/common.css?v=1.0">
+    <link rel="stylesheet" href="/public/css/commonStyles.css?v=1.0">
     <?php if (isset($extraCss)): ?>
         <link rel="stylesheet" href="/public/css/<?= $extraCss ?>.css?v=1.0">
     <?php endif; ?>

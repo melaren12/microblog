@@ -2,7 +2,7 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info" id="profile-info"></div>
-        <a href="/controllers/profile.php">
+        <a href="/controllers/profilePage.php">
             <button class="btn">Back</button>
         </a>
     </div>
@@ -19,8 +19,25 @@
 </main>
 
 <template id="photo_template">
-    <div class="photo" data-id="${photo.id}">
-        <img src="${encodeURIComponent(photo.photo_path)}" alt="${encodeURIComponent(photo.caption || 'Photo')}" width="200">
-        <p>${encodeURIComponent(photo.caption || '')}</p>
+    <div class="photo" data-id="${id}">
+        <img src="${src}" width="200" alt="Photo">
+    </div>
+</template>
+
+<template id="post_template">
+    <article class="post" data-id="${id}">
+        <p class="intro">${content}</p>
+        <footer class="time">${created_at}</footer>
+    </article>
+</template>
+
+<template id="user_template">
+    <div class="profile">
+        <div class="avatar">
+            <img src="${src}" alt="${alt}" loading="lazy">
+        </div>
+        <div class="user-name">
+            <h3>${userName}</h3>
+        </div>
     </div>
 </template>

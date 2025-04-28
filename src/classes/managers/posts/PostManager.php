@@ -5,11 +5,9 @@ namespace App\managers\posts;
 use App\dal\dto\posts\PostDto;
 use App\dal\mapper\posts\PostsMapper;
 use App\managers\AbstractManager;
-
-//use App\Post;
 use App\util\LogHelper;
 use InvalidArgumentException;
-use RuntimeException;
+
 
 /** @var PostDto[] $posts */
 class  PostManager extends AbstractManager

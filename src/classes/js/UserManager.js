@@ -12,7 +12,7 @@ export class UserManager {
                 return userData.user;
             } else {
                 this.renderError('Error: User not found.');
-                window.location.href = 'login.php?error=user_not_found';
+                window.location.href = 'loginPage.php?error=user_not_found';
             }
 
         } catch (error) {

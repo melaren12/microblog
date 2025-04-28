@@ -19,16 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user !== null) {
         $_SESSION['user_id'] = $user->getId();
-        LogHelper::getInstance()->createInfoLog('login.php info: ' . $username . ' login');
-        header('Location: profile.php');
+        LogHelper::getInstance()->createInfoLog('loginPage.php info: ' . $username . ' login');
+        header('Location: profilePage.php');
         exit;
     } else {
-        LogHelper::getInstance()->createErrorLog('login.php error: ' . 'Incorrect username or password.');
+        LogHelper::getInstance()->createErrorLog('loginPage.php error: ' . 'Incorrect username or password.');
         $output = 'Incorrect username or password.';
     }
 }
 
 $pageTitle = "Microblog";
-$extraCss = "auth";
-$contentTemplate = "../src/templates/login.php";
+$extraCss = "authPage";
+$contentTemplate = "../src/templates/loginPage.php";
 include "../src/templates/layout.php";

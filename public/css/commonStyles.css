@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #1E3A8A; /* Глубокий синий - тренд 2024 */
+    --primary-color: #1E3A8A;
     --primary-hover: #1E40AF;
-    --secondary-color: #F97316; /* Яркий коралловый для акцентов */
+    --secondary-color: #F97316;
     --background-light: #F1F5F9;
     --post-bg: #FFFFFF;
     --text-color: #1E293B;
@@ -34,12 +34,13 @@ body {
 .btn {
     background-color: var(--primary-color);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -54,9 +55,8 @@ body {
 }
 
 .logout {
-    position: absolute;
-    bottom: var(--spacing-md);
-    left: var(--spacing-md);
+    position: relative;
+    margin: var(--spacing-md) auto;
 }
 
 input[type="text"],
@@ -66,14 +66,14 @@ textarea {
     padding: var(--spacing-sm);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: var(--font-size-base);
+    font-size: 0.9rem;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 textarea {
-    min-height: 80px;
-    max-height: 200px;
+    min-height: 60px;
+    max-height: 150px;
     resize: vertical;
     background-color: #fff;
 }
@@ -90,8 +90,8 @@ textarea::placeholder {
 }
 
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -107,4 +107,27 @@ textarea::placeholder {
     object-fit: cover;
     object-position: top;
     border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: var(--font-size-base);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea {
+        font-size: var(--font-size-base);
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    textarea {
+        min-height: 80px;
+        max-height: 200px;
+    }
 }
