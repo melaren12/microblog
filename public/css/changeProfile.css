@@ -243,13 +243,12 @@ input {
     padding: 8px 15px;
     border-radius: 15px;
     box-shadow: var(--shadow-light);
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease;
     margin: 10px auto;
 }
 
 .archive:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px);
 }
 
 @media (min-width: 768px) {

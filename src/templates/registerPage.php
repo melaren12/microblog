@@ -14,9 +14,6 @@
             <label>
                 <input type="password" name="password" placeholder="Password" required>
             </label>
-            <label>
-                <input type="file" name="avatar" accept="image/*"><br>
-            </label>
 
             <p class="error">
                 <?php

@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const photosData = await photos.initPhotos(userId, true);
         if (photosData) {
+
             loadArchivedPhotos(photosData);
         }
 
