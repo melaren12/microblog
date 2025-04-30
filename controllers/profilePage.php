@@ -1,4 +1,5 @@
 <?php
+
 $pageTitle = "Microblog";
 $extraCss = "profilePage";
 $extraJs = "profilePage";

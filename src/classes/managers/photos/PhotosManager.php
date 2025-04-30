@@ -108,9 +108,31 @@ class PhotosManager extends AbstractManager
         $this->getMapper()->moveFromArchived($photoId);
     }
 
-
     public function getPhotosById(int $id, int $userId): array
     {
         return $this->getMapper()->findById($id, $userId);
     }
+
+    public function cleanupExpiredArchivedPhotos(): void
+    {
+        $expiredPhotos = $this->getMapper()->findExpiredArchivedPhotos();
+
+        foreach ($expiredPhotos as $photo) {
+            $photoId = $photo['id'];
+            $photoPath = '/var/www/microblog/public/' . $photo['photo_path'];
+
+            if (file_exists($photoPath)) {
+                if (!unlink($photoPath)) {
+                    LogHelper::getInstance()->createErrorLog("Could not delete file: $photoPath for photo ID: $photoId");
+                    continue;
+                }
+            } else {
+                LogHelper::getInstance()->createErrorLog("File not found: $photoPath for photo ID: $photoId");
+            }
+
+            $this->getMapper()->deleteById($photoId);
+            LogHelper::getInstance()->createInfoLog("Successfully deleted expired archived photo ID: $photoId");
+        }
+    }
+
 }

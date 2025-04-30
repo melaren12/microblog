@@ -96,7 +96,7 @@ class PhotosMapper extends AbstractMapper
     public function moveToArchived(int $photoId): bool
     {
         try {
-            $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
+            $stmt = $this->PDO->prepare('UPDATE user_photos SET archived = ?, archived_at = NOW() WHERE id = ?');
             $stmt->execute([1, $photoId]);
 
             return $stmt->rowCount() > 0;
@@ -110,7 +110,7 @@ class PhotosMapper extends AbstractMapper
     public function moveFromArchived(int $photoId): bool
     {
         try {
-            $stmt = $this->PDO->prepare("UPDATE user_photos SET archived = ? WHERE id = ?");
+            $stmt = $this->PDO->prepare('UPDATE user_photos SET archived = ?, archived_at = NULL WHERE id = ?');
             $stmt->execute([0, $photoId]);
 
             return $stmt->rowCount() > 0;
@@ -127,5 +127,33 @@ class PhotosMapper extends AbstractMapper
             WHERE id = :id AND user_id = :user_id
         ');
         $stmt->execute(['id' => $photoId, 'user_id' => $userId]);
+    }
+
+    public function findExpiredArchivedPhotos(): array
+    {
+        try {
+            $stmt = $this->PDO->prepare(
+                'SELECT id, photo_path, user_id 
+                FROM user_photos 
+                WHERE archived = 1 
+                AND archived_at IS NOT NULL 
+                AND archived_at < NOW() - INTERVAL 1 MINUTE'
+            );
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        } catch (PDOException $e) {
+            error_log("Error finding expired archived photos: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function deleteById(int $photoId): void
+    {
+        try {
+            $stmt = $this->PDO->prepare('DELETE FROM user_photos WHERE id = ?');
+            $stmt->execute([$photoId]);
+        } catch (PDOException $e) {
+            error_log("Error deleting photo ID $photoId: " . $e->getMessage());
+        }
     }
 }
