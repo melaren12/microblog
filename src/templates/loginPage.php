@@ -14,6 +14,6 @@
             <p class="error"><?= htmlspecialchars($output) ?></p>
         <?php endif; ?>
         <p>Not registered yet?</p>
-        <a href="registerPage.php" class="btn">Register</a>
+        <a href="../controllers/register-page" class="btn">Register</a>
     </section>
 </main>

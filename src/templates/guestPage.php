@@ -2,7 +2,7 @@
     <div class="left-cont">
         <h1>Profile</h1>
         <div class="profile-info" id="profile-info"></div>
-        <a href="/controllers/profilePage.php">
+        <a href="/controllers/profile-page">
             <button class="btn">Back</button>
         </a>
     </div>

@@ -4,6 +4,7 @@
         <section class="profile-info" id="profile-info">
 
         </section>
+
         <form action="/controllers/postSection.php" method="post" class="post-form" id="post-form">
             <label for="content">What's new with you?</label>
             <textarea id="content" name="content" placeholder="What's new with you?" required></textarea>

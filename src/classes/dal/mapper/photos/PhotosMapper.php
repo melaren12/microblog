@@ -4,7 +4,6 @@ namespace App\dal\mapper\photos;
 
 use App\dal\dto\photos\PhotoDto;
 use App\dal\mapper\AbstractMapper;
-use App\util\LogHelper;
 use PDO;
 use PDOException;
 use RuntimeException;
@@ -137,7 +136,7 @@ class PhotosMapper extends AbstractMapper
                 FROM user_photos 
                 WHERE archived = 1 
                 AND archived_at IS NOT NULL 
-                AND archived_at < NOW() - INTERVAL 1 MINUTE'
+                AND archived_at < NOW() - INTERVAL 24 HOUR'
             );
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];

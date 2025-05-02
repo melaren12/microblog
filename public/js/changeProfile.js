@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         const photosData = await photos.initPhotos(userData.id);
-
         if (photosData) {
             renderPhotos(photosData.photos);
         }
@@ -63,6 +62,7 @@ function renderUserProfile(user) {
         const data = {
             userName: decodeURIComponent(user.name ),
             src: `/public/uploads/avatars/${encodeURIComponent(user.avatar)}`,
+            link: '/controllers/profile-page'
         }
         const userEl = render.renderTemplate(renderTemplate, data);
 
@@ -126,9 +126,11 @@ function renderPhotos(photos) {
 
     if (renderTemplate && container) {
         photos.forEach(photo => {
+            const fullPath = photo.photo_path;
+            const relativePath = fullPath.substring(fullPath.indexOf('../public/'));
             const data = {
                 id:photo.id,
-                src: encodeURIComponent(photo.photo_path)
+                src: decodeURIComponent(relativePath)
             }
             const photoEl = render.renderTemplate(renderTemplate, data);
 

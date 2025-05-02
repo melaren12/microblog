@@ -78,12 +78,11 @@ function renderUserProfile(user) {
         const data = {
             userName: decodeURIComponent(user.name + ' ' + user.lastName),
             src: `/public/uploads/avatars/${encodeURIComponent(user.avatar)}`,
-            link: '/controllers/changeProfile.php'
+            link: '/controllers/change-profile'
         }
         const userEl = render.renderTemplate(renderTemplate, data);
 
         container.appendChild(userEl);
-
     }
 }
 
@@ -118,7 +117,7 @@ export function renderPosts(posts, currentUserId) {
                 userName: decodeURIComponent(post.user_name + ' ' + post.user_lastname),
                 content: post.content,
                 createdAt: post.created_at,
-                link: post.user_id === currentUserId ? `/controllers/changeProfile.php?user_id=${encodeURIComponent(post.user_id)}` : `/controllers/guestPage.php?user_id=${encodeURIComponent(post.user_id)}`
+                link: post.user_id === currentUserId ? `/controllers/change-profile?user_id=${encodeURIComponent(post.user_id)}` : `/controllers/guest-page?user_id=${encodeURIComponent(post.user_id)}`
             }
             const postEl = render.renderTemplate(renderTemplate, data);
 

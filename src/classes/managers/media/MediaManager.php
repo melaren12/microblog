@@ -39,6 +39,7 @@ class MediaManager extends PhotoDto
 
         $photoName = time() . "_" . basename($file["name"]);
         $targetFile = $targetDir . $photoName;
+
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
         $allowed_types = ["jpg", "jpeg", "png", "gif"];

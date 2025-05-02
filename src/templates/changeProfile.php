@@ -23,10 +23,6 @@
                 </div>
             </div>
         </form>
-
-        <a href="/controllers/profilePage.php">
-            <button class="btn logout">Profile</button>
-        </a>
     </div>
     <div class="right-cont">
         <div class="left-side" id="posts-container">
@@ -43,14 +39,17 @@
                         <button type="submit" class="btn">Upload</button>
                     </div>
                 </form>
-                <a href="/controllers/archivePage.php">
+                <a href="/controllers/archive-page">
                     <button class="btn archive">Archive</button>
                 </a>
             </div>
 
             <div class="photos" id="photos-container">
-
+                <?php if (!empty($output)): ?>
+                    <div class="error"><?php echo htmlspecialchars($output); ?></div>
+                <?php endif; ?>
             </div>
+
         </div>
     </div>
 </main>
@@ -78,6 +77,9 @@
         <div class="user-name">
             <h3>${userName}</h3>
         </div>
+        <a href="${link}">
+            <button class="btn logout">Profile</button>
+        </a>
     </div>
 </template>
 

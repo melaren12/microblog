@@ -51,9 +51,11 @@ function loadArchivedPhotos(photosData) {
 
     if (renderTemplate && container) {
         photosData.photos.forEach(photo => {
+            const fullPath = photo.photo_path;
+            const relativePath = fullPath.substring(fullPath.indexOf('../public/'));
             const data = {
                 id:photo.id,
-                src: photo.photo_path
+                src: relativePath
             }
             const photoEl = render.renderTemplate(renderTemplate, data);
 

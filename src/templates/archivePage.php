@@ -2,7 +2,7 @@
     <div class="photos" id="photos-container">
 
     </div>
-    <a href="/controllers/changeProfile.php">
+    <a href="/controllers/change-profile">
         <button class="btn archive">Back</button>
     </a>
 </main>

@@ -14,6 +14,10 @@ class  UsersManager extends AbstractManager
 {
     private static ?self $instance = null;
 
+    private function __construct()
+    {
+    }
+
     public static function getInstance(): UsersManager
     {
         if (self::$instance === null) {

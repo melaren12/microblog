@@ -5,6 +5,7 @@ namespace App\managers\photos;
 use App\dal\mapper\photos\PhotosMapper;
 use App\managers\AbstractManager;
 use App\managers\media\MediaManager;
+use App\managers\users\UsersManager;
 use App\util\LogHelper;
 use Exception;
 use RuntimeException;
