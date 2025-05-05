@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', value: 1);
 ini_set('display_startup_errors', value: 1);
 error_reporting(error_level: E_ALL);
@@ -13,9 +14,7 @@ header(header: 'Content-Type: application/json');
 
 $userManager = UsersManager::getInstance();
 
-
 $userId = isset($_POST['user_id']) ? $_POST['user_id'] : (isset($_GET['user_id']) ? $_GET['user_id'] : null);
-
 
 if (!$userId) {
     if (isset($_SESSION['user_id'])) {

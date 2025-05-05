@@ -11,7 +11,6 @@ header("Content-type: application/json");
 $postData = json_decode(file_get_contents('php://input'), true);
 $userId = isset($_POST['user_id']) ? $_POST['user_id'] : (isset($_GET['user_id']) ? $_GET['user_id'] : null);
 
-
 $archived = isset($_POST['archived']) ? $_POST['archived'] : (isset($_GET['archived']) ? $_GET['archived'] : 'false');
 $archived = filter_var($archived, FILTER_VALIDATE_BOOLEAN);
 
