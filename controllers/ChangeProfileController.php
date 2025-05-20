@@ -13,6 +13,8 @@ class ChangeProfileController
 {
         public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
+
         $userManager = UsersManager::getInstance();
         $photosManager = PhotosManager::getInstance();
 
@@ -49,9 +51,15 @@ class ChangeProfileController
         $extraCss = "changeProfile";
         $extraJs = "changeProfile";
         $type = 'module';
-        $contentTemplate = __DIR__ . "/../src/templates/changeProfile.php";
+        $contentTemplate = "changeProfile.tpl";
 
-        include __DIR__ . "/../src/templates/layout.php";
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('contentTemplate', $contentTemplate);
+        $smarty->assign('extraJs', $extraJs);
+        $smarty->assign('type', $type);
+
+        $smarty->display('layout.tpl');
     }
 
     public function pathInfo() {

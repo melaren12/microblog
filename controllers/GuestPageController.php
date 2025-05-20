@@ -11,12 +11,22 @@ class GuestPageController
 {
     public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
+
         $pageTitle = "Microblog";
         $extraCss = "guestPage";
+        $contentTemplate = "guestPage.tpl";
         $extraJs = "guestPage";
         $type = "module";
-        $contentTemplate = __DIR__ . "/../src/templates/guestPage.php";
-        include __DIR__ . "/../src/templates/layout.php";
+
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('contentTemplate', $contentTemplate);
+        $smarty->assign('extraJs', $extraJs);
+        $smarty->assign('type', $type);
+
+        $smarty->display('layout.tpl');
+
     }
 
     public function pathInfo() {

@@ -3,14 +3,23 @@
 use App\managers\posts\PostManager;
 use App\util\LogHelper;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../vendor/autoload.php';
 require_once '../init.php';
+require_once 'api_helper.php';
 
-header("Content-type: application/json");
+ApiHelper::setCorsHeaders();
+header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id'])) {
-    LogHelper::getInstance()->createErrorLog('User Id not found');
-    echo json_encode(['success' => false, 'message' => 'User Id not found']);
+$token = str_replace('Bearer ', '', getallheaders()['Authorization'] ?? '');
+$userId = ApiHelper::verifyToken($token);
+
+if (!$userId) {
+    LogHelper::getInstance()->createErrorLog('api_posts.php error: Invalid or expired token');
+    echo json_encode(['success' => false, 'errorMsg' => 'Invalid or expired token']);
     exit;
 }
 

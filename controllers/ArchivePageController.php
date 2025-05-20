@@ -11,12 +11,21 @@ class ArchivePageController
 {
     public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
+
         $pageTitle = "Microblog";
         $extraCss = "archivePage";
+        $contentTemplate = "archivePage.tpl";
         $extraJs = "archivePage";
-        $contentTemplate = __DIR__ . "/../src/templates/archivePage.php";
         $type = "module";
-        include __DIR__ . "/../src/templates/layout.php";
+
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('contentTemplate', $contentTemplate);
+        $smarty->assign('type', $type);
+        $smarty->assign('extraJs', $extraJs);
+        $smarty->display('layout.tpl');
+
     }
 
     public function pathInfo() {

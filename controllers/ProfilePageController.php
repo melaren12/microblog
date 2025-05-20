@@ -11,15 +11,24 @@ class ProfilePageController
 {
     public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
+
         $redirectHelper = new ChangeProfileController();
         $url = $redirectHelper->pathInfo();
 
-        $pageTitle = "MicroBlog";
+        $pageTitle = "Microblog";
         $extraCss = "profilePage";
         $extraJs = "profilePage";
         $type = "module";
-        $contentTemplate =  __DIR__ . "/../src/templates/profilePage.php";
-        include __DIR__ . "/../src/templates/layout.php";
+        $contentTemplate = "profilePage.tpl";
+
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('extraJs', $extraJs);
+        $smarty->assign('type', $type);
+        $smarty->assign('contentTemplate', $contentTemplate);
+
+        $smarty->display('layout.tpl');
     }
 
     public function pathInfo() {

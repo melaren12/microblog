@@ -16,6 +16,7 @@ class RegisterPageController
 {
     public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
         $output = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,10 +43,16 @@ class RegisterPageController
             }
         }
 
-        $pageTitle = "Microblog - Register";
+        $pageTitle = "Microblog";
         $extraCss = "authPage";
-        $contentTemplate = __DIR__ . "/../src/templates/registerPage.php";
-        include __DIR__ . "/../src/templates/layout.php";
+        $contentTemplate = "registerPage.tpl";
+
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('contentTemplate', $contentTemplate);
+
+        $smarty->display('layout.tpl');
+
     }
 
     public function pathInfo() {

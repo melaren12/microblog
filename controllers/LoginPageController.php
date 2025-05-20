@@ -13,6 +13,8 @@ class LoginPageController
 {
     public function index()
     {
+        require_once __DIR__ . '/../smarty_config.php';
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
             $password = trim($_POST['password']);
@@ -36,8 +38,13 @@ class LoginPageController
 
         $pageTitle = "Microblog";
         $extraCss = "authPage";
-        $contentTemplate = __DIR__ . "/../src/templates/loginPage.php";
-        include __DIR__ . "/../src/templates/layout.php";
+        $contentTemplate = "loginPage.tpl";
+
+        $smarty->assign('pageTitle', $pageTitle);
+        $smarty->assign('extraCss', $extraCss);
+        $smarty->assign('contentTemplate', $contentTemplate);
+
+        $smarty->display('layout.tpl');
     }
 
     public function pathInfo() {
