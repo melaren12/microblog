@@ -1,32 +1,35 @@
 <?php
 
+ini_set('display_errors', value: 1);
+ini_set('display_startup_errors', value: 1);
+error_reporting(error_level: E_ALL);
+
 use App\managers\users\UsersManager;
 use App\util\LogHelper;
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once '../vendor/autoload.php';
 require_once '../init.php';
-require_once 'api_helper.php';
 
-ApiHelper::setCorsHeaders();
-header('Content-Type: application/json');
-
-$token = str_replace('Bearer ', '', getallheaders()['Authorization'] ?? '');
-$userId = ApiHelper::verifyToken($token);
-
-if (!$userId) {
-    echo json_encode(['success' => false, 'errorMsg' => 'Invalid or expired token']);
-    exit;
-}
+header(header: 'Content-Type: application/json');
 
 $userManager = UsersManager::getInstance();
+
+$userId = isset($_POST['user_id']) ? $_POST['user_id'] : (isset($_GET['user_id']) ? $_GET['user_id'] : null);
+
+if (!$userId) {
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+    } else {
+        LogHelper::getInstance()->createErrorLog('User ID not provided and not found in session');
+        echo json_encode(['success' => false, 'errorMsg' => 'User ID not provided and not found in session']);
+        exit;
+    }
+}
+
 $user = $userManager->getUserById($userId);
 
 if (!$user || !$user->getId()) {
-    LogHelper::getInstance()->createErrorLog('api_user.php error: User not found');
+    LogHelper::getInstance()->createErrorLog('User not found');
     echo json_encode(['success' => false, 'errorMsg' => 'User not found']);
     exit;
 }

@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const userId = userData.id;
         if (userData) {
             renderUserProfile(userData);
-
         } else {
             console.error("User Data not found");
         }
