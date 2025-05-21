@@ -31,6 +31,7 @@ $user = $userManager->login($username, $password);
 
 if ($user !== null) {
     $token = ApiHelper::generateToken($user->getId());
+    $_SESSION['user_id'] = $user->getId();
     LogHelper::getInstance()->createInfoLog('api_login.php info: ' . $username . ' login');
     echo json_encode([
         'success' => true,
